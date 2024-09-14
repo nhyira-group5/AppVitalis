@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.VitalisApp"
+        tools:targetApi="31">
+        <activity
+            android:name=".Plano"
+            android:exported="false"
+            android:label="@string/title_activity_plano"
+            android:theme="@style/Theme.VitalisApp" />
+        <activity
+            android:name=".DetalheExercicio"
+            android:exported="false"
+            android:label="@string/title_activity_detalhe_exercicio"
+            android:theme="@style/Theme.VitalisApp" />
+        <activity
+            android:name=".Receita"
+            android:exported="false"
+            android:label="@string/title_activity_receita"
+            android:theme="@style/Theme.VitalisApp" />
+        <activity
+            android:name=".ListaRefeicao"
+            android:exported="false"
+            android:label="@string/title_activity_lista_refeicao"
+            android:theme="@style/Theme.VitalisApp" />
+        <activity
+            android:name=".EncontreAcademia"
+            android:exported="false"
+            android:label="@string/title_activity_encontre_academia"
+            android:theme="@style/Theme.VitalisApp" />
+        <activity
+            android:name=".PerfilUsuario"
+            android:exported="false"
+            android:label="@string/title_activity_perfil_usuario"
+            android:theme="@style/Theme.VitalisApp" />
+        <activity
+            android:name=".Perfil"
+            android:exported="false"
+            android:label="@string/title_activity_perfil"
+            android:theme="@style/Theme.VitalisApp" />
+        <activity
+            android:name=".Mural"
+            android:exported="false"
+            android:label="@string/title_activity_mural"
+            android:theme="@style/Theme.VitalisApp" />
+        <activity
+            android:name=".Login"
+            android:exported="false"
+            android:label="@string/title_activity_login"
+            android:theme="@style/Theme.VitalisApp" />
+        <activity
+            android:name=".ConfirmacaoParq"
+            android:exported="false"
+            android:label="@string/title_activity_confirmacao_parq"
+            android:theme="@style/Theme.VitalisApp" />
+        <activity
+            android:name=".CadastroPersonalDois"
+            android:exported="false"
+            android:label="@string/title_activity_cadastro_personal_dois"
+            android:theme="@style/Theme.VitalisApp" />
+        <activity
+            android:name=".CadastroPersonal"
+            android:exported="false"
+            android:label="@string/title_activity_cadastro_personal"
+            android:theme="@style/Theme.VitalisApp" />
+        <activity
+            android:name=".ConfirmacaoCadastro"
+            android:exported="false"
+            android:label="@string/title_activity_confirmacao_cadastro"
+            android:theme="@style/Theme.VitalisApp" />
+        <activity
+            android:name=".ConfirmacaoCadstro"
+            android:exported="false"
+            android:label="@string/title_activity_confirmacao_cadstro"
+            android:theme="@style/Theme.VitalisApp" />
+        <activity
+            android:name=".CadastroUsuarioDois"
+            android:exported="false"
+            android:label="@string/title_activity_cadastro_usuario_dois"
+            android:theme="@style/Theme.VitalisApp" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.VitalisApp">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
