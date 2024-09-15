@@ -19,7 +19,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
@@ -60,10 +62,8 @@ class ListaRefeicao : ComponentActivity() {
     }
 }
 
-
 @Composable
 fun Refeicao(name: String, modifier: Modifier = Modifier) {
-
 
     Column(
         modifier = Modifier
@@ -167,7 +167,7 @@ fun IngredienteDropdown(modifier: Modifier = Modifier) {
 
 @Composable
 fun GridReceita() {
-    val recipes = listOf(
+    val receitas = listOf(
         "Torta de frango", "Brigadeiro fit", "Linguiça recheada com queijo",
         "Salada cezar", "Refogado de panela", "Escondidinho",
         "Virada paulista", "Macarrão com frango", "Frango grelhado",
@@ -181,8 +181,8 @@ fun GridReceita() {
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        items(recipes) { recipe ->
-            CardReceita(recipe)
+        items(receitas) { receita ->
+            CardReceita(receita)
         }
     }
 }
