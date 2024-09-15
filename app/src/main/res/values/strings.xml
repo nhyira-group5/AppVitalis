@@ -16,4 +16,5 @@
     <string name="title_activity_detalhe_exercicio">DetalheExercicio</string>
     <string name="title_activity_plano">Plano</string>
     <string name="title_activity_lista_exercicio">ListaExercicio</string>
+    <string name="title_activity_inicio">Inicio</string>
 </resources>
