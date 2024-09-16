@@ -311,6 +311,7 @@ fun CardConversa(
                     Text(
                         text = nome,
                         color = Color.Black,
+                        fontFamily = MavenPro,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -318,11 +319,13 @@ fun CardConversa(
                     Text(
                         text = mensagem,
                         color = Color.Black,
+                        fontFamily = MavenPro,
                         fontSize = 12.sp
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = hora,
+                        fontFamily = MavenPro,
                         color = Color.Gray,
                         fontSize = 10.sp
                     )

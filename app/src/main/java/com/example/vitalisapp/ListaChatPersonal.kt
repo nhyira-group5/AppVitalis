@@ -31,6 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
 
 class ListaChatPersonal : ComponentActivity() {
@@ -70,6 +71,7 @@ fun ChatPersonal(name: String, modifier: Modifier = Modifier) {
                 Text(
                     text = "Alunos Afiliados",
                     color = Color.White,
+                    fontFamily = MavenPro,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -88,6 +90,7 @@ fun ChatPersonal(name: String, modifier: Modifier = Modifier) {
                 Text(
                     text = "Conversas passadas",
                     color = Color.White,
+                    fontFamily = MavenPro,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -106,7 +109,7 @@ fun ChatPersonal(name: String, modifier: Modifier = Modifier) {
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun GreetingPreview19() {
     VitalisAppTheme {
