@@ -23,10 +23,16 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,6 +41,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -146,15 +153,13 @@ fun CardLembrete(content: String) {
                 text = content,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Medium,
-                color = Color(0xFF4B4B4B)
+                color = Color.Black
             )
 
             Spacer(modifier = Modifier.width(16.dp))
 
             IconButton(
-                onClick = {
-                    // Ação do botão
-                }
+                onClick = {}
             ) {
                 Image(
                     painter = painterResource(id = R.mipmap.menu),
@@ -171,6 +176,7 @@ fun Atividade() {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
         Text(
@@ -186,7 +192,7 @@ fun Atividade() {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color(0xFF18181B), shape = RoundedCornerShape(24.dp)),
+                .background(Color(18,18,19), shape = RoundedCornerShape(24.dp)),
             horizontalArrangement = Arrangement.spacedBy(5.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -238,7 +244,7 @@ fun Porcentagem(icone: Int, valor: String, titulo: String) {
             fontFamily = MavenPro,
             fontSize = 18.sp,
             fontWeight = FontWeight.SemiBold,
-            color = Color(0xFF052E16)
+            color = Color.Black
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
@@ -246,58 +252,70 @@ fun Porcentagem(icone: Int, valor: String, titulo: String) {
             fontSize = 12.sp,
             fontFamily = MavenPro,
             fontWeight = FontWeight.Medium,
-            color = Color(0xFF525252)
+            color = Color.Black
         )
     }
 }
 
 @Composable
 fun CardAtividades() {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(70.dp)
-            .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp)),
-        shape = RoundedCornerShape(16.dp)
-    ) {
-        Row(
+    var mostrarCardSuspenso by remember { mutableStateOf(false) }
+    Column {
+        Card(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(start = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+                .fillMaxWidth()
+                .height(70.dp)
+                .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp)),
+            shape = RoundedCornerShape(16.dp)
         ) {
             Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = R.mipmap.exerciciopreto),
-                    contentDescription = "Exercicio",
-                    modifier = Modifier.size(28.dp)
-                )
-                Text(
-                    text = "Exercício:",
-                    fontSize = 18.sp,
-                    fontFamily = MavenPro,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color(0xFF2F6B2F)
-                )
-                Text(
-                    text = "Titulo",
-                    fontFamily = MavenPro,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color(0xFF18181B)
-                )
-            }
-            Image(
-                painter = painterResource(id = R.mipmap.seta),
-                contentDescription = "seta",
                 modifier = Modifier
-                    .size(34.dp)
-                    .padding(end = 16.dp)
-            )
+                    .fillMaxSize()
+                    .padding(start = 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.mipmap.exerciciopreto),
+                        contentDescription = "Exercicio",
+                        modifier = Modifier.size(28.dp)
+                    )
+                    Text(
+                        text = "Exercício:",
+                        fontSize = 18.sp,
+                        fontFamily = MavenPro,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color(72, 183, 90)
+                    )
+                    Text(
+                        text = "Titulo",
+                        fontFamily = MavenPro,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color.Black
+                    )
+                }
+                IconButton(
+                    onClick = {
+                        mostrarCardSuspenso = !mostrarCardSuspenso
+                    },
+                    modifier = Modifier.padding(end = 16.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.mipmap.seta),
+                        contentDescription = "seta",
+                        modifier = Modifier.size(34.dp)
+                    )
+                }
+            }
+        }
+
+        if (mostrarCardSuspenso) {
+            CardSuspenso()
         }
     }
 }
@@ -331,6 +349,149 @@ fun AvisoMural() {
                 color = Color.White,
                 fontSize = 13.sp,
                 fontWeight = FontWeight.SemiBold
+            )
+        }
+    }
+}
+
+@Composable
+fun CardSuspenso() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .background(Color.White, RoundedCornerShape(16.dp))
+            .padding(18.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box(
+            modifier = Modifier
+                .size(300.dp, 150.dp)
+                .clip(RoundedCornerShape(16.dp))
+                .background(Color.Black)
+        ) {
+            Image(
+                painter = painterResource(id = R.mipmap.foto),
+                contentDescription = "Exercicio",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+            )
+        }
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(top = 24.dp)
+        ) {
+            Image(
+                painter = painterResource(id = R.mipmap.exerciciopreto),
+                contentDescription = null,
+                modifier = Modifier.size(22.dp)
+            )
+            Text(
+                text = "Exercício:",
+                color = Color(72, 183, 90),
+                fontSize = 15.sp,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.padding(start = 10.dp)
+            )
+            Text(
+                text = "Crucifixo",
+                color = Color.Black,
+                fontSize = 15.sp,
+                fontWeight = FontWeight.SemiBold,
+                modifier = Modifier.padding(start = 10.dp)
+            )
+        }
+
+        Column(modifier = Modifier.fillMaxWidth().padding(top = 4.dp)) {
+            Text(
+                text = "Descrição:",
+                color = Color.Black,
+                fontSize = 15.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+            Text(
+                text = "Este exercício é bom para as costas",
+                color = Color.Black,
+                fontSize = 12.sp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.White, RoundedCornerShape(16.dp))
+                    .padding(10.dp)
+            )
+        }
+
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 24.dp)
+        ) {
+            ExercicioCardInfo(titulo = "10:30", subtitulo = "Tempo de execução")
+            ExercicioCardInfo(titulo = "5", subtitulo = "Número de repetições")
+            ExercicioCardInfo(titulo = "10", subtitulo = "Número de séries")
+        }
+
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 24.dp)
+        ) {
+            Button(
+                onClick = {},
+                modifier = Modifier
+                    .weight(1f)
+                    .height(48.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(72, 183, 90))
+            ) {
+                Text("Ir para treino")
+            }
+            Spacer(modifier = Modifier.width(14.dp))
+            Button(
+                onClick = { },
+                modifier = Modifier
+                    .weight(1f)
+                    .height(48.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(27,112,202))
+            ) {
+                Icon(
+                    painter = painterResource(id = R.mipmap.certos),
+                    contentDescription = null,
+                    modifier = Modifier.size(20.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("Feito")
+            }
+        }
+    }
+}
+
+@Composable
+fun ExercicioCardInfo(titulo: String, subtitulo: String) {
+    Card(
+        modifier = Modifier
+            .size(90.dp)
+            .clip(RoundedCornerShape(16.dp)),
+        colors = CardDefaults.cardColors(containerColor = Color.Black)
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = titulo,
+                color = Color(72, 183, 90),
+                fontSize = 20.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+            Text(
+                text = subtitulo,
+                color = Color.White,
+                fontSize = 12.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(top = 6.dp)
             )
         }
     }
