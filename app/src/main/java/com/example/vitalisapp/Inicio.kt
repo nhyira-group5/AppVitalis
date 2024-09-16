@@ -391,6 +391,7 @@ fun CardSuspenso() {
                 text = "Exercício:",
                 color = Color(72, 183, 90),
                 fontSize = 15.sp,
+                fontFamily = MavenPro,
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier.padding(start = 10.dp)
             )
@@ -398,6 +399,7 @@ fun CardSuspenso() {
                 text = "Crucifixo",
                 color = Color.Black,
                 fontSize = 15.sp,
+                fontFamily = MavenPro,
                 fontWeight = FontWeight.SemiBold,
                 modifier = Modifier.padding(start = 10.dp)
             )
@@ -407,12 +409,14 @@ fun CardSuspenso() {
             Text(
                 text = "Descrição:",
                 color = Color.Black,
+                fontFamily = MavenPro,
                 fontSize = 15.sp,
                 fontWeight = FontWeight.SemiBold
             )
             Text(
                 text = "Este exercício é bom para as costas",
                 color = Color.Black,
+                fontFamily = MavenPro,
                 fontSize = 12.sp,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -482,12 +486,14 @@ fun ExercicioCardInfo(titulo: String, subtitulo: String) {
         ) {
             Text(
                 text = titulo,
+                fontFamily = MavenPro,
                 color = Color(72, 183, 90),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold
             )
             Text(
                 text = subtitulo,
+                fontFamily = MavenPro,
                 color = Color.White,
                 fontSize = 12.sp,
                 textAlign = TextAlign.Center,

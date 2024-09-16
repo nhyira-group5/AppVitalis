@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -275,6 +276,58 @@ fun CardReceita(recipeName: String) {
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.fillMaxWidth()
             )
+        }
+    }
+}
+
+@Composable
+fun CardConversa(
+    imagem: Int,
+    nome: String,
+    mensagem: String,
+    hora: String,
+    backgroundColor: Color = Color.White
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(backgroundColor, RoundedCornerShape(16.dp))
+            .padding(20.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row {
+                Image(
+                    painter = painterResource(id = imagem),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(67.dp)
+                        .clip(CircleShape)
+                )
+                Spacer(modifier = Modifier.width(24.dp))
+                Column {
+                    Text(
+                        text = nome,
+                        color = Color.Black,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Text(
+                        text = mensagem,
+                        color = Color.Black,
+                        fontSize = 12.sp
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = hora,
+                        color = Color.Gray,
+                        fontSize = 10.sp
+                    )
+                }
+            }
         }
     }
 }
