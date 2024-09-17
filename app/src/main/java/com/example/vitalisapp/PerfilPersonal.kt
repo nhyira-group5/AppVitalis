@@ -120,7 +120,6 @@ fun CartaoInfoPersonal() {
                 ItemInfoPersonal("Nickname:", "marC0S23!")
                 ItemInfoPersonal("Data de nascimento:", "17 / 01 / 1995")
                 ItemInfoPersonal("Sexo:", "Masculino")
-                ItemInfoPersonal("Senha", "********************")
                 ItemInfoPersonal("Especialidade:", "Emagrecimento")
                 ItemInfoPersonal("Data de formação:", "31/12/2022")
             }

@@ -144,8 +144,6 @@ fun CartaoInfoPessoal() {
                 ItemInfoPessoal("Nickname:", "marC0S23!")
                 ItemInfoPessoal("Data de nascimento:", "17 / 01 / 2005")
                 ItemInfoPessoal("Sexo:", "Masculino")
-                ItemInfoPessoal("Senha", "********************")
-                ItemInfoPessoal("Confirmar senha:", "********************")
             }
         }
     }

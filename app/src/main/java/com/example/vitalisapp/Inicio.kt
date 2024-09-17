@@ -280,9 +280,9 @@ fun CardAtividades() {
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     Image(
-                        painter = painterResource(id = R.mipmap.exerciciopreto),
+                        painter = painterResource(id = R.mipmap.tortadefrango),
                         contentDescription = "Exercicio",
-                        modifier = Modifier.size(28.dp)
+                        modifier = Modifier.size(60.dp) .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp))
                     )
                     Text(
                         text = "Exercício:",

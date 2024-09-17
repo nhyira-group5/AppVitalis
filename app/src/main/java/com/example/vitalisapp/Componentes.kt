@@ -292,21 +292,21 @@ fun CardConversa(
         modifier = Modifier
             .fillMaxWidth()
             .background(backgroundColor, RoundedCornerShape(16.dp))
-            .padding(20.dp)
+            .padding(5.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.Center
         ) {
             Row {
                 Image(
                     painter = painterResource(id = imagem),
                     contentDescription = null,
                     modifier = Modifier
-                        .size(67.dp)
+                        .size(57.dp)
                         .clip(CircleShape)
                 )
-                Spacer(modifier = Modifier.width(24.dp))
+                Spacer(modifier = Modifier.width(14.dp))
                 Column {
                     Text(
                         text = nome,
@@ -320,14 +320,14 @@ fun CardConversa(
                         text = mensagem,
                         color = Color.Black,
                         fontFamily = MavenPro,
-                        fontSize = 12.sp
+                        fontSize = 10.sp
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = hora,
                         fontFamily = MavenPro,
                         color = Color.Gray,
-                        fontSize = 10.sp
+                        fontSize = 5.sp
                     )
                 }
             }

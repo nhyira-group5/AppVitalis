@@ -30,6 +30,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -57,7 +58,6 @@ class Receita : ComponentActivity() {
         }
     }
 }
-
 
 @Composable
 fun Alimento(name: String, modifier: Modifier = Modifier) {
@@ -127,6 +127,7 @@ fun Comida() {
                     .align(Alignment.Center)
                     .fillMaxWidth()
                     .aspectRatio(1.5f)
+                    .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp))
             )
         }
     }

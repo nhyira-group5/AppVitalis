@@ -76,7 +76,7 @@ fun ChatPersonal(name: String, modifier: Modifier = Modifier) {
                     fontWeight = FontWeight.Bold
                 )
 
-                Spacer(modifier = Modifier.height(18.dp))
+                Spacer(modifier = Modifier.height(15.dp))
 
                 CardConversa(
                     imagem = R.mipmap.foto,
@@ -85,7 +85,7 @@ fun ChatPersonal(name: String, modifier: Modifier = Modifier) {
                     hora = "00:00"
                 )
 
-                Spacer(modifier = Modifier.height(28.dp))
+                Spacer(modifier = Modifier.height(10.dp))
 
                 Text(
                     text = "Conversas passadas",
@@ -95,14 +95,14 @@ fun ChatPersonal(name: String, modifier: Modifier = Modifier) {
                     fontWeight = FontWeight.Bold
                 )
 
-                Spacer(modifier = Modifier.height(28.dp))
+                Spacer(modifier = Modifier.height(10.dp))
 
                 CardConversa(
                     imagem = R.mipmap.foto,
                     nome = "Marcelo da Silva",
                     mensagem = "Lorem Ipsum is simply dummy text of the printing...",
                     hora = "00:00",
-                    backgroundColor = Color(223,207,236)
+                    backgroundColor = Color(216, 203, 226, 255)
                 )
             }
         }
