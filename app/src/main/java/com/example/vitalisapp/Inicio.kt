@@ -10,14 +10,19 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -30,8 +35,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -69,6 +76,10 @@ class Inicio : ComponentActivity() {
 
 @Composable
 fun Home(name: String, modifier: Modifier = Modifier) {
+    var showCard by remember { mutableStateOf(false) }
+    var lembreteContent by remember { mutableStateOf("") }
+    val lembretes = remember { mutableStateListOf<String>() }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -92,46 +103,71 @@ fun Home(name: String, modifier: Modifier = Modifier) {
                 .fillMaxWidth()
                 .padding(top = 24.dp, start = 14.dp, end = 12.dp)
                 .clip(RoundedCornerShape(20.dp))
-                .background(Color.Black.copy(alpha = 0.5f))
-                .verticalScroll(rememberScrollState())
+                .background(Color.Black)
         ) {
-            Image(
-                painter = painterResource(id = R.mipmap.lembrete),
-                contentDescription = "Fundo",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
-            )
-
-            Row(
+            Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp),
-                verticalAlignment = Alignment.CenterVertically
+                    .padding(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-
-                Text(
-                    text = "Lembretes",
-                    fontFamily = MavenPro,
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.White
-                )
-
-                Spacer(modifier = Modifier.height(20.dp))
-
-                Image(
-                    painter = painterResource(id = R.mipmap.botaomural),
-                    contentDescription = "Botão",
+                Row(
                     modifier = Modifier
-                        .size(50.dp)
-                        .clip(CircleShape)
-                        .clickable { onEditClick() }
-                )
+                        .fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Lembretes",
+                        fontFamily = MavenPro,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color.White
+                    )
 
-                //CardLembrete("Conteúdo do lembrete")
+                    Spacer(modifier = Modifier.weight(1f))
 
+                    Image(
+                        painter = painterResource(id = R.mipmap.botaomural),
+                        contentDescription = "Botão",
+                        modifier = Modifier
+                            .size(50.dp)
+                            .clip(CircleShape)
+                            .clickable {
+                                showCard = !showCard
+                                if (showCard) lembretes.add(lembreteContent)
+                            }
+                    )
+                }
+
+                if (showCard) {
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .wrapContentHeight()
+                    ) {
+                        TextField(
+                            value = lembreteContent,
+                            onValueChange = { lembreteContent = it },
+                            label = { Text("Insira seu lembrete") },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp)
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        LazyColumn(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .heightIn(max = 200.dp)
+                        ) {
+                          items (lembretes){ content ->
+                              CardLembrete(content = content)}
+                        }
+                    }
+                }
             }
         }
+
         Atividade()
     }
 }
@@ -141,6 +177,7 @@ fun CardLembrete(content: String) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
+            .wrapContentHeight()
             .padding(horizontal = 16.dp)
             .clip(RoundedCornerShape(16.dp))
             .background(Color.White)
@@ -192,7 +229,7 @@ fun Atividade() {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color(18,18,19), shape = RoundedCornerShape(24.dp)),
+                .background(Color(18, 18, 19), shape = RoundedCornerShape(24.dp)),
             horizontalArrangement = Arrangement.spacedBy(5.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -282,7 +319,9 @@ fun CardAtividades() {
                     Image(
                         painter = painterResource(id = R.mipmap.tortadefrango),
                         contentDescription = "Exercicio",
-                        modifier = Modifier.size(60.dp) .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp))
+                        modifier = Modifier
+                            .size(60.dp)
+                            .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp))
                     )
                     Text(
                         text = "Exercício:",
