@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -88,25 +90,25 @@ fun Home(name: String, modifier: Modifier = Modifier) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 24.dp, bottom = 5.dp, start = 14.dp, end = 12.dp)
+                .padding(top = 24.dp, start = 14.dp, end = 12.dp)
                 .clip(RoundedCornerShape(20.dp))
                 .background(Color.Black.copy(alpha = 0.5f))
                 .verticalScroll(rememberScrollState())
         ) {
-
             Image(
                 painter = painterResource(id = R.mipmap.lembrete),
-                contentDescription = null,
+                contentDescription = "Fundo",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
             )
 
-            Column(
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                verticalAlignment = Alignment.CenterVertically
             ) {
+
                 Text(
                     text = "Lembretes",
                     fontFamily = MavenPro,
@@ -115,21 +117,19 @@ fun Home(name: String, modifier: Modifier = Modifier) {
                     color = Color.White
                 )
 
-                Spacer(modifier = Modifier.height(5.dp))
+                Spacer(modifier = Modifier.height(20.dp))
 
-                CardLembrete("Conteúdo do lembrete")
+                Image(
+                    painter = painterResource(id = R.mipmap.botaomural),
+                    contentDescription = "Botão",
+                    modifier = Modifier
+                        .size(50.dp)
+                        .clip(CircleShape)
+                        .clickable { onEditClick() }
+                )
 
-                Button(
-                    onClick = {},
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(72, 183, 90)
-                    ),
-                    modifier = Modifier.padding(16.dp)
-                ) {
-                    Text(text = "Adicionar Lembrete",
-                        fontFamily = MavenPro,
-                        color = Color.White)
-                }
+                //CardLembrete("Conteúdo do lembrete")
+
             }
         }
         Atividade()
@@ -300,9 +300,7 @@ fun CardAtividades() {
                     )
                 }
                 IconButton(
-                    onClick = {
-                        mostrarCardSuspenso = !mostrarCardSuspenso
-                    },
+                    onClick = {},
                     modifier = Modifier.padding(end = 16.dp)
                 ) {
                     Image(
@@ -312,10 +310,6 @@ fun CardAtividades() {
                     )
                 }
             }
-        }
-
-        if (mostrarCardSuspenso) {
-            CardSuspenso()
         }
     }
 }
@@ -354,154 +348,6 @@ fun AvisoMural() {
     }
 }
 
-@Composable
-fun CardSuspenso() {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-            .background(Color.White, RoundedCornerShape(16.dp))
-            .padding(18.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Box(
-            modifier = Modifier
-                .size(300.dp, 150.dp)
-                .clip(RoundedCornerShape(16.dp))
-                .background(Color.Black)
-        ) {
-            Image(
-                painter = painterResource(id = R.mipmap.foto),
-                contentDescription = "Exercicio",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
-            )
-        }
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(top = 24.dp)
-        ) {
-            Image(
-                painter = painterResource(id = R.mipmap.exerciciopreto),
-                contentDescription = null,
-                modifier = Modifier.size(22.dp)
-            )
-            Text(
-                text = "Exercício:",
-                color = Color(72, 183, 90),
-                fontSize = 15.sp,
-                fontFamily = MavenPro,
-                fontWeight = FontWeight.SemiBold,
-                modifier = Modifier.padding(start = 10.dp)
-            )
-            Text(
-                text = "Crucifixo",
-                color = Color.Black,
-                fontSize = 15.sp,
-                fontFamily = MavenPro,
-                fontWeight = FontWeight.SemiBold,
-                modifier = Modifier.padding(start = 10.dp)
-            )
-        }
-
-        Column(modifier = Modifier.fillMaxWidth().padding(top = 4.dp)) {
-            Text(
-                text = "Descrição:",
-                color = Color.Black,
-                fontFamily = MavenPro,
-                fontSize = 15.sp,
-                fontWeight = FontWeight.SemiBold
-            )
-            Text(
-                text = "Este exercício é bom para as costas",
-                color = Color.Black,
-                fontFamily = MavenPro,
-                fontSize = 12.sp,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Color.White, RoundedCornerShape(16.dp))
-                    .padding(10.dp)
-            )
-        }
-
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 24.dp)
-        ) {
-            ExercicioCardInfo(titulo = "10:30", subtitulo = "Tempo de execução")
-            ExercicioCardInfo(titulo = "5", subtitulo = "Número de repetições")
-            ExercicioCardInfo(titulo = "10", subtitulo = "Número de séries")
-        }
-
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 24.dp)
-        ) {
-            Button(
-                onClick = {},
-                modifier = Modifier
-                    .weight(1f)
-                    .height(48.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(72, 183, 90))
-            ) {
-                Text("Ir para treino")
-            }
-            Spacer(modifier = Modifier.width(14.dp))
-            Button(
-                onClick = { },
-                modifier = Modifier
-                    .weight(1f)
-                    .height(48.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(27,112,202))
-            ) {
-                Icon(
-                    painter = painterResource(id = R.mipmap.certos),
-                    contentDescription = null,
-                    modifier = Modifier.size(20.dp)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text("Feito")
-            }
-        }
-    }
-}
-
-@Composable
-fun ExercicioCardInfo(titulo: String, subtitulo: String) {
-    Card(
-        modifier = Modifier
-            .size(90.dp)
-            .clip(RoundedCornerShape(16.dp)),
-        colors = CardDefaults.cardColors(containerColor = Color.Black)
-    ) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = titulo,
-                fontFamily = MavenPro,
-                color = Color(72, 183, 90),
-                fontSize = 20.sp,
-                fontWeight = FontWeight.SemiBold
-            )
-            Text(
-                text = subtitulo,
-                fontFamily = MavenPro,
-                color = Color.White,
-                fontSize = 12.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(top = 6.dp)
-            )
-        }
-    }
-}
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun GreetingPreview17() {
