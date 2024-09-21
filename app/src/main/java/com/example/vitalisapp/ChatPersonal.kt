@@ -44,6 +44,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
 
 class ChatPersonal : ComponentActivity() {
@@ -104,6 +105,7 @@ fun ChatPerson(name: String, modifier: Modifier = Modifier) {
                 Column {
                     Text(
                         text = name,
+                        fontFamily = MavenPro,
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -118,6 +120,7 @@ fun ChatPerson(name: String, modifier: Modifier = Modifier) {
                         Text(
                             text = "Status: Não afiliado",
                             fontSize = 14.sp,
+                            fontFamily = MavenPro,
                             fontWeight = FontWeight.Normal,
                             modifier = Modifier.padding(start = 4.dp)
                         )
@@ -167,6 +170,7 @@ fun MensagemPersonal(text: String) {
                 Text(
                     text = text,
                     color = Color.White,
+                    fontFamily = MavenPro,
                     fontSize = 16.sp,
                     lineHeight = 24.sp,
                     modifier = Modifier.padding(end = 20.dp)
@@ -186,6 +190,7 @@ fun MensagemPersonal(text: String) {
                     Text(
                         text = "00:00",
                         color = Color.White,
+                        fontFamily = MavenPro,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Normal
                     )
@@ -214,6 +219,7 @@ fun MensagemOutro(text: String) {
                 Text(
                     text = text,
                     color = Color.White,
+                    fontFamily = MavenPro,
                     fontSize = 16.sp,
                     lineHeight = 24.sp,
                     modifier = Modifier.padding(end = 20.dp)
@@ -233,6 +239,7 @@ fun MensagemOutro(text: String) {
                     Text(
                         text = "00:00",
                         color = Color.White,
+                        fontFamily = MavenPro,
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Normal
                     )
@@ -265,6 +272,7 @@ fun EscreverMensagem() {
             placeholder = { Text("Mensagem para Marcelo da Silva") },
             textStyle = TextStyle(
                 fontSize = 18.sp,
+                fontFamily = MavenPro,
                 fontWeight = FontWeight.Medium,
                 letterSpacing = 0.1.sp,
                 color = Color(0xFF71717A)
@@ -300,6 +308,7 @@ fun EscreverMensagem() {
             Text(
                 text = "Enviar",
                 color = Color.White,
+                fontFamily = MavenPro,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold
             )

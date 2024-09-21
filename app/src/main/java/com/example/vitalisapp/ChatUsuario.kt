@@ -44,6 +44,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
 
 class ChatUsuario : ComponentActivity() {
@@ -105,11 +106,13 @@ class ChatUsuario : ComponentActivity() {
                     Column {
                         Text(
                             text = name,
+                            fontFamily = MavenPro,
                             fontSize = 24.sp,
                             fontWeight = FontWeight.Bold
                         )
                         Text(
                             text = especialidade,
+                            fontFamily = MavenPro,
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold
                         )
@@ -123,6 +126,7 @@ class ChatUsuario : ComponentActivity() {
                             Text(
                                 text = "Status: Não afiliado",
                                 fontSize = 14.sp,
+                                fontFamily = MavenPro,
                                 fontWeight = FontWeight.Normal,
                                 modifier = Modifier.padding(start = 4.dp)
                             )
@@ -172,6 +176,7 @@ class ChatUsuario : ComponentActivity() {
                     Text(
                         text = text,
                         color = Color.White,
+                        fontFamily = MavenPro,
                         fontSize = 16.sp,
                         lineHeight = 24.sp,
                         modifier = Modifier.padding(end = 20.dp)
@@ -190,6 +195,7 @@ class ChatUsuario : ComponentActivity() {
                         )
                         Text(
                             text = "00:00",
+                            fontFamily = MavenPro,
                             color = Color.White,
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Normal
@@ -219,6 +225,7 @@ class ChatUsuario : ComponentActivity() {
                     Text(
                         text = text,
                         color = Color.White,
+                        fontFamily = MavenPro,
                         fontSize = 16.sp,
                         lineHeight = 24.sp,
                         modifier = Modifier.padding(end = 20.dp)
@@ -237,6 +244,7 @@ class ChatUsuario : ComponentActivity() {
                         )
                         Text(
                             text = "00:00",
+                            fontFamily = MavenPro,
                             color = Color.White,
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Normal
@@ -270,6 +278,7 @@ class ChatUsuario : ComponentActivity() {
                 placeholder = { Text("Mensagem para Marcelo da Silva") },
                 textStyle = TextStyle(
                     fontSize = 18.sp,
+                    fontFamily = MavenPro,
                     fontWeight = FontWeight.Medium,
                     letterSpacing = 0.1.sp,
                     color = Color(0xFF71717A)
@@ -304,6 +313,7 @@ class ChatUsuario : ComponentActivity() {
             ) {
                 Text(
                     text = "Enviar",
+                    fontFamily = MavenPro,
                     color = Color.White,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.SemiBold
