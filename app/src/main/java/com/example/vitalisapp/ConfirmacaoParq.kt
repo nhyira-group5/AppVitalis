@@ -1,5 +1,6 @@
 package com.example.vitalisapp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -32,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -66,6 +68,7 @@ fun Parq(name: String, modifier: Modifier = Modifier) {
 //    onTakeItEasy: () -> Unit
 //    ) {
         var showDialog by remember { mutableStateOf(true) }
+    val contexto = LocalContext.current
 
         if (showDialog) {
             Dialog(onDismissRequest = { showDialog = false }) {
@@ -139,6 +142,8 @@ fun Parq(name: String, modifier: Modifier = Modifier) {
                                     onClick = {
                                         showDialog = false
                                         // Lógica para aceitar riscos
+                                        val login = Intent(contexto, Login::class.java)
+                                        contexto.startActivity(login)
                                     },
                                     colors = ButtonDefaults.buttonColors(
                                         containerColor = Color(72, 183, 90)
@@ -157,6 +162,8 @@ fun Parq(name: String, modifier: Modifier = Modifier) {
                                     onClick = {
                                         showDialog = false
                                         // Lógica para pegar mais leve
+                                        val login = Intent(contexto, Login::class.java)
+                                        contexto.startActivity(login)
                                     },
                                     colors = ButtonDefaults.buttonColors(
                                         containerColor = Color(0, 122, 255)

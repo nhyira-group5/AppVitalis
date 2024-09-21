@@ -46,6 +46,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
 
@@ -58,6 +60,7 @@ class Perfil : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     PerfilUsuario(
                         name = "Android",
+                        rememberNavController(),
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -67,7 +70,7 @@ class Perfil : ComponentActivity() {
 }
 
 @Composable
-fun PerfilUsuario(name: String, modifier: Modifier = Modifier) {
+fun PerfilUsuario(name: String, NavController: NavHostController, modifier: Modifier = Modifier) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -75,7 +78,7 @@ fun PerfilUsuario(name: String, modifier: Modifier = Modifier) {
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Menu()
+        Menu(NavController)
         CartaoInfoPessoal()
         CartaoInfoTecnica()
         CartaoPremium()
@@ -484,6 +487,6 @@ fun CartaoPremium() {
 @Composable
 fun GreetingPreview9() {
     VitalisAppTheme {
-        PerfilUsuario("Android")
+        PerfilUsuario("Android", rememberNavController())
     }
 }

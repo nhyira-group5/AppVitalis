@@ -28,6 +28,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
 
@@ -40,6 +42,7 @@ class Mural : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Galeria(
                         name = "Android",
+                        rememberNavController(),
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -49,7 +52,7 @@ class Mural : ComponentActivity() {
 }
 
 @Composable
-fun Galeria(name: String, modifier: Modifier = Modifier) {
+fun Galeria(name: String, NavController: NavHostController, modifier: Modifier = Modifier) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -62,7 +65,7 @@ fun Galeria(name: String, modifier: Modifier = Modifier) {
                 .align(Alignment.TopStart),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Menu()
+            Menu(NavController)
             Text(
                 text = "Mural de evolução",
                 color = Color(72, 183, 90),
@@ -155,6 +158,6 @@ fun DateInput(modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview8() {
     VitalisAppTheme {
-        Galeria("Android")
+        Galeria("Android", rememberNavController())
     }
 }

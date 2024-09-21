@@ -39,10 +39,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.vitalisapp.ui.theme.MavenPro
 
 @Composable
-fun Menu() {
+fun Menu(navController: NavController) {
     var expanded by remember { mutableStateOf(false) }
 
     Column(
@@ -74,6 +75,7 @@ fun Menu() {
                     modifier = Modifier
                         .size(30.dp)
                         .padding(horizontal = 4.dp)
+                        .clickable { navController.navigate("perfil") }
                 )
                 Image(
                     painter = painterResource(id = R.mipmap.home),
@@ -81,6 +83,7 @@ fun Menu() {
                     modifier = Modifier
                         .size(30.dp)
                         .padding(horizontal = 4.dp)
+                        .clickable { navController.navigate("home") }
                 )
                 Image(
                     painter = painterResource(id = R.mipmap.exercicio),
@@ -88,6 +91,7 @@ fun Menu() {
                     modifier = Modifier
                         .size(30.dp)
                         .padding(horizontal = 4.dp)
+                        .clickable { navController.navigate("exercicios") }
                 )
                 Image(
                     painter = painterResource(id = R.mipmap.comidamenu),
@@ -95,13 +99,7 @@ fun Menu() {
                     modifier = Modifier
                         .size(30.dp)
                         .padding(horizontal = 4.dp)
-                )
-                Image(
-                    painter = painterResource(id = R.mipmap.relatorio),
-                    contentDescription = "Relatório",
-                    modifier = Modifier
-                        .size(30.dp)
-                        .padding(horizontal = 4.dp)
+                        .clickable { navController.navigate("refeicao") }
                 )
                 Image(
                     painter = painterResource(id = R.mipmap.users),
@@ -109,6 +107,7 @@ fun Menu() {
                     modifier = Modifier
                         .size(30.dp)
                         .padding(horizontal = 4.dp)
+                        .clickable { navController.navigate("busca") }
                 )
                 Image(
                     painter = painterResource(id = R.mipmap.chat),
@@ -116,6 +115,7 @@ fun Menu() {
                     modifier = Modifier
                         .size(30.dp)
                         .padding(horizontal = 4.dp)
+                        .clickable { navController.navigate("chat") }
                 )
                 Image(
                     painter = painterResource(id = R.mipmap.images),
@@ -123,6 +123,7 @@ fun Menu() {
                     modifier = Modifier
                         .size(30.dp)
                         .padding(horizontal = 4.dp)
+                        .clickable { navController.navigate("galeria") }
                 )
                 Image(
                     painter = painterResource(id = R.mipmap.coin),
@@ -130,6 +131,7 @@ fun Menu() {
                     modifier = Modifier
                         .size(30.dp)
                         .padding(horizontal = 4.dp)
+                        .clickable { navController.navigate("planos") }
                 )
             }
         }
@@ -137,7 +139,7 @@ fun Menu() {
 }
 
 @Composable
-fun MenuPersonal() {
+fun MenuPersonal(navController: NavController) {
     var expanded by remember { mutableStateOf(false) }
 
     Column(
@@ -159,7 +161,7 @@ fun MenuPersonal() {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .wrapContentWidth()
-                    .background(Color(80,52,101), shape = RoundedCornerShape(12.dp))
+                    .background(Color(80, 52, 101), shape = RoundedCornerShape(12.dp))
                     .padding(vertical = 4.dp)
                     .height(IntrinsicSize.Min)
             ) {
@@ -169,6 +171,7 @@ fun MenuPersonal() {
                     modifier = Modifier
                         .size(30.dp)
                         .padding(horizontal = 4.dp)
+                        .clickable { navController.navigate("perfilPersonal") }
                 )
                 Image(
                     painter = painterResource(id = R.mipmap.home),
@@ -176,6 +179,7 @@ fun MenuPersonal() {
                     modifier = Modifier
                         .size(30.dp)
                         .padding(horizontal = 4.dp)
+                        .clickable { navController.navigate("homePersonal") }
                 )
                 Image(
                     painter = painterResource(id = R.mipmap.users),
@@ -190,6 +194,7 @@ fun MenuPersonal() {
                     modifier = Modifier
                         .size(30.dp)
                         .padding(horizontal = 4.dp)
+                        .clickable { navController.navigate("chatPersonal") }
                 )
             }
         }

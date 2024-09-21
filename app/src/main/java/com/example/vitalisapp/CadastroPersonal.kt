@@ -127,7 +127,9 @@ fun CadastroProfessor(name: String, modifier: Modifier = Modifier) {
             )
 
             Button(
-                onClick = { /* lógica */ },
+                onClick = {val cadastroUsuario= Intent(contexto,
+                    CadastroUsuario::class.java)
+                    contexto.startActivity(cadastroUsuario)},
                 colors = ButtonDefaults.buttonColors(containerColor = Color(168, 123, 199)),
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
@@ -266,15 +268,15 @@ fun CadastroProfessor(name: String, modifier: Modifier = Modifier) {
 
         Button(
             onClick = {
-                val cadastroUsuarioDois = Intent(contexto, CadastroUsuarioDois::class.java)
-                contexto.startActivity(cadastroUsuarioDois)},
+                val cadastroPersonalDois = Intent(contexto, CadastroPersonalDois::class.java)
+                contexto.startActivity(cadastroPersonalDois)},
             modifier = Modifier,
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(168, 123, 199)
             )
         ) {
             Text(
-                text = "Criar conta",
+                text = "Próximo",
                 fontFamily = MavenPro,
                 color = Color.White)
         }

@@ -95,7 +95,7 @@ fun SegundaParte(name: String, modifier: Modifier = Modifier) {
             fontFamily = MavenPro,
             color = customColor,
             fontSize = 40.sp,
-            modifier = Modifier.padding(bottom = 16.dp)
+            modifier = Modifier.padding(bottom = 20.dp, top=16.dp)
         )
 
         Spacer(modifier = Modifier.height(10.dp))

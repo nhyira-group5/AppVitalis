@@ -127,7 +127,9 @@ fun CadastroCliente(name: String, modifier: Modifier = Modifier) {
             )
 
             Button(
-                onClick = { /* lógica */ },
+                onClick = {
+                    val cadastroPersonal = Intent(contexto, CadastroPersonal::class.java)
+                    contexto.startActivity(cadastroPersonal)},
                 colors = ButtonDefaults.buttonColors(containerColor = Color(72, 183, 90)),
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
@@ -274,7 +276,7 @@ fun CadastroCliente(name: String, modifier: Modifier = Modifier) {
             )
         ) {
             Text(
-                text = "Criar conta",
+                text = "Prosseguir",
                 fontFamily = MavenPro,
                 color = Color.White)
         }

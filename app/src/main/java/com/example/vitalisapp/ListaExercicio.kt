@@ -26,6 +26,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
 
@@ -38,6 +40,7 @@ class ListaExercicio : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     GaleriaExercicio(
                         name = "Android",
+                        rememberNavController(),
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -47,13 +50,13 @@ class ListaExercicio : ComponentActivity() {
 }
 
 @Composable
-fun GaleriaExercicio(name: String, modifier: Modifier = Modifier) {
+fun GaleriaExercicio(name: String, NavController: NavHostController, modifier: Modifier = Modifier) {
         Column(
             modifier = Modifier
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Menu()
+            Menu(NavController)
 
             Text(
                 text = "Exercícios - 13/05/2024",
@@ -93,6 +96,6 @@ fun GaleriaExercicio(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview16() {
     VitalisAppTheme {
-        GaleriaExercicio("Android")
+        GaleriaExercicio("Android", rememberNavController())
     }
 }

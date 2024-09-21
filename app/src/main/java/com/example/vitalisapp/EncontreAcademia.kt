@@ -47,6 +47,8 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
 
 class EncontreAcademia : ComponentActivity() {
@@ -58,6 +60,7 @@ class EncontreAcademia : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     BuscaAcademia(
                         name = "Android",
+                        rememberNavController(),
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -67,7 +70,7 @@ class EncontreAcademia : ComponentActivity() {
 }
 
 @Composable
-fun BuscaAcademia(name: String, modifier: Modifier = Modifier) {
+fun BuscaAcademia(name: String, navController: NavHostController, modifier: Modifier = Modifier) {
     var cep by remember { mutableStateOf(TextFieldValue("")) }
     var bairro by remember { mutableStateOf(TextFieldValue("")) }
     var rua by remember { mutableStateOf(TextFieldValue("")) }
@@ -76,7 +79,7 @@ fun BuscaAcademia(name: String, modifier: Modifier = Modifier) {
     LazyColumn(modifier = modifier.fillMaxSize().padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally) {
         item {
-            Menu()
+            Menu(navController)
         }
 
         item {
@@ -348,6 +351,6 @@ fun PersonalCard(nome: String, especialidade: String, endereco: String) {
 @Composable
 fun GreetingPreview11() {
     VitalisAppTheme {
-        BuscaAcademia("Android")
+        BuscaAcademia("Android", rememberNavController())
     }
 }

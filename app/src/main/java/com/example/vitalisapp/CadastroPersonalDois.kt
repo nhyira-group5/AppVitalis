@@ -136,7 +136,9 @@ fun SegundoPersonal(name: String, modifier: Modifier = Modifier) {
             )
 
             Button(
-                onClick = { /* lógica */ },
+                onClick = {val cadastroUsuario= Intent(contexto,
+                    CadastroUsuario::class.java)
+                    contexto.startActivity(cadastroUsuario)},
                 colors = ButtonDefaults.buttonColors(containerColor = Color(168, 123, 199)),
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
@@ -276,19 +278,21 @@ fun SegundoPersonal(name: String, modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
-            onClick = { /* Lógica do login */ },
+            onClick = {val cadastroPersonal = Intent(contexto, CadastroPersonal::class.java)
+                contexto.startActivity(cadastroPersonal)},
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Red
             )
         ) {
             Text(
                 text = "Corrigir dados",
-                fontFamily = MavenPro)
+                fontFamily = MavenPro,
+                color = Color.White)
         }
         Button(
             onClick = {
-                val cadastroUsuarioDois = Intent(contexto, CadastroUsuarioDois::class.java)
-                contexto.startActivity(cadastroUsuarioDois)},
+                val login = Intent(contexto, Login::class.java)
+                contexto.startActivity(login)},
             modifier = Modifier,
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(168, 123, 199)

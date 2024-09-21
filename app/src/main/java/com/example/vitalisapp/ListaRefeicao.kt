@@ -42,6 +42,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
 
@@ -54,6 +56,7 @@ class ListaRefeicao : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Refeicao(
                         name = "Android",
+                        rememberNavController(),
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -63,7 +66,7 @@ class ListaRefeicao : ComponentActivity() {
 }
 
 @Composable
-fun Refeicao(name: String, modifier: Modifier = Modifier) {
+fun Refeicao(name: String, NavController: NavHostController, modifier: Modifier = Modifier) {
 
     Column(
         modifier = Modifier
@@ -72,7 +75,7 @@ fun Refeicao(name: String, modifier: Modifier = Modifier) {
             .padding(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Menu()
+        Menu(NavController)
         Text(
             text = "Refeição",
             fontFamily = MavenPro,
@@ -191,6 +194,6 @@ fun GridReceita() {
 @Composable
 fun GreetingPreview12() {
     VitalisAppTheme {
-        Refeicao("Android")
+        Refeicao("Android", rememberNavController())
     }
 }

@@ -31,6 +31,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
 
@@ -43,6 +45,7 @@ class ListaChatUsuario : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     ConversaChat(
                         name = "Android",
+                        rememberNavController(),
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -52,7 +55,7 @@ class ListaChatUsuario : ComponentActivity() {
 }
 
 @Composable
-fun ConversaChat(name: String, modifier: Modifier = Modifier) {
+fun ConversaChat(name: String, NavController: NavHostController, modifier: Modifier = Modifier) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -60,7 +63,7 @@ fun ConversaChat(name: String, modifier: Modifier = Modifier) {
             .padding(horizontal = 32.dp, vertical = 32.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Menu()
+        Menu(NavController)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -113,6 +116,6 @@ fun ConversaChat(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview18() {
     VitalisAppTheme {
-        ConversaChat("Android")
+        ConversaChat("Android", rememberNavController())
     }
 }

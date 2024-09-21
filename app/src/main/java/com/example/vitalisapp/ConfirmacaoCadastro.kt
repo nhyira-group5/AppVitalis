@@ -1,5 +1,6 @@
 package com.example.vitalisapp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -32,6 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -58,6 +60,7 @@ class ConfirmacaoCadastro : ComponentActivity() {
 @Composable
 fun Confirmacao(name: String, modifier: Modifier = Modifier) {
     val scrollState = rememberScrollState()
+    val contexto = LocalContext.current
     val nomeCompleto = "João da Silva"
     val cpf = "123.456.789-00"
     val dataNascimento = "01/01/1990"
@@ -229,17 +232,22 @@ fun Confirmacao(name: String, modifier: Modifier = Modifier) {
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             Button(
-                                onClick = { /* Lógica do login */ },
+                                onClick = {
+                                    val cadastroUsuarioDois = Intent(contexto, CadastroUsuarioDois::class.java)
+                                    contexto.startActivity(cadastroUsuarioDois) },
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = Color.Red
                                 )
                             ) {
                                 Text(
                                     text = "Corrigir dados",
-                                    fontFamily = MavenPro)
+                                    fontFamily = MavenPro,
+                                    color = Color.White)
                             }
                             Button(
-                                onClick = { /* Lógica do login */ },
+                                onClick = {
+                                    val parq = Intent(contexto, ConfirmacaoParq::class.java)
+                                    contexto.startActivity(parq)},
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = Color(72, 183, 90)
                                 ),

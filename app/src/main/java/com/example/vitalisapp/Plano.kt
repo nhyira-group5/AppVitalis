@@ -36,6 +36,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
 
 class Plano : ComponentActivity() {
@@ -47,6 +49,7 @@ class Plano : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     TelaPlano(
                         name = "Android",
+                        rememberNavController(),
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -56,7 +59,7 @@ class Plano : ComponentActivity() {
 }
 
 @Composable
-fun TelaPlano(name: String, modifier: Modifier = Modifier) {
+fun TelaPlano(name: String, NavController: NavHostController, modifier: Modifier = Modifier) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -75,7 +78,7 @@ fun TelaPlano(name: String, modifier: Modifier = Modifier) {
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Menu()
+            Menu(NavController)
             Text(
                 text = "Planos Vitalis",
                 fontSize = 48.sp,
@@ -340,6 +343,6 @@ fun VivaPlanCard() {
 @Composable
 fun GreetingPreview15() {
     VitalisAppTheme {
-        TelaPlano("Android")
+        TelaPlano("Android", rememberNavController())
     }
 }

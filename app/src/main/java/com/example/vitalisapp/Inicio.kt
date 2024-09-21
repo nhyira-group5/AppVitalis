@@ -1,5 +1,6 @@
 package com.example.vitalisapp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -48,12 +49,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
 
@@ -66,6 +71,7 @@ class Inicio : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Home(
                         name = "Android",
+                        rememberNavController(),
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -75,7 +81,7 @@ class Inicio : ComponentActivity() {
 }
 
 @Composable
-fun Home(name: String, modifier: Modifier = Modifier) {
+fun Home(name: String, NavController: NavHostController, modifier: Modifier = Modifier) {
     var showCard by remember { mutableStateOf(false) }
     var lembreteContent by remember { mutableStateOf("") }
     val lembretes = remember { mutableStateListOf<String>() }
@@ -86,7 +92,8 @@ fun Home(name: String, modifier: Modifier = Modifier) {
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Menu()
+        Menu(NavController)
+
         Text(
             text = "Bem vindo(a), $name",
             fontFamily = MavenPro,
@@ -174,6 +181,7 @@ fun Home(name: String, modifier: Modifier = Modifier) {
 
 @Composable
 fun CardLembrete(content: String) {
+    var mostrarExcluir by remember { mutableStateOf(false) }
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -183,26 +191,55 @@ fun CardLembrete(content: String) {
             .background(Color.White)
             .padding(16.dp)
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically
+        Text(
+            text = content,
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Medium,
+            color = Color.Black
+        )
+
+        IconButton(
+            onClick = {
+                mostrarExcluir = !mostrarExcluir
+            },
+            modifier = Modifier
+                .align(Alignment.TopEnd)
         ) {
-            Text(
-                text = content,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Medium,
-                color = Color.Black
+            Image(
+                painter = painterResource(id = R.mipmap.menu),
+                contentDescription = "Mais",
+                modifier = Modifier.size(20.dp)
             )
+        }
 
-            Spacer(modifier = Modifier.width(16.dp))
+        Text(
+            text = "Aqui parece seu lembrete",
+            fontSize = 14.sp,
+            color = Color.Gray,
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(top = 32.dp)
+        )
 
-            IconButton(
-                onClick = {}
+        if (mostrarExcluir) {
+            Card(
+                modifier = Modifier
+                    .padding(top = 8.dp)
+                    .align(Alignment.BottomEnd)
+                    .width(100.dp),
+                shape = RoundedCornerShape(8.dp)
             ) {
-                Image(
-                    painter = painterResource(id = R.mipmap.menu),
-                    contentDescription = "Mais",
-                    modifier = Modifier.size(20.dp)
-                )
+                Button(
+                    onClick = { },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+                    elevation = null,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = "Excluir",
+                        color = Color.Red
+                    )
+                }
             }
         }
     }
@@ -296,7 +333,7 @@ fun Porcentagem(icone: Int, valor: String, titulo: String) {
 
 @Composable
 fun CardAtividades() {
-    var mostrarCardSuspenso by remember { mutableStateOf(false) }
+    val contexto = LocalContext.current
     Column {
         Card(
             modifier = Modifier
@@ -339,7 +376,8 @@ fun CardAtividades() {
                     )
                 }
                 IconButton(
-                    onClick = {},
+                    onClick = {val detalheExercicio = Intent(contexto, DetalheExercicio::class.java)
+                        contexto.startActivity(detalheExercicio)},
                     modifier = Modifier.padding(end = 16.dp)
                 ) {
                     Image(
@@ -355,6 +393,7 @@ fun CardAtividades() {
 
 @Composable
 fun AvisoMural() {
+    val contexto = LocalContext.current
     Row(
         modifier = Modifier
             .fillMaxWidth(),
@@ -370,7 +409,8 @@ fun AvisoMural() {
         )
 
         Button(
-            onClick = { /* Handle button click */ },
+            onClick = {val mural = Intent(contexto, Mural::class.java)
+                contexto.startActivity(mural)},
             modifier = Modifier
                 .height(40.dp),
             shape = RoundedCornerShape(30.dp),
@@ -391,6 +431,6 @@ fun AvisoMural() {
 @Composable
 fun GreetingPreview17() {
     VitalisAppTheme {
-        Home("Android")
+        Home("Android", rememberNavController())
     }
 }

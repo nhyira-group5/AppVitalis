@@ -36,6 +36,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
 
 class HomePersonal : ComponentActivity() {
@@ -47,6 +49,7 @@ class HomePersonal : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     HomeProfessor(
                         name = "Android",
+                        rememberNavController(),
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -56,14 +59,14 @@ class HomePersonal : ComponentActivity() {
 }
 
 @Composable
-fun HomeProfessor(name: String, modifier: Modifier = Modifier) {
+fun HomeProfessor(name: String, NavController: NavHostController, modifier: Modifier = Modifier) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        MenuPersonal()
+        MenuPersonal(NavController)
         Text(
             text = "Bem vindo(a), $name",
             fontSize = 20.sp,
@@ -265,6 +268,6 @@ fun CardAfiliado() {
 @Composable
 fun GreetingPreview22() {
     VitalisAppTheme {
-        HomeProfessor("Android")
+        HomeProfessor("Android", rememberNavController())
     }
 }
