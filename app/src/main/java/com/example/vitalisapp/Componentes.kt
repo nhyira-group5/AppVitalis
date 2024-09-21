@@ -182,19 +182,12 @@ fun MenuPersonal(navController: NavController) {
                         .clickable { navController.navigate("homePersonal") }
                 )
                 Image(
-                    painter = painterResource(id = R.mipmap.users),
-                    contentDescription = "Personais",
-                    modifier = Modifier
-                        .size(30.dp)
-                        .padding(horizontal = 4.dp)
-                )
-                Image(
                     painter = painterResource(id = R.mipmap.chat),
                     contentDescription = "Chat",
                     modifier = Modifier
                         .size(30.dp)
                         .padding(horizontal = 4.dp)
-                        .clickable { navController.navigate("chatPersonal") }
+                        .clickable {navController.navigate("chatPersonal") }
                 )
             }
         }
@@ -246,13 +239,14 @@ fun ImageCard(modifier: Modifier = Modifier, imageRes: Int, date: String) {
 }
 
 @Composable
-fun CardReceita(recipeName: String) {
+fun CardReceita(recipeName: String, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .width(240.dp)
             .height(260.dp)
             .clip(RoundedCornerShape(16.dp))
             .border(2.dp, Color(211, 211, 211), RoundedCornerShape(16.dp))
+            .clickable(onClick = onClick)
             .background(Color(255, 255, 255)),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
@@ -291,13 +285,15 @@ fun CardConversa(
     nome: String,
     mensagem: String,
     hora: String,
-    backgroundColor: Color = Color.White
+    backgroundColor: Color = Color.White,
+    onClick: () -> Unit
 ) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .background(backgroundColor, RoundedCornerShape(16.dp))
             .padding(5.dp)
+            .clickable(onClick = onClick)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),

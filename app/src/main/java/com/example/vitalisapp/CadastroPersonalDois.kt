@@ -291,8 +291,8 @@ fun SegundoPersonal(name: String, modifier: Modifier = Modifier) {
         }
         Button(
             onClick = {
-                val login = Intent(contexto, Login::class.java)
-                contexto.startActivity(login)},
+                val homePersonal = Intent(contexto, HomePersonal::class.java)
+                contexto.startActivity(homePersonal)},
             modifier = Modifier,
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(168, 123, 199)

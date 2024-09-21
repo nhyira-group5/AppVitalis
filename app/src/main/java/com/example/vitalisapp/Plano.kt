@@ -59,7 +59,7 @@ class Plano : ComponentActivity() {
 }
 
 @Composable
-fun TelaPlano(name: String, NavController: NavHostController, modifier: Modifier = Modifier) {
+fun TelaPlano(name: String, navController: NavHostController, modifier: Modifier = Modifier) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -78,7 +78,7 @@ fun TelaPlano(name: String, NavController: NavHostController, modifier: Modifier
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Menu(NavController)
+            Menu(navController)
             Text(
                 text = "Planos Vitalis",
                 fontSize = 48.sp,

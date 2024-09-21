@@ -56,7 +56,7 @@ class PerfilUsuario : ComponentActivity() {
 }
 
 @Composable
-fun PerfilPersonal(name: String, NavController: NavHostController, modifier: Modifier = Modifier) {
+fun PerfilPersonal(name: String, navController: NavHostController, modifier: Modifier = Modifier) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -64,7 +64,7 @@ fun PerfilPersonal(name: String, NavController: NavHostController, modifier: Mod
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        MenuPersonal(NavController)
+        MenuPersonal(navController)
         CartaoInfoPersonal()
         CartaoInfoEndereco()
     }

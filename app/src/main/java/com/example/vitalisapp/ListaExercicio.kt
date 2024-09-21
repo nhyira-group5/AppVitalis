@@ -1,5 +1,6 @@
 package com.example.vitalisapp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -22,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -50,13 +52,13 @@ class ListaExercicio : ComponentActivity() {
 }
 
 @Composable
-fun GaleriaExercicio(name: String, NavController: NavHostController, modifier: Modifier = Modifier) {
+fun GaleriaExercicio(name: String, navController: NavHostController, modifier: Modifier = Modifier) {
         Column(
             modifier = Modifier
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Menu(NavController)
+            Menu(navController)
 
             Text(
                 text = "Exercícios - 13/05/2024",
@@ -73,6 +75,7 @@ fun GaleriaExercicio(name: String, NavController: NavHostController, modifier: M
 
     @Composable
     fun ExercicioItem() {
+        val contexto = LocalContext.current
         val exercicios = listOf(
             "Agachamento", "Flexão de braço", "Abdominal", "Burpee",
             "Prancha", "Elevação lateral", "Corrida no lugar", "Pular corda",
@@ -87,7 +90,10 @@ fun GaleriaExercicio(name: String, NavController: NavHostController, modifier: M
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(exercicios) { exercicio ->
-                CardReceita(exercicio)
+                CardReceita(exercicio) {
+                    val detalheExercicio = Intent(contexto, DetalheExercicio::class.java)
+                    contexto.startActivity(detalheExercicio)
+                }
             }
         }
     }

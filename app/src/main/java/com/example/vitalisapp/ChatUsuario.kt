@@ -1,5 +1,6 @@
 package com.example.vitalisapp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -7,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,6 +40,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -67,7 +70,7 @@ class ChatUsuario : ComponentActivity() {
     @Composable
     fun ChatUser(name: String, modifier: Modifier = Modifier) {
         val especialidade = "Especialista em emagrecimento"
-
+        val contexto = LocalContext.current
         val mensagens = listOf(
             Mensagem("Oi, tudo bem?", true),
             Mensagem("Tudo ótimo, e você?", false),
@@ -94,7 +97,12 @@ class ChatUsuario : ComponentActivity() {
                     Image(
                         painter = painterResource(id = R.mipmap.voltar),
                         contentDescription = "Voltar",
-                        modifier = Modifier.size(48.dp)
+                        modifier = Modifier
+                            .size(48.dp)
+                            .clickable {
+                                val listaChatUsuario = Intent(contexto, ListaChatUsuario::class.java)
+                                contexto.startActivity(listaChatUsuario)
+                            }
                     )
                     Image(
                         painter = painterResource(id = R.mipmap.foto),

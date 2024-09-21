@@ -1,5 +1,6 @@
 package com.example.vitalisapp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -41,6 +42,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -70,7 +72,7 @@ class Perfil : ComponentActivity() {
 }
 
 @Composable
-fun PerfilUsuario(name: String, NavController: NavHostController, modifier: Modifier = Modifier) {
+fun PerfilUsuario(name: String, navController: NavHostController, modifier: Modifier = Modifier) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -78,7 +80,7 @@ fun PerfilUsuario(name: String, NavController: NavHostController, modifier: Modi
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Menu(NavController)
+        Menu(navController)
         CartaoInfoPessoal()
         CartaoInfoTecnica()
         CartaoPremium()
@@ -333,6 +335,7 @@ fun CartaoInfoTecnica() {
 
 @Composable
 fun CartaoPremium() {
+    val contexto = LocalContext.current
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -372,7 +375,8 @@ fun CartaoPremium() {
                     .padding(top = 16.dp)
             )
             Button(
-                onClick = { },
+                onClick = { val plano = Intent(contexto, Plano::class.java)
+                    contexto.startActivity(plano)},
                 modifier = Modifier
                     .padding(top = 24.dp)
                     .fillMaxWidth()

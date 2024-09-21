@@ -15,11 +15,20 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -52,20 +61,20 @@ class Mural : ComponentActivity() {
 }
 
 @Composable
-fun Galeria(name: String, NavController: NavHostController, modifier: Modifier = Modifier) {
+fun Galeria(name: String, navController: NavHostController, modifier: Modifier = Modifier) {
+        var mostrarExcluir by remember { mutableStateOf(false) }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFFF7FBFC))
             .padding(16.dp)
     ) {
-
         Column(
-            modifier = Modifier
-                .align(Alignment.TopStart),
+            modifier = Modifier.align(Alignment.TopStart),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Menu(NavController)
+            Menu(navController)
             Text(
                 text = "Mural de evolução",
                 color = Color(72, 183, 90),
@@ -87,7 +96,6 @@ fun Galeria(name: String, NavController: NavHostController, modifier: Modifier =
                 modifier = Modifier
                     .fillMaxWidth(0.5f)
                     .padding(bottom = 24.dp)
-
             )
         }
 
@@ -107,6 +115,48 @@ fun Galeria(name: String, NavController: NavHostController, modifier: Modifier =
                 imageRes = R.mipmap.foto,
                 date = "31.12.9999"
             )
+        }
+
+        Box(
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(16.dp)
+        ) {
+            IconButton(
+                onClick = {
+                    mostrarExcluir = !mostrarExcluir
+                },
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+            ) {
+                Image(
+                    painter = painterResource(id = R.mipmap.menu),
+                    contentDescription = "Mais",
+                    modifier = Modifier.size(20.dp)
+                )
+            }
+
+            if (mostrarExcluir) {
+                Card(
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .align(Alignment.BottomEnd)
+                        .width(100.dp),
+                    shape = RoundedCornerShape(8.dp)
+                ) {
+                    Button(
+                        onClick = { /* Ação de excluir */ },
+                        colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+                        elevation = null,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(
+                            text = "Excluir",
+                            color = Color.Red
+                        )
+                    }
+                }
+            }
         }
 
         Box(

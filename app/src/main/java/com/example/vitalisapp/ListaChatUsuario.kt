@@ -1,5 +1,6 @@
 package com.example.vitalisapp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -26,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -55,7 +57,8 @@ class ListaChatUsuario : ComponentActivity() {
 }
 
 @Composable
-fun ConversaChat(name: String, NavController: NavHostController, modifier: Modifier = Modifier) {
+fun ConversaChat(name: String, navController: NavHostController, modifier: Modifier = Modifier) {
+    val contexto = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -63,7 +66,7 @@ fun ConversaChat(name: String, NavController: NavHostController, modifier: Modif
             .padding(horizontal = 32.dp, vertical = 32.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Menu(NavController)
+        Menu(navController)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -85,7 +88,9 @@ fun ConversaChat(name: String, NavController: NavHostController, modifier: Modif
                     imagem = R.mipmap.foto,
                     nome = "Danilo de Souza",
                     mensagem = "Lorem Ipsum is simply dummy text of the printing...",
-                    hora = "00:00"
+                    hora = "00:00",
+                    onClick = {val chatUsuario = Intent(contexto, ChatUsuario::class.java)
+                        contexto.startActivity(chatUsuario)}
                 )
 
                 Spacer(modifier = Modifier.height(28.dp))
@@ -105,7 +110,9 @@ fun ConversaChat(name: String, NavController: NavHostController, modifier: Modif
                     nome = "Marcelo da Silva",
                     mensagem = "Lorem Ipsum is simply dummy text of the printing...",
                     hora = "00:00",
-                    backgroundColor = Color(218,241,222)
+                    backgroundColor = Color(218,241,222),
+                    onClick = {val chatUsuario = Intent(contexto, ChatUsuario::class.java)
+                    contexto.startActivity(chatUsuario)}
                 )
             }
         }

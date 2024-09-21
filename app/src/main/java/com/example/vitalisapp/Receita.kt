@@ -1,5 +1,6 @@
 package com.example.vitalisapp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -33,6 +34,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -61,13 +63,17 @@ class Receita : ComponentActivity() {
 
 @Composable
 fun Alimento(name: String, modifier: Modifier = Modifier) {
+    val contexto = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(start = 20.dp, top = 20.dp, end = 20.dp, bottom = 80.dp)
             .verticalScroll(rememberScrollState())
     ) {
-        Button(onClick = { },
+        Button(onClick = {
+            val listaRefeicao = Intent(contexto, ListaRefeicao::class.java)
+            contexto.startActivity(listaRefeicao)
+        },
             colors = ButtonDefaults.buttonColors(contentColor = Color.Black,
                 containerColor = Color.Transparent),
             modifier = Modifier.padding(bottom = 10.dp)) {

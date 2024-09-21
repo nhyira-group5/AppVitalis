@@ -81,7 +81,7 @@ class Inicio : ComponentActivity() {
 }
 
 @Composable
-fun Home(name: String, NavController: NavHostController, modifier: Modifier = Modifier) {
+fun Home(name: String, navController: NavHostController, modifier: Modifier = Modifier) {
     var showCard by remember { mutableStateOf(false) }
     var lembreteContent by remember { mutableStateOf("") }
     val lembretes = remember { mutableStateListOf<String>() }
@@ -92,7 +92,7 @@ fun Home(name: String, NavController: NavHostController, modifier: Modifier = Mo
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Menu(NavController)
+        Menu(navController)
 
         Text(
             text = "Bem vindo(a), $name",

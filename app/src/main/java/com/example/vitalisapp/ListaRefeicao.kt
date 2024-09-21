@@ -1,5 +1,6 @@
 package com.example.vitalisapp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -37,6 +38,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -66,7 +68,7 @@ class ListaRefeicao : ComponentActivity() {
 }
 
 @Composable
-fun Refeicao(name: String, NavController: NavHostController, modifier: Modifier = Modifier) {
+fun Refeicao(name: String, navController: NavHostController, modifier: Modifier = Modifier) {
 
     Column(
         modifier = Modifier
@@ -75,7 +77,7 @@ fun Refeicao(name: String, NavController: NavHostController, modifier: Modifier 
             .padding(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Menu(NavController)
+        Menu(navController)
         Text(
             text = "Refeição",
             fontFamily = MavenPro,
@@ -170,6 +172,7 @@ fun IngredienteDropdown(modifier: Modifier = Modifier) {
 
 @Composable
 fun GridReceita() {
+    val contexto = LocalContext.current
     val receitas = listOf(
         "Torta de frango", "Brigadeiro fit", "Linguiça recheada com queijo",
         "Salada cezar", "Refogado de panela", "Escondidinho",
@@ -185,7 +188,10 @@ fun GridReceita() {
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(receitas) { receita ->
-            CardReceita(receita)
+            CardReceita(receita){
+                val receita = Intent(contexto, Receita::class.java)
+                contexto.startActivity(receita)
+            }
         }
     }
 }

@@ -59,14 +59,14 @@ class HomePersonal : ComponentActivity() {
 }
 
 @Composable
-fun HomeProfessor(name: String, NavController: NavHostController, modifier: Modifier = Modifier) {
+fun HomeProfessor(name: String, navController: NavHostController, modifier: Modifier = Modifier) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        MenuPersonal(NavController)
+        MenuPersonal(navController)
         Text(
             text = "Bem vindo(a), $name",
             fontSize = 20.sp,
