@@ -115,48 +115,7 @@ fun Galeria(name: String, navController: NavHostController, modifier: Modifier =
                 imageRes = R.mipmap.foto,
                 date = "31.12.9999"
             )
-        }
 
-        Box(
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(16.dp)
-        ) {
-            IconButton(
-                onClick = {
-                    mostrarExcluir = !mostrarExcluir
-                },
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-            ) {
-                Image(
-                    painter = painterResource(id = R.mipmap.menu),
-                    contentDescription = "Mais",
-                    modifier = Modifier.size(20.dp)
-                )
-            }
-
-            if (mostrarExcluir) {
-                Card(
-                    modifier = Modifier
-                        .padding(top = 8.dp)
-                        .align(Alignment.BottomEnd)
-                        .width(100.dp),
-                    shape = RoundedCornerShape(8.dp)
-                ) {
-                    Button(
-                        onClick = { /* Ação de excluir */ },
-                        colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
-                        elevation = null,
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text(
-                            text = "Excluir",
-                            color = Color.Red
-                        )
-                    }
-                }
-            }
         }
 
         Box(

@@ -107,6 +107,7 @@ fun LoginCliente(name: String, navController: NavHostController, modifier: Modif
                     modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(modifier = Modifier.height(16.dp))
+
                 Button(
                     onClick = { navController.navigate("home") },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(72, 183, 90))
@@ -114,6 +115,14 @@ fun LoginCliente(name: String, navController: NavHostController, modifier: Modif
                     Text(text = "Entrar", fontFamily = MavenPro)
                 }
                 Spacer(modifier = Modifier.height(8.dp))
+                Button(
+                    onClick = { navController.navigate("homePersonal") },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(134, 86, 169))
+                ) {
+                    Text(text = "Entrar personal", fontFamily = MavenPro)
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+
                 TextButton(onClick = { navController.navigate("cadastro") }) {
                     Text(
                         text = "Ainda não tem conta? ",

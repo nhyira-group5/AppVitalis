@@ -91,7 +91,7 @@ fun ChatPersonal(name: String, navController: NavHostController, modifier: Modif
                     nome = "Danilo de Souza",
                     mensagem = "Lorem Ipsum is simply dummy text of the printing...",
                     hora = "00:00",
-                    onClick = {val chatPersonal = Intent(contexto, ChatUsuario::class.java)
+                    onClick = {val chatPersonal = Intent(contexto, ChatPersonal::class.java)
                         contexto.startActivity(chatPersonal)}
                 )
 
