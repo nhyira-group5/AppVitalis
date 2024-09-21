@@ -19,4 +19,6 @@
     <string name="title_activity_inicio">Inicio</string>
     <string name="title_activity_lista_chat_usuario">ListaChatUsuario</string>
     <string name="title_activity_lista_chat_personal">ListaChatPersonal</string>
+    <string name="title_activity_chat_usuario">ChatUsuario</string>
+    <string name="title_activity_chat_personal">ChatPersonal</string>
 </resources>

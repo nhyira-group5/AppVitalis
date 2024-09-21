@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,6 +14,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.VitalisApp"
         tools:targetApi="31">
+        <activity
+            android:name=".ChatPersonal"
+            android:exported="false"
+            android:label="@string/title_activity_chat_personal"
+            android:theme="@style/Theme.VitalisApp" />
+        <activity
+            android:name=".ChatUsuario"
+            android:exported="false"
+            android:label="@string/title_activity_chat_usuario"
+            android:theme="@style/Theme.VitalisApp" />
         <activity
             android:name=".ListaChatPersonal"
             android:exported="false"
@@ -71,12 +83,11 @@
             android:name=".Mural"
             android:exported="false"
             android:label="@string/title_activity_mural"
-            android:theme="@style/Theme.VitalisApp" />
-<!--        <activity-->
-<!--            android:name=".Login"-->
-<!--            android:exported="false"-->
-<!--            android:label="@string/title_activity_login"-->
-<!--            android:theme="@style/Theme.VitalisApp" />-->
+            android:theme="@style/Theme.VitalisApp" /> <!-- <activity -->
+        <!-- android:name=".Login" -->
+        <!-- android:exported="false" -->
+        <!-- android:label="@string/title_activity_login" -->
+        <!-- android:theme="@style/Theme.VitalisApp" /> -->
         <activity
             android:name=".ConfirmacaoParq"
             android:exported="false"
