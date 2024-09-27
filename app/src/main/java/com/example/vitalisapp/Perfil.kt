@@ -71,8 +71,6 @@ class Perfil : ComponentActivity() {
     }
 }
 
-// FAZER COM VIEW MODEL
-
 @Composable
 fun PerfilUsuario(name: String, navController: NavHostController, modifier: Modifier = Modifier) {
     Column(
