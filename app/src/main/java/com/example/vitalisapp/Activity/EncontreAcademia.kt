@@ -1,4 +1,4 @@
-package com.example.vitalisapp
+package com.example.vitalisapp.Activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.vitalisapp.R
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
 
 class EncontreAcademia : ComponentActivity() {
