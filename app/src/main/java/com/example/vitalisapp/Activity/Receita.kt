@@ -1,4 +1,4 @@
-package com.example.vitalisapp
+package com.example.vitalisapp.Activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -41,6 +41,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.vitalisapp.R
 import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
 

@@ -1,4 +1,4 @@
-package com.example.vitalisapp
+package com.example.vitalisapp.Activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -44,17 +44,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.vitalisapp.R
 import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
 
-class CadastroUsuario : ComponentActivity() {
+class CadastroPersonal : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             VitalisAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    CadastroCliente(
+                    CadastroProfessor(
                         name = "Android",
                         modifier = Modifier.padding(innerPadding)
                     )
@@ -65,7 +66,8 @@ class CadastroUsuario : ComponentActivity() {
 }
 
 @Composable
-fun CadastroCliente(name: String, modifier: Modifier = Modifier) {
+fun CadastroProfessor(name: String, modifier: Modifier = Modifier) {
+    val contexto = LocalContext.current
     var nomeUsuario by remember { mutableStateOf("") }
     var apelido by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -74,7 +76,6 @@ fun CadastroCliente(name: String, modifier: Modifier = Modifier) {
     var confirmarSenha by remember { mutableStateOf("") }
     var cpf by remember { mutableStateOf("") }
     var sexo by remember { mutableStateOf("M") }
-    val contexto = LocalContext.current
 
     Column(
         modifier = modifier
@@ -98,7 +99,7 @@ fun CadastroCliente(name: String, modifier: Modifier = Modifier) {
                 .padding(16.dp)
         ) {
             Text(
-                text = "Bem-vindo à nossa plataforma! Cadastra-se para acessar nossos recursos",
+                text = "Bem-vindo à nossa plataforma! Cadastre-se para acessar recursos e trabalhar conosco.",
                 color = Color.Black,
                 fontFamily = MavenPro,
                 modifier = Modifier
@@ -108,7 +109,7 @@ fun CadastroCliente(name: String, modifier: Modifier = Modifier) {
             )
 
             Image(
-                painter = painterResource(id = R.mipmap.vitalislogo),
+                painter = painterResource(id = R.mipmap.logoroxo),
                 contentDescription = "Imagem",
                 modifier = Modifier
                     .size(150.dp)
@@ -118,7 +119,7 @@ fun CadastroCliente(name: String, modifier: Modifier = Modifier) {
             )
 
             Text(
-                text = "É um Aluno?",
+                text = "É um Instrutor?",
                 color = Color.Black,
                 fontFamily = MavenPro,
                 modifier = Modifier
@@ -127,25 +128,25 @@ fun CadastroCliente(name: String, modifier: Modifier = Modifier) {
             )
 
             Button(
-                onClick = {
-                    val cadastroPersonal = Intent(contexto, CadastroPersonal::class.java)
-                    contexto.startActivity(cadastroPersonal)},
-                colors = ButtonDefaults.buttonColors(containerColor = Color(72, 183, 90)),
+                onClick = {val cadastroUsuario= Intent(contexto,
+                    CadastroUsuario::class.java)
+                    contexto.startActivity(cadastroUsuario)},
+                colors = ButtonDefaults.buttonColors(containerColor = Color(168, 123, 199)),
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
                     .padding(end = 16.dp, bottom = 16.dp)
             ) {
                 Text(
-                    text = "Sou um personal",
+                    text = "Sou um aluno",
                     fontFamily = MavenPro,
-                    color = Color.Black)
+                    color = Color.White)
 
             }
         }
 
         Text(
-            text = "Realizando cadastro",
-            color = Color(72, 183, 90),
+            text = "Cadastro Instrutor",
+            color = Color(168, 123, 199),
             fontSize = 35.sp,
             fontFamily = MavenPro,
             textAlign = TextAlign.Center,
@@ -166,8 +167,8 @@ fun CadastroCliente(name: String, modifier: Modifier = Modifier) {
             modifier = Modifier.padding(bottom = 16.dp)
         )
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = nomeUsuario,
+            onValueChange = {nomeUsuario = it},
             label = { Text(
                 text = "Nome do Usuário",
                 fontFamily = MavenPro,
@@ -175,8 +176,8 @@ fun CadastroCliente(name: String, modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth()
         )
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = apelido,
+            onValueChange = {apelido = it},
             label = { Text(
                 text = "Apelido",
                 fontFamily = MavenPro,
@@ -184,8 +185,8 @@ fun CadastroCliente(name: String, modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth()
         )
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = email,
+            onValueChange = {email = it},
             label = { Text(
                 text = "Email",
                 fontFamily = MavenPro,
@@ -193,8 +194,8 @@ fun CadastroCliente(name: String, modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth()
         )
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = dataNascimento,
+            onValueChange = {dataNascimento = it},
             label = { Text(
                 text = "Data de nascimento",
                 fontFamily = MavenPro,
@@ -204,8 +205,8 @@ fun CadastroCliente(name: String, modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth()
         )
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = senha,
+            onValueChange = {senha = it},
             label = { Text(
                 text = "Senha",
                 fontFamily = MavenPro,
@@ -213,17 +214,17 @@ fun CadastroCliente(name: String, modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth()
         )
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = confirmarSenha,
+            onValueChange = {confirmarSenha = it},
             label = { Text(
-                text = "Confirmar Senha",
+                text = "Confirmar senha",
                 fontFamily = MavenPro,
                 color = Color.White) },
             modifier = Modifier.fillMaxWidth()
         )
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = cpf,
+            onValueChange = {cpf = it},
             label = { Text(
                 text = "CPF",
                 color = Color.White) },
@@ -244,9 +245,9 @@ fun CadastroCliente(name: String, modifier: Modifier = Modifier) {
                 color = Color.White)
             RadioButton(
                 selected = true,
-                onClick = { /* lógica */ },
+                onClick = { sexo = "F" },
                 colors = RadioButtonDefaults.colors(
-                    selectedColor = Color(72, 183, 90),
+                    selectedColor = Color(168, 123, 199),
                     unselectedColor = Color.White)
             )
             Text(
@@ -255,9 +256,9 @@ fun CadastroCliente(name: String, modifier: Modifier = Modifier) {
                 color = Color.White)
             RadioButton(
                 selected = false,
-                onClick = { /* lógica */ },
+                onClick = { sexo = "M"},
                 colors = RadioButtonDefaults.colors(
-                    selectedColor = Color(72, 183, 90),
+                    selectedColor = Color(168, 123, 199),
                     unselectedColor = Color.White)
             )
             Text(
@@ -268,15 +269,16 @@ fun CadastroCliente(name: String, modifier: Modifier = Modifier) {
 
         Button(
             onClick = {
-                val cadastroUsuarioDois = Intent(contexto, CadastroUsuarioDois::class.java)
-                contexto.startActivity(cadastroUsuarioDois)},
+                val cadastroPersonalDois = Intent(contexto, CadastroPersonalDois::class.java)
+                cadastroPersonalDois.putExtra("nome",nomeUsuario)
+                contexto.startActivity(cadastroPersonalDois)},
             modifier = Modifier,
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(72, 183, 90)
+                containerColor = Color(168, 123, 199)
             )
         ) {
             Text(
-                text = "Prosseguir",
+                text = "Próximo",
                 fontFamily = MavenPro,
                 color = Color.White)
         }
@@ -286,8 +288,8 @@ fun CadastroCliente(name: String, modifier: Modifier = Modifier) {
 @Preview(showBackground = true, showSystemUi = true)
 
 @Composable
-fun GreetingPreview() {
+fun GreetingPreview4() {
     VitalisAppTheme {
-        CadastroCliente("Android")
+        CadastroProfessor("Android")
     }
 }

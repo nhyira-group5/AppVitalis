@@ -1,4 +1,4 @@
-package com.example.vitalisapp
+package com.example.vitalisapp.Activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -50,6 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.vitalisapp.R
 import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
 

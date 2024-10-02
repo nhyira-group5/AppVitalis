@@ -1,4 +1,4 @@
-package com.example.vitalisapp
+package com.example.vitalisapp.Activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -39,8 +39,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.vitalisapp.Entity.Usuario.loginUsuario
 import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
+import loginService
 
 class Login : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -109,7 +111,12 @@ fun LoginCliente(name: String, navController: NavHostController, modifier: Modif
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Button(
-                    onClick = { navController.navigate("home") },
+                    onClick = {
+
+                        val login = loginUsuario(0, nickname, senha)
+                        loginService(login)
+
+                        navController.navigate("home") },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(72, 183, 90))
                 ) {
                     Text(text = "Entrar", fontFamily = MavenPro)
@@ -138,7 +145,7 @@ fun LoginCliente(name: String, navController: NavHostController, modifier: Modif
             }
         }
         composable("home") { Home(name = name, navController) }
-        composable("cadastro") { CadastroCliente(name = name) }
+        composable("cadastro") { CadastroCliente(name = name, navController) }
         composable("perfil") { PerfilUsuario(name = name, navController) }
         composable("perfilPersonal") { PerfilPersonal(name = name, navController) }
         composable("homePersonal") { HomeProfessor(name = name, navController) }
