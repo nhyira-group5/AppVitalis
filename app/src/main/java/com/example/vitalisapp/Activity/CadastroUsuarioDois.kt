@@ -111,26 +111,15 @@ fun SegundaParte(name: String, modifier: Modifier = Modifier) {
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.fillMaxWidth()
         ) {
-            OutlinedTextField(
-                value = peso,
-                onValueChange = { peso = it },
-                modifier = Modifier.weight(1f),
-                label = { Text(
-                    text = "Peso",
-                    fontFamily = MavenPro,
-                    color = Color.White) },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+            InputText(
+                value = peso.toString(),
+                onValueChange = { },
+                label = "Peso"
             )
-            OutlinedTextField(
-                value = altura,
-                onValueChange = { altura = it },
-                modifier = Modifier.weight(1f),
-                label = { Text(
-                    text = "Altura (cm)",
-                    fontFamily = MavenPro,
-                    color = Color.White) },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-            )
+            InputText(
+                value = altura.toString(),
+                onValueChange = { },
+                label = "Altura (cm)")
         }
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -269,8 +258,8 @@ fun SegundaParte(name: String, modifier: Modifier = Modifier) {
         ) {
             Button(
                 onClick = {
-                    val confirmacaoCadastro = Intent(contexto, ConfirmacaoCadastro::class.java)
-                    contexto.startActivity(confirmacaoCadastro)
+                    val inicio = Intent(contexto, Inicio::class.java)
+                    contexto.startActivity(inicio)
                 },
                 modifier = Modifier,
                 colors = ButtonDefaults.buttonColors(

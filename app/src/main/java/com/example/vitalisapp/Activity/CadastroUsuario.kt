@@ -172,75 +172,41 @@ fun CadastroCliente(name: String, navController: NavHostController, modifier: Mo
             fontFamily = MavenPro,
             modifier = Modifier.padding(bottom = 16.dp)
         )
-        OutlinedTextField(
+        InputText(
             value = nomeUsuario,
             onValueChange = {nomeUsuario = it},
-            label = { Text(
-                text = "Nome do Usuário",
-                fontFamily = MavenPro,
-                color = Color.White) },
-            modifier = Modifier.fillMaxWidth()
+            label = "Nome do Usuário"
         )
-        OutlinedTextField(
+        InputText(
             value = apelido,
             onValueChange = {apelido = it},
-            label = { Text(
-                text = "Apelido",
-                fontFamily = MavenPro,
-                color = Color.White) },
-            modifier = Modifier.fillMaxWidth()
+            label = "Apelido"
         )
-        OutlinedTextField(
+        InputText(
             value = email,
             onValueChange = {email = it},
-            label = { Text(
-                text = "Email",
-                fontFamily = MavenPro,
-                color = Color.White) },
-            modifier = Modifier.fillMaxWidth()
+            label = "Email"
         )
-        OutlinedTextField(
+        InputText(
             value = dataNascimento,
             onValueChange = {dataNascimento = it
                             },
-            label = { Text(
-                text = "Data de nascimento",
-                fontFamily = MavenPro,
-                color = Color.White)
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier.fillMaxWidth()
+            label = "Data de nascimento"
         )
-        OutlinedTextField(
+        InputText(
             value = senha,
             onValueChange = {senha = it},
-            label = { Text(
-                text = "Senha",
-                fontFamily = MavenPro,
-                color = Color.White) },
-            modifier = Modifier.fillMaxWidth()
+            label = "Senha"
         )
-        OutlinedTextField(
+        InputText(
             value = confirmarSenha,
             onValueChange = {confirmarSenha = it},
-            label = { Text(
-                text = "Confirmar Senha",
-                fontFamily = MavenPro,
-                color = Color.White) },
-            modifier = Modifier.fillMaxWidth()
+            label = "Confirmar Senha"
         )
-        OutlinedTextField(
+        InputText(
             value = cpf,
             onValueChange = {cpf = it},
-            label = { Text(
-                text = "CPF",
-                color = Color.White) },
-            placeholder = { Text(
-                text = "123.456.789-10",
-                fontFamily = MavenPro,
-                color = Color.White) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier.fillMaxWidth()
+            label = "CPF"
         )
         Row(
             verticalAlignment = Alignment.CenterVertically,

@@ -2,6 +2,7 @@ package com.example.vitalisapp.Activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings.Global.getString
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -54,6 +55,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.vitalisapp.R
+import androidx.compose.ui.res.stringResource
 import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
 
@@ -77,9 +79,6 @@ class Inicio : ComponentActivity() {
 
 @Composable
 fun Home(name: String, navController: NavHostController, modifier: Modifier = Modifier) {
-    var showCard by remember { mutableStateOf(false) }
-    var lembreteContent by remember { mutableStateOf("") }
-    val lembretes = remember { mutableStateListOf<String>() }
 
     Column(
         modifier = Modifier
@@ -90,7 +89,7 @@ fun Home(name: String, navController: NavHostController, modifier: Modifier = Mo
         Menu(navController)
 
         Text(
-            text = "Bem vindo(a), $name",
+            text = stringResource(R.string.Bem_vindo, name),
             fontFamily = MavenPro,
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
@@ -100,326 +99,8 @@ fun Home(name: String, navController: NavHostController, modifier: Modifier = Mo
                 .align(Alignment.CenterHorizontally)
         )
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 24.dp, start = 14.dp, end = 12.dp)
-                .clip(RoundedCornerShape(20.dp))
-                .background(Color.Black)
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "Lembretes",
-                        fontFamily = MavenPro,
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color.White
-                    )
-
-                    Spacer(modifier = Modifier.weight(1f))
-
-                    Image(
-                        painter = painterResource(id = R.mipmap.botaomural),
-                        contentDescription = "Botão",
-                        modifier = Modifier
-                            .size(50.dp)
-                            .clip(CircleShape)
-                            .clickable {
-                                showCard = !showCard
-                                if (showCard) lembretes.add(lembreteContent)
-                            }
-                    )
-                }
-
-                if (showCard) {
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentHeight()
-                    ) {
-                        TextField(
-                            value = lembreteContent,
-                            onValueChange = { lembreteContent = it },
-                            label = { Text("Insira seu lembrete") },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 16.dp)
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        LazyColumn(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .heightIn(max = 200.dp)
-                        ) {
-                          items (lembretes){ content ->
-                              CardLembrete(content = content)
-                          }
-                        }
-                    }
-                }
-            }
-        }
-
         Atividade()
-    }
-}
 
-@Composable
-fun CardLembrete(content: String) {
-    var mostrarExcluir by remember { mutableStateOf(false) }
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight()
-            .padding(horizontal = 16.dp)
-            .clip(RoundedCornerShape(16.dp))
-            .background(Color.White)
-            .padding(16.dp)
-    ) {
-        Text(
-            text = content,
-            fontSize = 16.sp,
-            fontWeight = FontWeight.Medium,
-            color = Color.Black
-        )
-
-        IconButton(
-            onClick = {
-                mostrarExcluir = !mostrarExcluir
-            },
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-        ) {
-            Image(
-                painter = painterResource(id = R.mipmap.menu),
-                contentDescription = "Mais",
-                modifier = Modifier.size(20.dp)
-            )
-        }
-
-        Text(
-            text = "Aqui parece seu lembrete",
-            fontSize = 14.sp,
-            color = Color.Gray,
-            modifier = Modifier
-                .align(Alignment.BottomStart)
-                .padding(top = 32.dp)
-        )
-
-        if (mostrarExcluir) {
-            Card(
-                modifier = Modifier
-                    .padding(top = 8.dp)
-                    .align(Alignment.BottomEnd)
-                    .width(100.dp),
-                shape = RoundedCornerShape(8.dp)
-            ) {
-                Button(
-                    onClick = { },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
-                    elevation = null,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text(
-                        text = "Excluir",
-                        color = Color.Red
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun Atividade() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(16.dp)
-    ) {
-        Text(
-            text = "Atividades de hoje",
-            fontSize = 20.sp,
-            fontFamily = MavenPro,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black,
-            modifier = Modifier
-                .padding(bottom = 15.dp)
-                .align(Alignment.CenterHorizontally)
-        )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color(18, 18, 19), shape = RoundedCornerShape(24.dp)),
-            horizontalArrangement = Arrangement.spacedBy(5.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Porcentagem(
-                icone = R.mipmap.comidappreto,
-                valor = "--/10",
-                titulo = "Refeições"
-            )
-            Porcentagem(
-                icone = R.mipmap.exerciciopreto,
-                valor = "01/10",
-                titulo = "Exercícios"
-            )
-            Porcentagem(
-                icone = R.mipmap.calendario,
-                valor = "01/03",
-                titulo = "Meta Semanal"
-            )
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-        CardAtividades()
-        Spacer(modifier = Modifier.weight(1f))
-
-        AvisoMural()
-    }
-}
-
-@Composable
-fun Porcentagem(icone: Int, valor: String, titulo: String) {
-    Column(
-        modifier = Modifier
-            .padding(8.dp)
-            .size(90.dp)
-            .background(Color.White, shape = RoundedCornerShape(16.dp))
-            .shadow(elevation = 2.dp, shape = RoundedCornerShape(16.dp)),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Image(
-            painter = painterResource(id = icone),
-            contentDescription = null,
-            modifier = Modifier
-                .size(24.dp)
-                .align(Alignment.CenterHorizontally)
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = valor,
-            fontFamily = MavenPro,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.SemiBold,
-            color = Color.Black
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = titulo,
-            fontSize = 12.sp,
-            fontFamily = MavenPro,
-            fontWeight = FontWeight.Medium,
-            color = Color.Black
-        )
-    }
-}
-
-@Composable
-fun CardAtividades() {
-    val contexto = LocalContext.current
-    Column {
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(70.dp)
-                .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp)),
-            shape = RoundedCornerShape(16.dp)
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(start = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(10.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.mipmap.tortadefrango),
-                        contentDescription = "Exercicio",
-                        modifier = Modifier
-                            .size(60.dp)
-                            .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp))
-                    )
-                    Text(
-                        text = "Exercício:",
-                        fontSize = 18.sp,
-                        fontFamily = MavenPro,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color(72, 183, 90)
-                    )
-                    Text(
-                        text = "Titulo",
-                        fontFamily = MavenPro,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color.Black
-                    )
-                }
-                IconButton(
-                    onClick = {val detalheExercicio = Intent(contexto, DetalheExercicio::class.java)
-                        contexto.startActivity(detalheExercicio)},
-                    modifier = Modifier.padding(end = 16.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.mipmap.seta),
-                        contentDescription = "seta",
-                        modifier = Modifier.size(34.dp)
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun AvisoMural() {
-    val contexto = LocalContext.current
-    Row(
-        modifier = Modifier
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = "Observe o resultado do seu \nesforço com seu mural de fotos",
-            color = Color.Black,
-            fontFamily = MavenPro,
-            fontSize = 12.sp,
-            modifier = Modifier.padding(end = 8.dp)
-        )
-
-        Button(
-            onClick = {val mural = Intent(contexto, Mural::class.java)
-                contexto.startActivity(mural)},
-            modifier = Modifier
-                .height(40.dp),
-            shape = RoundedCornerShape(30.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(72, 183, 90))
-        ) {
-            Text(
-                text = "Ver mural!",
-                fontFamily = MavenPro,
-                color = Color.White,
-                fontSize = 13.sp,
-                fontWeight = FontWeight.SemiBold
-            )
-        }
     }
 }
 
