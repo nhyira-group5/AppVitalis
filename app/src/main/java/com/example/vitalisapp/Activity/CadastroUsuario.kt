@@ -232,15 +232,8 @@ fun CadastroCliente(name: String, navController: NavHostController, modifier: Mo
                         sexo = "M"
                     }
                 },
-                colors = CheckboxDefaults.colors(
-                    checkedColor = Color(72, 183, 90),
-                    uncheckedColor = Color.White
-                )
-            )
-            Text(
-                text = "M",
-                fontFamily = MavenPro,
-                color = Color.White
+                label = "M",
+                isPersonal = false
             )
 
             Checkbox(
@@ -252,15 +245,8 @@ fun CadastroCliente(name: String, navController: NavHostController, modifier: Mo
                         sexo = "F"
                     }
                 },
-                colors = CheckboxDefaults.colors(
-                    checkedColor = Color(72, 183, 90),
-                    uncheckedColor = Color.White
-                )
-            )
-            Text(
-                text = "F",
-                fontFamily = MavenPro,
-                color = Color.White
+                label = "F",
+                isPersonal = false // Defina se é personal ou usuário
             )
         }
 

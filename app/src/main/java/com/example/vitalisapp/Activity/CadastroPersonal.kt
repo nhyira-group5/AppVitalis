@@ -227,15 +227,8 @@ fun CadastroProfessor(name: String, modifier: Modifier = Modifier) {
                         sexo = "M"
                     }
                 },
-                colors = CheckboxDefaults.colors(
-                    checkedColor = Color(168, 123, 199),
-                    uncheckedColor = Color.White
-                )
-            )
-            Text(
-                text = "M",
-                fontFamily = MavenPro,
-                color = Color.White
+                label = "M",
+                isPersonal = true
             )
 
             Checkbox(
@@ -247,17 +240,11 @@ fun CadastroProfessor(name: String, modifier: Modifier = Modifier) {
                         sexo = "F"
                     }
                 },
-                colors = CheckboxDefaults.colors(
-                    checkedColor = Color(168, 123, 199),
-                    uncheckedColor = Color.White
-                )
-            )
-            Text(
-                text = "F",
-                fontFamily = MavenPro,
-                color = Color.White
+                label = "F",
+                isPersonal = true
             )
         }
+
 
         Button(
             onClick = {
