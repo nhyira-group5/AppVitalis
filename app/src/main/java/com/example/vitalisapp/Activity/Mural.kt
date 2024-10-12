@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -58,8 +59,7 @@ class Mural : ComponentActivity() {
 
 @Composable
 fun Galeria(name: String, navController: NavHostController, modifier: Modifier = Modifier) {
-        var mostrarExcluir by remember { mutableStateOf(false) }
-
+    var searchQuery by remember { mutableStateOf("") }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -72,7 +72,7 @@ fun Galeria(name: String, navController: NavHostController, modifier: Modifier =
         ) {
             Menu(navController)
             Text(
-                text = "Mural de evolução",
+                text = stringResource(R.string.mural),
                 color = Color(72, 183, 90),
                 fontFamily = MavenPro,
                 fontSize = 36.sp,
@@ -82,7 +82,7 @@ fun Galeria(name: String, navController: NavHostController, modifier: Modifier =
             )
 
             Text(
-                text = "Poste aqui sua evolução durante a sua jornada para uma vida mais saudável!",
+                text = stringResource(R.string.sub_mural),
                 color = Color.Black,
                 fontFamily = MavenPro,
                 fontSize = 15.sp,
@@ -91,7 +91,8 @@ fun Galeria(name: String, navController: NavHostController, modifier: Modifier =
             DateInput(
                 modifier = Modifier
                     .fillMaxWidth(0.5f)
-                    .padding(bottom = 24.dp)
+                    .padding(bottom = 24.dp),
+                onTextChange = { searchQuery = it }
             )
         }
 
@@ -119,7 +120,8 @@ fun Galeria(name: String, navController: NavHostController, modifier: Modifier =
                 .align(Alignment.BottomEnd)
                 .padding(16.dp)
                 .size(80.dp)
-                .clickable { }
+                .clickable (
+                    onClick = {},)
         ) {
             Image(
                 painter = painterResource(id = R.mipmap.botaomural),
@@ -127,35 +129,6 @@ fun Galeria(name: String, navController: NavHostController, modifier: Modifier =
                 modifier = Modifier.fillMaxSize()
             )
         }
-    }
-}
-
-@Composable
-fun DateInput(modifier: Modifier = Modifier) {
-    Column(modifier = modifier) {
-        Text(
-            text = "Data",
-            color = Color(0xFF1A1A1A),
-            fontFamily = MavenPro,
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Bold,
-            letterSpacing = 0.6.sp,
-            modifier = Modifier.padding(start = 16.dp)
-        )
-        OutlinedTextField(
-            value = "",
-            onValueChange = {},
-            modifier = Modifier.fillMaxWidth(),
-            placeholder = { Text("Placeholder",fontFamily = MavenPro) },
-            leadingIcon = {
-                Image(
-                    painter = painterResource(id = R.mipmap.calendario),
-                    contentDescription = "Calendário",
-                    modifier = Modifier.size(25.dp)
-                )
-            },
-            shape = RoundedCornerShape(30.dp)
-        )
     }
 }
 

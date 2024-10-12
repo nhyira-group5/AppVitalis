@@ -173,72 +173,40 @@ fun SegundoPersonal(name: String, modifier: Modifier = Modifier) {
             fontFamily = MavenPro,
             modifier = Modifier.padding(bottom = 10.dp, top= 5.dp)
         )
-        OutlinedTextField(
+        InputText(
             value = "",
             onValueChange = {},
-            label = { Text(
-                text = "CEP",
-                fontFamily = MavenPro,
-                color = Color.White)
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier.fillMaxWidth()
+            label = "CEP"
         )
-        OutlinedTextField(
+        InputText(
             value = "",
             onValueChange = {},
-            label = { Text(
-                text = "Rua",
-                fontFamily = MavenPro,
-                color = Color.White) },
-            modifier = Modifier.fillMaxWidth()
+            label = "Rua"
         )
-        OutlinedTextField(
+        InputText(
             value = "",
             onValueChange = {},
-            label = { Text(
-                text = "Estado",
-                fontFamily = MavenPro,
-                color = Color.White) },
-            modifier = Modifier.fillMaxWidth()
+            label = "Estado"
         )
-        OutlinedTextField(
+        InputText(
             value = "",
             onValueChange = {},
-            label = { Text(
-                text = "Bairro",
-                fontFamily = MavenPro,
-                color = Color.White) },
-            modifier = Modifier.fillMaxWidth()
+            label = "Bairro"
         )
-        OutlinedTextField(
+        InputText(
             value = "",
             onValueChange = {},
-            label = { Text(
-                text = "Número",
-                fontFamily = MavenPro,
-                color = Color.White) },
-            modifier = Modifier.fillMaxWidth()
+            label = "Número"
         )
-        OutlinedTextField(
+        InputText(
             value = "",
             onValueChange = {},
-            label = { Text(
-                text = "Complemento",
-                fontFamily = MavenPro,
-                color = Color.White) },
-            modifier = Modifier.fillMaxWidth()
+            label = "Complemento"
         )
-        OutlinedTextField(
+        InputText(
             value = "",
             onValueChange = {},
-            label = { Text(
-                text = "Data de formação",
-                fontFamily = MavenPro,
-                color = Color.White)
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier.fillMaxWidth()
+            label = "Data de formação"
         )
 
         Box(

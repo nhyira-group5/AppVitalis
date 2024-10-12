@@ -41,6 +41,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -111,7 +112,7 @@ fun VerExercicio(name: String, modifier: Modifier = Modifier) {
 
         Informacoes()
 
-        Botao()
+        BotaoConcluido()
     }
 }
 
@@ -218,18 +219,6 @@ fun TagsLayout(tags: List<String>, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun Tag(text: String) {
-    Box(
-        modifier = Modifier
-            .border(1.dp, Color(72, 183, 90), shape = RoundedCornerShape(16.dp))
-            .background(Color(241, 241, 241), shape = RoundedCornerShape(16.dp))
-            .padding(horizontal = 8.dp, vertical = 4.dp)
-    ) {
-        Text(text = text, color = Color(72, 183, 90), fontSize = 12.sp)
-    }
-}
-
-@Composable
 fun Execucao() {
     Column(
         modifier = Modifier
@@ -244,7 +233,7 @@ fun Execucao() {
         ) {
             Column {
                 Text(
-                    text = "Informações de execução",
+                    text = stringResource(R.string.informação),
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
@@ -262,65 +251,6 @@ fun Execucao() {
                 }
             }
         }
-    }
-}
-
-@Composable
-fun InfoCard(title: String, value: String) {
-    Card(
-        shape = RoundedCornerShape(8.dp),
-        modifier = Modifier
-            .width(300.dp)
-            .height(75.dp)
-            .padding(4.dp)
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(8.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = title,
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(bottom = 4.dp)
-            )
-            Text(
-                text = value,
-                fontSize = 12.sp
-            )
-        }
-    }
-}
-
-@Composable
-fun Botao() {
-    var isCompleted by remember { mutableStateOf(false) }
-
-    Button(
-        onClick = { isCompleted = !isCompleted },
-        colors = ButtonDefaults.buttonColors(
-            containerColor = if (isCompleted) Color(72, 183, 90) else Color(27, 112, 202)
-        ),
-        shape = RoundedCornerShape(20.dp),
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth()
-            .height(50.dp)
-    ) {
-        Image(
-            painter = painterResource(id = R.mipmap.certos),
-            contentDescription = null,
-            modifier = Modifier.size(24.dp)
-        )
-        Spacer(modifier = Modifier.width(8.dp))
-        Text(
-            text = if (isCompleted) "Concluído" else "Marcar como concluído",
-            color = Color.White,
-            fontSize = 16.sp
-        )
     }
 }
 

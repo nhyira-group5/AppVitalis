@@ -11,16 +11,20 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
@@ -39,6 +43,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -99,7 +104,7 @@ fun CadastroProfessor(name: String, modifier: Modifier = Modifier) {
                 .padding(16.dp)
         ) {
             Text(
-                text = "Bem-vindo à nossa plataforma! Cadastre-se para acessar recursos e trabalhar conosco.",
+                text = stringResource(R.string.cabecalho_intrutor),
                 color = Color.Black,
                 fontFamily = MavenPro,
                 modifier = Modifier
@@ -119,7 +124,7 @@ fun CadastroProfessor(name: String, modifier: Modifier = Modifier) {
             )
 
             Text(
-                text = "É um Instrutor?",
+                text = stringResource(R.string.instrutor),
                 color = Color.Black,
                 fontFamily = MavenPro,
                 modifier = Modifier
@@ -145,7 +150,7 @@ fun CadastroProfessor(name: String, modifier: Modifier = Modifier) {
         }
 
         Text(
-            text = "Cadastro Instrutor",
+            text = stringResource(R.string.cadastro_instrutor),
             color = Color(168, 123, 199),
             fontSize = 35.sp,
             fontFamily = MavenPro,
@@ -153,87 +158,53 @@ fun CadastroProfessor(name: String, modifier: Modifier = Modifier) {
             modifier = Modifier.padding(bottom = 25.dp)
         )
         Text(
-            text = "Quer acessar nossa aplicação? Vamos realizar seu cadastro!",
+            text = stringResource(R.string.sub_cadastro1),
             color = Color.White,
             textAlign = TextAlign.Center,
             fontFamily = MavenPro,
             modifier = Modifier.padding(bottom = 16.dp)
         )
         Text(
-            text = "Insira algumas informações sobre você para fazermos o cadastro de sua conta!",
+            text = stringResource(R.string.sub_cadastro2),
             color = Color.White,
             textAlign = TextAlign.Center,
             fontFamily = MavenPro,
             modifier = Modifier.padding(bottom = 16.dp)
         )
-        OutlinedTextField(
+        InputText(
             value = nomeUsuario,
             onValueChange = {nomeUsuario = it},
-            label = { Text(
-                text = "Nome do Usuário",
-                fontFamily = MavenPro,
-                color = Color.White) },
-            modifier = Modifier.fillMaxWidth()
+            label = "Nome do Usuário"
         )
-        OutlinedTextField(
+        InputText(
             value = apelido,
             onValueChange = {apelido = it},
-            label = { Text(
-                text = "Apelido",
-                fontFamily = MavenPro,
-                color = Color.White) },
-            modifier = Modifier.fillMaxWidth()
+            label = "Apelido"
         )
-        OutlinedTextField(
+        InputText(
             value = email,
             onValueChange = {email = it},
-            label = { Text(
-                text = "Email",
-                fontFamily = MavenPro,
-                color = Color.White) },
-            modifier = Modifier.fillMaxWidth()
+            label = "Email"
         )
-        OutlinedTextField(
+        InputText(
             value = dataNascimento,
-            onValueChange = {dataNascimento = it},
-            label = { Text(
-                text = "Data de nascimento",
-                fontFamily = MavenPro,
-                color = Color.White)
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier.fillMaxWidth()
+            onValueChange = { dataNascimento = it },
+            label = "Data de nascimento",
         )
-        OutlinedTextField(
+        InputText(
             value = senha,
             onValueChange = {senha = it},
-            label = { Text(
-                text = "Senha",
-                fontFamily = MavenPro,
-                color = Color.White) },
-            modifier = Modifier.fillMaxWidth()
+            label = "Senha"
         )
-        OutlinedTextField(
+        InputText(
             value = confirmarSenha,
             onValueChange = {confirmarSenha = it},
-            label = { Text(
-                text = "Confirmar senha",
-                fontFamily = MavenPro,
-                color = Color.White) },
-            modifier = Modifier.fillMaxWidth()
+            label = "Confirmar senha"
         )
-        OutlinedTextField(
+        InputText(
             value = cpf,
             onValueChange = {cpf = it},
-            label = { Text(
-                text = "CPF",
-                color = Color.White) },
-            placeholder = { Text(
-                text = "123.456.789-10",
-                fontFamily = MavenPro,
-                color = Color.White) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier.fillMaxWidth()
+            label = "CPF",
         )
         Row(
             verticalAlignment = Alignment.CenterVertically,
