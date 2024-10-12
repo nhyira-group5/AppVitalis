@@ -80,7 +80,9 @@ fun CadastroProfessor(name: String, modifier: Modifier = Modifier) {
     var senha by remember { mutableStateOf("") }
     var confirmarSenha by remember { mutableStateOf("") }
     var cpf by remember { mutableStateOf("") }
-    var sexo by remember { mutableStateOf("M") }
+    var sexo by remember { mutableStateOf("") }
+    var masc by remember { mutableStateOf(false) }
+    var fem by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier
@@ -213,30 +215,36 @@ fun CadastroProfessor(name: String, modifier: Modifier = Modifier) {
             Text(
                 text = "Sexo:",
                 fontFamily = MavenPro,
-                color = Color.White)
-            RadioButton(
-                selected = true,
-                onClick = { sexo = "F" },
-                colors = RadioButtonDefaults.colors(
-                    selectedColor = Color(168, 123, 199),
-                    unselectedColor = Color.White)
+                color = Color.White
             )
-            Text(
-                text = "M",
-                fontFamily = MavenPro,
-                color = Color.White)
-            RadioButton(
-                selected = false,
-                onClick = { sexo = "M"},
-                colors = RadioButtonDefaults.colors(
-                    selectedColor = Color(168, 123, 199),
-                    unselectedColor = Color.White)
+
+            Checkbox(
+                checked = masc,
+                onCheckedChange = { checked ->
+                    masc = checked
+                    if (checked) {
+                        fem = false
+                        sexo = "M"
+                    }
+                },
+                label = "M",
+                isPersonal = true
             )
-            Text(
-                text = "F",
-                fontFamily = MavenPro,
-                color = Color.White)
+
+            Checkbox(
+                checked = fem,
+                onCheckedChange = { checked ->
+                    fem = checked
+                    if (checked) {
+                        masc = false
+                        sexo = "F"
+                    }
+                },
+                label = "F",
+                isPersonal = true
+            )
         }
+
 
         Button(
             onClick = {

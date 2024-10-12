@@ -32,6 +32,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -867,5 +869,35 @@ fun CartaoInfo(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun Checkbox(
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    label: String,
+    isPersonal: Boolean,
+    modifier: Modifier = Modifier
+) {
+    val checkboxColor = if (isPersonal) Color(168, 123, 199) else Color(72, 183, 90)
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier.padding(vertical = 8.dp)
+    ) {
+        Checkbox(
+            checked = checked,
+            onCheckedChange = onCheckedChange,
+            colors = CheckboxDefaults.colors(
+                checkedColor = checkboxColor,
+                uncheckedColor = Color.White
+            )
+        )
+        Text(
+            text = label,
+            fontFamily = MavenPro,
+            color = Color.White
+        )
     }
 }

@@ -174,38 +174,38 @@ fun SegundoPersonal(name: String, modifier: Modifier = Modifier) {
             modifier = Modifier.padding(bottom = 10.dp, top= 5.dp)
         )
         InputText(
-            value = "",
-            onValueChange = {},
+            value = cep,
+            onValueChange = {cep =it},
             label = "CEP"
         )
         InputText(
-            value = "",
-            onValueChange = {},
+            value = rua,
+            onValueChange = {rua =it},
             label = "Rua"
         )
         InputText(
-            value = "",
-            onValueChange = {},
+            value = estado,
+            onValueChange = {estado = it},
             label = "Estado"
         )
         InputText(
-            value = "",
-            onValueChange = {},
+            value = bairro,
+            onValueChange = {bairro = it},
             label = "Bairro"
         )
         InputText(
-            value = "",
-            onValueChange = {},
+            value = numero,
+            onValueChange = {numero = it},
             label = "Número"
         )
         InputText(
-            value = "",
-            onValueChange = {},
+            value = complemento,
+            onValueChange = {complemento =it},
             label = "Complemento"
         )
         InputText(
-            value = "",
-            onValueChange = {},
+            value = dataFormacao,
+            onValueChange = {dataFormacao = it},
             label = "Data de formação"
         )
 
@@ -285,7 +285,7 @@ fun EspecialidadeDropdownMenu(
         modifier = Modifier.fillMaxWidth()
     ) {
         metaOptions.forEach { option ->
-            DropdownMenuItem(onClick = {
+            DropdownMenu(onClick = {
                 onMetaChange(option)
             }) {
                 Text(

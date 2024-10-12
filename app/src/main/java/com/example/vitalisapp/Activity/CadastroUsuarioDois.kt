@@ -26,6 +26,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -76,7 +77,6 @@ fun SegundaParte(name: String, modifier: Modifier = Modifier) {
     var tontura by remember { mutableStateOf(false) }
     var problemaOsseo by remember { mutableStateOf(false) }
     var medicamento by remember { mutableStateOf(false) }
-
     val customColor = Color(72, 183, 90)
     val scrollState = rememberScrollState()
 
@@ -112,14 +112,18 @@ fun SegundaParte(name: String, modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth()
         ) {
             InputText(
-                value = peso.toString(),
-                onValueChange = { },
-                label = "Peso"
+                value = "",
+                onValueChange = {},
+                label = "Peso",
+                modifier = Modifier.weight(1f)
             )
+
             InputText(
-                value = altura.toString(),
+                value = "",
                 onValueChange = { },
-                label = "Altura (cm)")
+                label = "Altura (cm)",
+                modifier = Modifier.weight(1f)
+            )
         }
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -132,20 +136,15 @@ fun SegundaParte(name: String, modifier: Modifier = Modifier) {
         ) {
             OutlinedTextField(
                 value = meta,
-                onValueChange = { },
+                onValueChange = {},
                 readOnly = true,
-                label = { Text(
-                    text = "Meta",
-                    fontFamily = MavenPro,
-                    color = Color.White) },
+                label = { Text(text = "Meta", color = Color.White) },
                 trailingIcon = {
-                    Box(modifier = Modifier.background(Color.Gray)) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowDropDown,
-                            contentDescription = null,
-                            tint = Color.White
-                        )
-                    }
+                    Icon(
+                        imageVector = Icons.Filled.ArrowDropDown,
+                        contentDescription = null,
+                        tint = Color.White
+                    )
                 }
             )
         }
@@ -289,23 +288,24 @@ fun MetaDropdownMenu(
         modifier = Modifier.fillMaxWidth()
     ) {
         metaOptions.forEach { option ->
-            DropdownMenuItem(onClick = {
-                onMetaChange(option)
-            }) {
+            // Usando um Box para criar um item de menu personalizável
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        onMetaChange(option)
+                        onDismissRequest() // Fecha o menu após a seleção
+                    }
+                    .padding(8.dp)
+            ) {
                 Text(
                     text = option,
-                    color = Color.Black,
-                    modifier = Modifier.padding(8.dp)
+                    color = Color.Black
                 )
             }
         }
     }
 }
-
-fun DropdownMenuItem(onClick: () -> Unit, interactionSource: @Composable () -> Unit) {
-
-}
-
 @Preview(showBackground = true,showSystemUi = true)
 @Composable
 fun GreetingPreview2() {

@@ -110,7 +110,7 @@ fun CadastroCliente(name: String, navController: NavHostController, modifier: Mo
                 .padding(16.dp)
         ) {
             Text(
-                text = "Bem-vindo à nossa plataforma! Cadastra-se para acessar nossos recursos",
+                text = stringResource(R.string.cabecalho_intrutor),
                 color = Color.Black,
                 fontFamily = MavenPro,
                 modifier = Modifier
@@ -232,15 +232,8 @@ fun CadastroCliente(name: String, navController: NavHostController, modifier: Mo
                         sexo = "M"
                     }
                 },
-                colors = CheckboxDefaults.colors(
-                    checkedColor = Color(72, 183, 90),
-                    uncheckedColor = Color.White
-                )
-            )
-            Text(
-                text = "M",
-                fontFamily = MavenPro,
-                color = Color.White
+                label = "M",
+                isPersonal = false
             )
 
             Checkbox(
@@ -252,15 +245,8 @@ fun CadastroCliente(name: String, navController: NavHostController, modifier: Mo
                         sexo = "F"
                     }
                 },
-                colors = CheckboxDefaults.colors(
-                    checkedColor = Color(72, 183, 90),
-                    uncheckedColor = Color.White
-                )
-            )
-            Text(
-                text = "F",
-                fontFamily = MavenPro,
-                color = Color.White
+                label = "F",
+                isPersonal = false // Defina se é personal ou usuário
             )
         }
 
