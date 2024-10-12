@@ -110,7 +110,7 @@ fun CadastroCliente(name: String, navController: NavHostController, modifier: Mo
                 .padding(16.dp)
         ) {
             Text(
-                text = "Bem-vindo à nossa plataforma! Cadastra-se para acessar nossos recursos",
+                text = stringResource(R.string.cabecalho_intrutor),
                 color = Color.Black,
                 fontFamily = MavenPro,
                 modifier = Modifier
