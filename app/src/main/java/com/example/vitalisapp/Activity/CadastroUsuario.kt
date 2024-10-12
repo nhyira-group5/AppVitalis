@@ -21,6 +21,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
@@ -81,7 +83,9 @@ fun CadastroCliente(name: String, navController: NavHostController, modifier: Mo
     var senha by remember { mutableStateOf("") }
     var confirmarSenha by remember { mutableStateOf("") }
     var cpf by remember { mutableStateOf("") }
-    var sexo by remember { mutableStateOf("M") }
+    var sexo by remember { mutableStateOf("") }
+    var masc by remember { mutableStateOf(false) }
+    var fem by remember { mutableStateOf(false) }
     val contexto = LocalContext.current
 
     Column(
@@ -216,29 +220,48 @@ fun CadastroCliente(name: String, navController: NavHostController, modifier: Mo
             Text(
                 text = "Sexo:",
                 fontFamily = MavenPro,
-                color = Color.White)
-            RadioButton(
-                selected = true,
-                onClick = {sexo = "M" },
-                colors = RadioButtonDefaults.colors(
-                    selectedColor = Color(72, 183, 90),
-                    unselectedColor = Color.White)
+                color = Color.White
+            )
+
+            Checkbox(
+                checked = masc,
+                onCheckedChange = { checked ->
+                    masc = checked
+                    if (checked) {
+                        fem = false
+                        sexo = "M"
+                    }
+                },
+                colors = CheckboxDefaults.colors(
+                    checkedColor = Color(72, 183, 90),
+                    uncheckedColor = Color.White
+                )
             )
             Text(
                 text = "M",
                 fontFamily = MavenPro,
-                color = Color.White)
-            RadioButton(
-                selected = false,
-                onClick = { sexo = "F" },
-                colors = RadioButtonDefaults.colors(
-                    selectedColor = Color(72, 183, 90),
-                    unselectedColor = Color.White)
+                color = Color.White
+            )
+
+            Checkbox(
+                checked = fem,
+                onCheckedChange = { checked ->
+                    fem = checked
+                    if (checked) {
+                        masc = false
+                        sexo = "F"
+                    }
+                },
+                colors = CheckboxDefaults.colors(
+                    checkedColor = Color(72, 183, 90),
+                    uncheckedColor = Color.White
+                )
             )
             Text(
                 text = "F",
                 fontFamily = MavenPro,
-                color = Color.White)
+                color = Color.White
+            )
         }
 
         Button(
