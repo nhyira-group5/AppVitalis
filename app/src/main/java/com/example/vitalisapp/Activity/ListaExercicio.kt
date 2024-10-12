@@ -69,34 +69,17 @@ fun GaleriaExercicio(name: String, navController: NavHostController, modifier: M
             )
             Spacer(modifier = Modifier.height(16.dp))
 
-            ExercicioItem()
+            ExercicioItem(
+                exercicios = listOf(
+                "Agachamento", "Flexão de braço", "Abdominal", "Burpee",
+                "Prancha", "Elevação lateral", "Corrida no lugar", "Pular corda",
+                "Afundo", "Polichinelo", "Mountain climber", "Supino",
+                "Levantamento terra", "Extensão de tríceps", "Rosca bíceps"
+            ))
         }
     }
 
-    @Composable
-    fun ExercicioItem() {
-        val contexto = LocalContext.current
-        val exercicios = listOf(
-            "Agachamento", "Flexão de braço", "Abdominal", "Burpee",
-            "Prancha", "Elevação lateral", "Corrida no lugar", "Pular corda",
-            "Afundo", "Polichinelo", "Mountain climber", "Supino",
-            "Levantamento terra", "Extensão de tríceps", "Rosca bíceps"
-        )
 
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            contentPadding = PaddingValues(top = 20.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            items(exercicios) { exercicio ->
-                CardReceita(exercicio) {
-                    val detalheExercicio = Intent(contexto, DetalheExercicio::class.java)
-                    contexto.startActivity(detalheExercicio)
-                }
-            }
-        }
-    }
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable

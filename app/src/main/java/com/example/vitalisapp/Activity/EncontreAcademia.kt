@@ -42,6 +42,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -85,7 +86,7 @@ fun BuscaAcademia(name: String, navController: NavHostController, modifier: Modi
 
         item {
             Text(
-                text = "Encontre um personal",
+                text = stringResource(R.string.encontre),
                 fontSize = 32.sp,
                 fontWeight = FontWeight.SemiBold,
                 color = Color(72, 183, 90),
@@ -96,53 +97,6 @@ fun BuscaAcademia(name: String, navController: NavHostController, modifier: Modi
                 especialidade = "Emagrecimento",
                 endereco = "Itaquera"
             )
-        }
-    }
-}
-
-@Composable
-fun PersonalCard(nome: String, especialidade: String, endereco: String) {
-    Card(
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth()
-            .shadow(elevation = 4.dp, shape = RoundedCornerShape(8.dp))
-            .border(BorderStroke(1.dp, Color.Gray), shape = RoundedCornerShape(8.dp)),
-        shape = RoundedCornerShape(8.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
-
-    ) {
-        Row(
-            modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Image(
-                painter = painterResource(id = R.mipmap.usuarioperfil),
-                contentDescription = "Profile Picture",
-                modifier = Modifier
-                    .size(60.dp)
-                    .clip(CircleShape),
-                contentScale = ContentScale.Crop
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-            Column {
-                Text(
-                    text = nome,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp,
-                    color = Color(72, 183, 90)
-                )
-                Text(
-                    text = especialidade,
-                    fontSize = 14.sp,
-                    color = Color.Black
-                )
-                Text(
-                    text = endereco,
-                    fontSize = 14.sp,
-                    color = Color.Black
-                )
-            }
         }
     }
 }

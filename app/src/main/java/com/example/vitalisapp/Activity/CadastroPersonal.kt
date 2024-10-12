@@ -158,14 +158,14 @@ fun CadastroProfessor(name: String, modifier: Modifier = Modifier) {
             modifier = Modifier.padding(bottom = 25.dp)
         )
         Text(
-            text = stringResource(R.string.sub_instrutor1),
+            text = stringResource(R.string.sub_cadastro1),
             color = Color.White,
             textAlign = TextAlign.Center,
             fontFamily = MavenPro,
             modifier = Modifier.padding(bottom = 16.dp)
         )
         Text(
-            text = stringResource(R.string.sub_instrutor2),
+            text = stringResource(R.string.sub_cadastro2),
             color = Color.White,
             textAlign = TextAlign.Center,
             fontFamily = MavenPro,

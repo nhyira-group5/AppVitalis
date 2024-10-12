@@ -39,6 +39,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -159,14 +160,14 @@ fun CadastroCliente(name: String, navController: NavHostController, modifier: Mo
             modifier = Modifier.padding(bottom = 25.dp)
         )
         Text(
-            text = "Quer acessar nossa aplicação? Vamos realizar seu cadastro!",
+            text = stringResource(R.string.sub_cadastro1),
             color = Color.White,
             textAlign = TextAlign.Center,
             fontFamily = MavenPro,
             modifier = Modifier.padding(bottom = 16.dp)
         )
         Text(
-            text = "Insira algumas informações sobre você para fazermos o cadastro de sua conta!",
+            text = stringResource(R.string.sub_cadastro2),
             color = Color.White,
             textAlign = TextAlign.Center,
             fontFamily = MavenPro,
