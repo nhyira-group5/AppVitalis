@@ -25,6 +25,7 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -231,16 +232,6 @@ fun SegundoPersonal(name: String, modifier: Modifier = Modifier) {
             )
         }
 
-        EspecialidadeDropdownMenu(
-            metaOptions = espOptions,
-            metaExpanded = espExpanded,
-            onMetaChange = { selectedMeta ->
-                especialidade = selectedMeta
-                espExpanded = false
-            },
-            onDismissRequest = { espExpanded = false }
-        )
-
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
@@ -272,31 +263,6 @@ fun SegundoPersonal(name: String, modifier: Modifier = Modifier) {
     }
 }
 
-@Composable
-fun EspecialidadeDropdownMenu(
-    metaOptions: List<String>,
-    metaExpanded: Boolean,
-    onMetaChange: (String) -> Unit,
-    onDismissRequest: () -> Unit
-) {
-    DropdownMenu(
-        expanded = metaExpanded,
-        onDismissRequest = onDismissRequest,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        metaOptions.forEach { option ->
-            DropdownMenu(onClick = {
-                onMetaChange(option)
-            }) {
-                Text(
-                    text = option,
-                    color = Color.Black,
-                    modifier = Modifier.padding(8.dp)
-                )
-            }
-        }
-    }
-}
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
