@@ -284,17 +284,17 @@ fun EspecialidadeDropdownMenu(
         onDismissRequest = onDismissRequest,
         modifier = Modifier.fillMaxWidth()
     ) {
-        metaOptions.forEach { option ->
-            DropdownMenu(onClick = {
-                onMetaChange(option)
-            }) {
-                Text(
-                    text = option,
-                    color = Color.Black,
-                    modifier = Modifier.padding(8.dp)
-                )
-            }
-        }
+//        metaOptions.forEach { option ->
+//            DropdownMenu(
+//                onClick = { onMetaChange(option) }
+//            ) {
+//                Text(
+//                    text = option,
+//                    color = Color.Black,
+//                    modifier = Modifier.padding(8.dp)
+//                )
+//            }
+//        }
     }
 }
 

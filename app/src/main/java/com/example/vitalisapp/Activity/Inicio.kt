@@ -79,7 +79,6 @@ class Inicio : ComponentActivity() {
 
 @Composable
 fun Home(name: String, navController: NavHostController, modifier: Modifier = Modifier) {
-
     Column(
         modifier = Modifier
             .fillMaxSize()

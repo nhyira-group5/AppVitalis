@@ -7,7 +7,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitService {
 
 
-    var BASE_URL = "http://192.168.150.116:8080"
+    //var BASE_URL = "http://192.168.150.116:8080"
+    var BASE_URL = "http://192.168.15.9:8080"       // Lulugas
 
     fun getApiUsuario(): ApiUsuario {
         val cliente =
@@ -19,6 +20,4 @@ object RetrofitService {
 
         return cliente
     }
-
-
 }
