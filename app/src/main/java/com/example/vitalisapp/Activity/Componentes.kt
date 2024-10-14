@@ -56,6 +56,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
+import com.example.vitalisapp.Entity.Refeicao.dto.RefeicaoExibitionDto
+import com.example.vitalisapp.Entity.Treino.dto.TreinoExibitionDto
 import com.example.vitalisapp.R
 import com.example.vitalisapp.ui.theme.MavenPro
 
@@ -204,7 +207,7 @@ fun MenuPersonal(navController: NavController) {
                     modifier = Modifier
                         .size(30.dp)
                         .padding(horizontal = 4.dp)
-                        .clickable {navController.navigate("chatPersonal") }
+                        .clickable { navController.navigate("chatPersonal") }
                 )
             }
         }
@@ -368,7 +371,13 @@ fun CardConversa(
 }
 
 @Composable
-fun Atividade() {
+fun Atividade(
+    treinos: MutableList<TreinoExibitionDto>,
+    refeicoes: MutableList<RefeicaoExibitionDto>,
+    refeicoesTotaisDiaria: Int, refeicoesConcluidasDiaria: Int,
+    treinosTotaisDiaria: Int, treinosConcluidosDiaria: Int,
+    rotinasDiariasTotaisSemana: Int, rotinasDiariasConcluidasSemana: Int
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -394,22 +403,29 @@ fun Atividade() {
         ) {
             Porcentagem(
                 icone = R.mipmap.comidappreto,
-                valor = "--/10",
+                valor = "$refeicoesConcluidasDiaria/$refeicoesTotaisDiaria",
                 titulo = "Refeições"
             )
             Porcentagem(
                 icone = R.mipmap.exerciciopreto,
-                valor = "01/10",
+                valor = "$treinosConcluidosDiaria/$treinosTotaisDiaria",
                 titulo = "Exercícios"
             )
             Porcentagem(
                 icone = R.mipmap.calendario,
-                valor = "01/03",
+                valor = "$rotinasDiariasConcluidasSemana/$rotinasDiariasTotaisSemana",
                 titulo = "Meta Semanal"
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
-        CardAtividades(titulo="Título")
+        if (treinos.isEmpty() && refeicoes.isEmpty()) {
+            Text(
+                text = "Não existe uma rotina para o dia de hoje!"
+            )
+        } else {
+            refeicoes.forEach { CardAtividades(it) }
+            treinos.forEach { CardAtividades(it) }
+        }
         Spacer(modifier = Modifier.weight(1f))
     }
 }
@@ -452,9 +468,13 @@ fun Porcentagem(icone: Int, valor: String, titulo: String) {
 }
 
 @Composable
-fun CardAtividades( titulo: String) {
+fun CardAtividades(
+    treino: TreinoExibitionDto
+) {
     val contexto = LocalContext.current
-    Column {
+    val scrollState = rememberScrollState()
+
+    Column(modifier = Modifier.verticalScroll(scrollState)) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -473,9 +493,9 @@ fun CardAtividades( titulo: String) {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    Image(
-                        painter = painterResource(id = R.mipmap.tortadefrango),
-                        contentDescription = "Exercicio",
+                    AsyncImage(
+                        model = { treino.exercicio.midias.find { it.tipo == "Imagem" }!!.caminho },
+                        contentDescription = "Foto do exercício ${treino.exercicio.nome}",
                         modifier = Modifier
                             .size(60.dp)
                             .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp))
@@ -488,7 +508,7 @@ fun CardAtividades( titulo: String) {
                         color = Color(72, 183, 90)
                     )
                     Text(
-                        text = titulo,
+                        text = treino.exercicio.nome,
                         fontFamily = MavenPro,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.SemiBold,
@@ -496,8 +516,76 @@ fun CardAtividades( titulo: String) {
                     )
                 }
                 IconButton(
-                    onClick = {val detalheExercicio = Intent(contexto, DetalheExercicio::class.java)
-                        contexto.startActivity(detalheExercicio)},
+                    onClick = {
+                        val detalheExercicio = Intent(contexto, DetalheExercicio::class.java)
+                        contexto.startActivity(detalheExercicio)
+                    },
+                    modifier = Modifier.padding(end = 16.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.mipmap.seta),
+                        contentDescription = "seta",
+                        modifier = Modifier.size(34.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun CardAtividades(
+    refeicao: RefeicaoExibitionDto
+) {
+    val contexto = LocalContext.current
+    val scrollState = rememberScrollState()
+
+    Column(modifier = Modifier.verticalScroll(scrollState)) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(70.dp)
+                .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp)),
+            shape = RoundedCornerShape(16.dp)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(start = 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    AsyncImage(
+                        model = { refeicao.midias.find { it.tipo == "Imagem" }!!.caminho },
+                        contentDescription = "Foto da refeição ${refeicao.nome}",
+                        modifier = Modifier
+                            .size(60.dp)
+                            .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp))
+                    )
+                    Text(
+                        text = stringResource(R.string.exercicio),
+                        fontSize = 18.sp,
+                        fontFamily = MavenPro,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color(72, 183, 90)
+                    )
+                    Text(
+                        text = refeicao.nome,
+                        fontFamily = MavenPro,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color.Black
+                    )
+                }
+                IconButton(
+                    onClick = {
+                        val detalheExercicio = Intent(contexto, DetalheExercicio::class.java)
+                        contexto.startActivity(detalheExercicio)
+                    },
                     modifier = Modifier.padding(end = 16.dp)
                 ) {
                     Image(
@@ -705,7 +793,7 @@ fun GridReceita(receitas: List<String>) {
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(receitas) { receita ->
-            CardReceita(receita){
+            CardReceita(receita) {
                 val receita = Intent(contexto, Receita::class.java)
                 contexto.startActivity(receita)
             }
@@ -714,19 +802,25 @@ fun GridReceita(receitas: List<String>) {
 }
 
 @Composable
-fun BarraPesquisa(modifier: Modifier = Modifier,  onTextChange: (String) -> Unit) {
+fun BarraPesquisa(modifier: Modifier = Modifier, onTextChange: (String) -> Unit) {
     var searchText by remember { mutableStateOf("") }
 
     OutlinedTextField(
         value = searchText,
-        onValueChange = { searchText = it
-            onTextChange(it)},
+        onValueChange = {
+            searchText = it
+            onTextChange(it)
+        },
         modifier = modifier
             .clip(RoundedCornerShape(30.dp))
             .background(Color(255, 255, 255))
             .border(2.dp, Color(0, 0, 0), RoundedCornerShape(30.dp)),
-        placeholder = { Text(stringResource(R.string.pesquisa),
-            fontFamily = MavenPro,) },
+        placeholder = {
+            Text(
+                stringResource(R.string.pesquisa),
+                fontFamily = MavenPro,
+            )
+        },
         leadingIcon = {
             Image(
                 painter = painterResource(id = R.mipmap.lupa),
@@ -738,7 +832,7 @@ fun BarraPesquisa(modifier: Modifier = Modifier,  onTextChange: (String) -> Unit
 }
 
 @Composable
-fun DateInput(modifier: Modifier = Modifier,  onTextChange: (String) -> Unit) {
+fun DateInput(modifier: Modifier = Modifier, onTextChange: (String) -> Unit) {
     var searchDate by remember { mutableStateOf("") }
 
     Column(modifier = modifier) {
@@ -753,10 +847,12 @@ fun DateInput(modifier: Modifier = Modifier,  onTextChange: (String) -> Unit) {
         )
         OutlinedTextField(
             value = searchDate,
-            onValueChange = {searchDate = it
-                onTextChange(it)},
+            onValueChange = {
+                searchDate = it
+                onTextChange(it)
+            },
             modifier = Modifier.fillMaxWidth(),
-            placeholder = { Text("Data",fontFamily = MavenPro) },
+            placeholder = { Text("Data", fontFamily = MavenPro) },
             leadingIcon = {
                 Image(
                     painter = painterResource(id = R.mipmap.calendario),
