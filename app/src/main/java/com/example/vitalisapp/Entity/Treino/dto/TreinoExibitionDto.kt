@@ -6,11 +6,11 @@ import com.google.gson.annotations.SerializedName
 import java.time.LocalTime
 
 data class TreinoExibitionDto (
-    var idTreino: Int,
-    @SerializedName("exercicioId") var exercicio: ExercicioExibitionDto,            // Preguiça de fazer uma DTO e o Exibition já faz oq quero kkkk
-    @SerializedName("rotinaDiariaId") var rotinaDiaria: RotinaDiariaExibitionDto,   // Preguiça de fazer uma DTO e o Exibition já faz oq quero kkkk
-    var serie: Int,
-    var repeticao: Int,
-    var tempo: LocalTime,
-    var concluido: Boolean
+    val idTreino: Int,
+    @SerializedName("exercicioId") val exercicio: ExercicioExibitionDto,            // Preguiça de fazer uma DTO e o Exibition já faz oq quero kkkk
+    @SerializedName("rotinaDiariaId") val rotinaDiaria: RotinaDiariaExibitionDto,   // Preguiça de fazer uma DTO e o Exibition já faz oq quero kkkk
+    val serie: Int,
+    val repeticao: Int,
+    val tempo: LocalTime,
+    val concluido: Int
 )
