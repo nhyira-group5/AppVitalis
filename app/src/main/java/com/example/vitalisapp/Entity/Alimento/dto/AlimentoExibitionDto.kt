@@ -1,13 +1,20 @@
 package com.example.vitalisapp.Entity.Alimento.dto
 
-import com.example.vitalisapp.Entity.Midia.dto.MidiaExibitionDto
 import com.google.gson.annotations.SerializedName
 
 data class AlimentoExibitionDto (
-    @SerializedName("id_alimento") var idAlimento: Int,
-    var nome: String,
-    var carboidrato: Double,
-    var proteina: Double,
-    var gordura: Double,
-    var midias: List<MidiaExibitionDto>
+    val idAlimento: Int,
+    val nome: String,
+    val carboidrato: Double,
+    val proteina: Double,
+    val gordura: Double,
+    @SerializedName("midia") val midias: List<MidiaDto>
+)
+
+data class MidiaDto(
+    val idMidia: Int,
+    val nome: String,
+    val caminho: String,
+    val extensao: String,
+    val tipo: String
 )
