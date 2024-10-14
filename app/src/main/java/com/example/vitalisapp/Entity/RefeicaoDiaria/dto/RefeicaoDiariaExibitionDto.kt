@@ -14,7 +14,7 @@ data class RefeicaoDto (
     val idRefeicao: Int,
     val nome: String,
     val preparo: String,
-    @SerializedName("midia") val midias: List<Midia>
+    @SerializedName("midia") val midias: MutableList<Midia>
 )
 
 data class RefeicaoDiariaDto (

@@ -13,10 +13,10 @@ interface ApiRotinaSemanal {
     suspend fun showById (@Path("id") id: Int): Response<RotinaSemanalExibitionDto>
 
     @GET("/rotinaSemanais/buscarUsuario/{id}")
-    suspend fun showByUserId (@Path("id") id: Int): Response<List<RotinaSemanalExibitionDto>>
+    suspend fun showByUserId (@Path("id") id: Int): Response<MutableList<RotinaSemanalExibitionDto>>
 
     @GET("/rotinaSemanais/dias-treinados/{idRotinaSemanal}")
-    suspend fun showByRotinaSemanalId (@Path("idRotinaSemanal") idRotinaSemanal: Int): Response<Int>
+    suspend fun showCompletedDailyRoutinesByRotinaSemanalId (@Path("idRotinaSemanal") idRotinaSemanal: Int): Response<Int>
 
     @PATCH("/rotinaSemanais/concluir/{id}")
     suspend fun setComplete (@Path("id") id: Int, @Query("concluir") concluido: Int): Response<RotinaSemanalExibitionDto>

@@ -6,8 +6,8 @@ data class ExercicioExibitionDto (
     val idExercicio: Int,
     val nome: String,
     val descricao: String,
-    @SerializedName("idMidia") val midias: List<MidiaDto>,
-    @SerializedName("TagExerciciosDtos") val tags: List<TagDto>
+    @SerializedName("idMidia") val midias: MutableList<MidiaDto>,
+    @SerializedName("TagExerciciosDtos") val tags: MutableList<TagDto>
 )
 
 data class MidiaDto(

@@ -8,7 +8,7 @@ data class AlimentoExibitionDto (
     val carboidrato: Double,
     val proteina: Double,
     val gordura: Double,
-    @SerializedName("midia") val midias: List<MidiaDto>
+    @SerializedName("midia") val midias: MutableList<MidiaDto>
 )
 
 data class MidiaDto(

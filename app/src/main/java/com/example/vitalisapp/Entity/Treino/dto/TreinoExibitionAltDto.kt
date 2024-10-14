@@ -13,7 +13,7 @@ data class TreinoExibitionAltDto(
     val tempo: LocalTime,
     val concluido: Integer,
     val rotinaDiaria: RotinaDiariaDto,
-    @SerializedName("midia") val midias: List<MidiaDto>
+    @SerializedName("midia") val midias: MutableList<MidiaDto>
 )
 
 data class MidiaDto(

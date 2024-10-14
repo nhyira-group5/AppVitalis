@@ -11,17 +11,17 @@ interface ApiRefeicao {
     suspend fun showById (@Path("id") id: Int): Response<RefeicaoExibitionDto>
 
     @GET("/refeicoes")
-    suspend fun showAll (): Response<List<RefeicaoExibitionDto>>
+    suspend fun showAll (): Response<MutableList<RefeicaoExibitionDto>>
 
     @GET("/refeicoes/por-meta/{idMeta}")
-    suspend fun showByMetaId (@Path("idMeta") idMeta: Int): Response<List<RefeicaoExibitionDto>>
+    suspend fun showByMetaId (@Path("idMeta") idMeta: Int): Response<MutableList<RefeicaoExibitionDto>>
 
     @GET("/refeicoes/por-dieta/{idDieta}")
-    suspend fun showByDietaId (@Path("idDieta") idDieta: Int): Response<List<RefeicaoExibitionDto>>
+    suspend fun showByDietaId (@Path("idDieta") idDieta: Int): Response<MutableList<RefeicaoExibitionDto>>
 
     @GET("/refeicoes/filtro/nome")
-    suspend fun showByNome (@Query("nome") nome: String): Response<List<RefeicaoExibitionDto>>
+    suspend fun showByNome (@Query("nome") nome: String): Response<MutableList<RefeicaoExibitionDto>>
 
     @GET("/refeicoes/por-semana/{idRotinaSemanal}")
-    suspend fun showByRotinaSemanalId (@Path("idRotinaSemanal") idRotinaSemanal: Int): Response<List<RefeicaoExibitionDto>>
+    suspend fun showByRotinaSemanalId (@Path("idRotinaSemanal") idRotinaSemanal: Int): Response<MutableList<RefeicaoExibitionDto>>
 }

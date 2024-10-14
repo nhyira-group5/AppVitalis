@@ -144,7 +144,7 @@ fun LoginCliente(name: String, navController: NavHostController, modifier: Modif
                 }
             }
         }
-        composable("home") { Home(name = name, navController) }
+        composable("home") { Home(navController) }
         composable("cadastro") { CadastroCliente(name = name, navController) }
         composable("perfil") { PerfilUsuario(name = name, navController) }
         composable("perfilPersonal") { PerfilPersonal(name = name, navController) }

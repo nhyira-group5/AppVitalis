@@ -7,8 +7,8 @@ data class RefeicaoExibitionDto (
     val idRefeicao: Int,
     val nome: String,
     val preparo: String,
-    @SerializedName("midia") val midias: List<MidiaDto>,
-    @SerializedName("alimentoPorRefeicao") val alimentos: List<AlimentoPorRefeicaoDto>
+    @SerializedName("midia") val midias: MutableList<MidiaDto>,
+    @SerializedName("alimentoPorRefeicao") val alimentos: MutableList<AlimentoPorRefeicaoDto>
 )
 
 data class AlimentoPorRefeicaoDto (
@@ -32,5 +32,5 @@ data class AlimentoDto (
     val carboidrato: Double,
     val proteina: Double,
     val gordura: Double,
-    val midia: List<MidiaDto>,
+    val midia: MutableList<MidiaDto>,
 )

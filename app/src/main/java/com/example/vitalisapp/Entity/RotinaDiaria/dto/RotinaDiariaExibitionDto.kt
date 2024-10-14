@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class RotinaDiariaExibitionDto(
     val idRotinaDiaria: Int,
     @SerializedName("rotinaSemanalId") val rotinaSemanal: RotinaSemanalDto,
-    @SerializedName("refeicaoDiariaDtos") val refeicaoDiaria: List<RefeicaoDiariaDto>,
+    @SerializedName("refeicaoDiariaDtos") val refeicaoDiaria: MutableList<RefeicaoDiariaDto>,
     val dia: Int,
     val concluido: Int,
     val totalExercicios: Int,
