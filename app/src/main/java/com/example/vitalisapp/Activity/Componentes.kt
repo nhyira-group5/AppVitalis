@@ -901,3 +901,243 @@ fun Checkbox(
         )
     }
 }
+
+@Composable
+fun CurrentPlanCard(onClick: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .padding(top = 50.dp)
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(24.dp)
+    ) {
+        Row(
+            modifier = Modifier.padding(20.dp),
+            horizontalArrangement = Arrangement.spacedBy(20.dp)
+        ) {
+            Column {
+                Text(
+                    text = stringResource(R.string.gratuito),
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    color =  Color(72, 183, 90),
+                )
+                Text(
+                    text = stringResource(R.string.beneficios),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    modifier = Modifier.padding(top = 32.dp)
+                )
+                Row {
+                    Image(
+                        painter = painterResource(id = R.mipmap.check),
+                        contentDescription = "check",
+                        modifier = Modifier
+                            .size(30.dp)
+                            .align(Alignment.CenterVertically)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = stringResource(R.string.objetivo) ,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium,
+                        modifier = Modifier.padding(top = 20.dp)
+                    )
+                }
+                Row {
+                    Image(
+                        painter = painterResource(id = R.mipmap.check),
+                        contentDescription = "check",
+                        modifier = Modifier
+                            .size(30.dp)
+                            .align(Alignment.CenterVertically)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = stringResource(R.string.mural_avanco),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium,
+                        modifier = Modifier.padding(top = 20.dp)
+                    )
+                }
+
+                Row {
+                    Image(
+                        painter = painterResource(id = R.mipmap.check),
+                        contentDescription = "check",
+                        modifier = Modifier
+                            .size(30.dp)
+                            .align(Alignment.CenterVertically)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = stringResource(R.string.rotina),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium,
+                        modifier = Modifier.padding(top = 20.dp)
+                    )
+                }
+
+                Row {
+                    Image(
+                        painter = painterResource(id = R.mipmap.check),
+                        contentDescription = "check",
+                        modifier = Modifier
+                            .size(30.dp)
+                            .align(Alignment.CenterVertically)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = stringResource(R.string.alimentacao),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium,
+                        modifier = Modifier.padding(top = 20.dp)
+                    )
+                }
+                Row {
+                    Image(
+                        painter = painterResource(id = R.mipmap.check),
+                        contentDescription = "check",
+                        modifier = Modifier
+                            .size(30.dp)
+                            .align(Alignment.CenterVertically)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = stringResource(R.string.personais),
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium,
+                        modifier = Modifier.padding(top = 20.dp)
+                    )
+                }
+
+                Button(
+                    onClick = { },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 40.dp)
+                        .height(56.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(72, 183, 90)
+                    )) {
+                    Text(
+                        text = stringResource(R.string.satisfeito),
+                        color = Color.White,
+                        fontSize = 16.sp
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun VivaPlanCard(onClick: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .padding(top = 28.dp)
+            .fillMaxWidth(),
+        shape = RoundedCornerShape(24.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(32.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = stringResource(R.string.plano),
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                color =  Color(72, 183, 90),
+            )
+            Text(
+                text = stringResource(R.string.e_mais),
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Medium,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(top = 36.dp)
+            )
+            Row {
+                Image(
+                    painter = painterResource(id = R.mipmap.check),
+                    contentDescription = "check",
+                    modifier = Modifier
+                        .size(30.dp)
+                        .align(Alignment.CenterVertically)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = stringResource(R.string.chat),
+                    fontSize = 18.sp,
+                    modifier = Modifier.padding(top = 32.dp)
+                )
+            }
+
+            Row {
+                Image(
+                    painter = painterResource(id = R.mipmap.check),
+                    contentDescription = "check",
+                    modifier = Modifier
+                        .size(30.dp)
+                        .align(Alignment.CenterVertically)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = stringResource(R.string.acompanhamento),
+                    fontSize = 18.sp,
+                    modifier = Modifier.padding(top = 32.dp)
+                )
+            }
+
+
+            Row(
+                modifier = Modifier.padding(top = 48.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = stringResource(R.string.por),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color =  Color(72, 183, 90),
+                )
+                Text(
+                    text = stringResource(R.string.valor),
+                    fontSize = 40.sp,
+                    fontWeight = FontWeight.Bold,
+                    color =  Color(72, 183, 90),
+                    modifier = Modifier.padding(start = 12.dp)
+                )
+            }
+            Text(
+                text = stringResource(R.string.mes),
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color =  Color(72, 183, 90),
+                modifier = Modifier.padding(top = 16.dp)
+            )
+            Button(
+                onClick = { },
+                modifier = Modifier
+                    .padding(top = 36.dp)
+                    .width(277.dp)
+                    .height(72.dp),
+                shape = RoundedCornerShape(24.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(72, 183, 90)
+                )
+            ) {
+                Text(
+                    text = stringResource(R.string.adquirir),
+                    color = Color.White,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+            Text(
+                text = stringResource(R.string.cancelamento),
+                fontSize = 12.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(top = 24.dp)
+            )
+        }
+    }
+}
