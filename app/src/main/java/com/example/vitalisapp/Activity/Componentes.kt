@@ -57,8 +57,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.vitalisapp.Entity.Refeicao.dto.RefeicaoExibitionDto
-import com.example.vitalisapp.Entity.Treino.dto.TreinoExibitionDto
+import com.example.vitalisapp.DTO.Refeicao.RefeicaoExibitionDto
+import com.example.vitalisapp.DTO.Treino.TreinoExibitionDto
 import com.example.vitalisapp.R
 import com.example.vitalisapp.ui.theme.MavenPro
 

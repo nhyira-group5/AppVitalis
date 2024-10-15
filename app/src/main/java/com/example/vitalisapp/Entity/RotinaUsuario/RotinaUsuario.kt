@@ -1,6 +1,6 @@
 package com.example.vitalisapp.Entity.RotinaUsuario
 
-import com.example.vitalisapp.Entity.Meta.dto.MetaExibitionDto
+import com.example.vitalisapp.DTO.Meta.MetaExibitionDto
 import com.example.vitalisapp.Entity.Usuario.Usuario
 import com.google.gson.annotations.SerializedName
 

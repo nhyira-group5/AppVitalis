@@ -1,8 +1,8 @@
 package com.example.vitalisapp.Interface
 
-import com.example.vitalisapp.Entity.Treino.dto.TreinoExibitionAltDto
-import com.example.vitalisapp.Entity.Treino.dto.TreinoExibitionDto
-import com.example.vitalisapp.Entity.Treino.dto.TreinoRelatorioDto
+import com.example.vitalisapp.DTO.Treino.TreinoExibitionAltDto
+import com.example.vitalisapp.DTO.Treino.TreinoExibitionDto
+import com.example.vitalisapp.DTO.Treino.TreinoRelatorioDto
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.PATCH

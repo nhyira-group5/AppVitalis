@@ -1,6 +1,6 @@
 package com.example.vitalisapp.Interface
 
-import com.example.vitalisapp.Entity.Refeicao.dto.RefeicaoExibitionDto
+import com.example.vitalisapp.DTO.Refeicao.RefeicaoExibitionDto
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path

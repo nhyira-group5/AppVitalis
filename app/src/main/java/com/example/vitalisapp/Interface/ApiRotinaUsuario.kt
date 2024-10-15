@@ -1,7 +1,7 @@
 package com.example.vitalisapp.Interface
 
-import com.example.vitalisapp.Entity.RotinaUsuario.dto.RotinaUsuarioCreateEditDto
-import com.example.vitalisapp.Entity.RotinaUsuario.dto.RotinaUsuarioExibitionDto
+import com.example.vitalisapp.DTO.RotinaUsuario.RotinaUsuarioCreateEditDto
+import com.example.vitalisapp.DTO.RotinaUsuario.RotinaUsuarioExibitionDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET

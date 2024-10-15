@@ -1,6 +1,6 @@
 package com.example.vitalisapp.Interface
 
-import com.example.vitalisapp.Entity.RotinaSemanal.dto.RotinaSemanalExibitionDto
+import com.example.vitalisapp.DTO.RotinaSemanal.RotinaSemanalExibitionDto
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.PATCH
