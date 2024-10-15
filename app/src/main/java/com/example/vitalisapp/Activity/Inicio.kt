@@ -5,14 +5,19 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -55,6 +60,8 @@ fun Home(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
+    var isLoading = remember { mutableStateOf(true) }
+
     // Pegando o atribuito EXPOSTO da View
     val rotinaUsuario by viewModel.rotinaUsuario.collectAsState()
     val rotinaMensal by viewModel.rotinaMensal.collectAsState()
@@ -71,44 +78,78 @@ fun Home(
 
     val nomeLogin = "Poliana" // Pegar o valor buscado da tela de login e jogar aqui
 
-//   viewModel.getUserRoutineByUserId(1)                 // Passar ID buscado no login
-//   viewModel.getMonthRoutineByUserIdAndMonth(1)        // Passar ID buscado no login
-//   viewModel.getActualWeekRoutine(1)                   // Passar ID buscado no login
-//   viewModel.getDailyRoutine(rotinaSemanal!!.idRotinaSemanal)
-//   viewModel.getTrainingsFromDailyRoutine(rotinaDiaria!!.idRotinaDiaria)
-//   viewModel.getMealsFromDailyRoutine(rotinaDiaria!!)
-//   viewModel.getQuantityCompletedMealsForDay(rotinaDiaria)
-//   viewModel.getQuantityMealsForDay(rotinaDiaria)
-//   viewModel.getQuantityCompletedTrainingsForDay(treinosDiarios)
-//   viewModel.getQuantityTrainingsForDay(treinosDiarios)
-//   viewModel.getQuantityCompletedDailyRoutinesForWeek(rotinaSemanal!!.idRotinaSemanal)
-//   viewModel.getQuantityCompletedDailyRoutinesForWeek(rotinaSemanal!!.idRotinaSemanal)
+    /// Quando carrega a tela, faz essas func
+    LaunchedEffect(Unit) {
+        viewModel.getUserRoutineByUserId(1)                 // Passar ID buscado no login
+        viewModel.getMonthRoutineByUserIdAndMonth(1)        // Passar ID buscado no login
+        viewModel.getWeekRoutine(1)                          // Passar ID buscado no login
+        viewModel.getDailyRoutine(rotinaSemanal!!.idRotinaSemanal)
+        viewModel.getTrainingsFromDailyRoutine(rotinaDiaria!!.idRotinaDiaria)
+//        viewModel.getMealsFromDailyRoutine(rotinaDiaria!!)
+//        viewModel.getQuantityCompletedMealsForDay(rotinaDiaria)
+//        viewModel.getQuantityMealsForDay(rotinaDiaria)
+//        viewModel.getQuantityCompletedTrainingsForDay(treinosDiarios)
+//        viewModel.getQuantityTrainingsForDay(treinosDiarios)
+//        viewModel.getQuantityCompletedDailyRoutinesForWeek(rotinaSemanal!!.idRotinaSemanal)
+//        viewModel.getQuantityCompletedDailyRoutinesForWeek(rotinaSemanal!!.idRotinaSemanal)
 
+        isLoading.value = false  // Diz que carregou td
+    }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Menu(navController)
-        Text(
-            text = stringResource(R.string.Bem_vindo, nomeLogin),
-            fontFamily = MavenPro,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black,
+    if (isLoading.value) {      // Carregou? Então carrega o conteudo
+        LoadingScreen()         // Pode fazer uma tela de carregamento
+    } else {
+        Column(
             modifier = Modifier
-                .padding(bottom = 5.dp)
-                .align(Alignment.CenterHorizontally)
-        )
-        Atividade(
-            treinosDiarios,
-            refeicoesDiarias,
-            refeicoesTotaisDiaria, refeicoesConcluidasDiaria,
-            treinosTotaisDiaria, treinosConcluidosDiaria,
-            rotinasDiariasTotaisSemana, rotinasDiariasConcluidasSemana
-        )
+                .fillMaxSize()
+                .padding(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Menu(navController)
+            Text(
+                text = stringResource(R.string.Bem_vindo, nomeLogin),
+                fontFamily = MavenPro,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black,
+                modifier = Modifier
+                    .padding(bottom = 5.dp)
+                    .align(Alignment.CenterHorizontally)
+            )
+
+//            if (rotinaUsuario != null) Text(text = "rotina usuario foi")
+//            if (rotinaMensal != null) Text(text = "rotina mensal foi")
+//            if (rotinaSemanal != null) Text(text = "rotina semanal foi: $rotinaSemanal")
+            if (treinosDiarios.isNotEmpty()) Text(text = "treinos foi: $treinosDiarios")
+            //if (refeicoesDiarias.isNotEmpty()) Text(text = "treinos foi: $refeicoesDiarias")
+//
+//        Button(onClick = { viewModel.getDailyRoutine(rotinaSemanal!!.idRotinaSemanal) }) {
+//            Text(text = "gerar rotina diaria")
+//        }
+//        Text(
+//            text = "$rotinaDiaria"
+//        )
+
+            Atividade(
+                treinosDiarios,
+                refeicoesDiarias,
+                refeicoesTotaisDiaria, refeicoesConcluidasDiaria,
+                treinosTotaisDiaria, treinosConcluidosDiaria,
+                rotinasDiariasTotaisSemana, rotinasDiariasConcluidasSemana
+            )
+        }
+    }
+}
+
+// Teste tela de carregamento
+@Composable
+fun LoadingScreen() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(text = "Carregando...", fontSize = 24.sp)
     }
 }
 

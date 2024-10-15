@@ -9,15 +9,18 @@ import retrofit2.http.Query
 
 interface ApiRotinaSemanal {
 
-    @GET("/rotinaSemanais/{id}")
+    @GET("/rotinaSemanais/{id}")    // rotinaSemanais
     suspend fun showById (@Path("id") id: Int): Response<RotinaSemanalExibitionDto>
 
-    @GET("/rotinaSemanais/buscarUsuario/{id}")
-    suspend fun showByUserId (@Path("id") id: Int): Response<MutableList<RotinaSemanalExibitionDto>>
+    @GET("/rotinaSemanais/por-usuario/{idUsuario}")  // idUsuario
+    suspend fun showByUserId (@Path("idUsuario") idUsuario: Int): Response<MutableList<RotinaSemanalExibitionDto>>
 
-    @GET("/rotinaSemanais/dias-treinados/{idRotinaSemanal}")
+    @GET("/rotinaSemanais/semana-atual/{idUsuario}")  // idUsuario
+    suspend fun showCurrentWeekRoutineByUserId (@Path("idUsuario") idUsuario: Int): Response<RotinaSemanalExibitionDto>
+
+    @GET("/rotinaSemanais/dias-treinados/{idRotinaSemanal}")    // idRotinaSemanal
     suspend fun showCompletedDailyRoutinesByRotinaSemanalId (@Path("idRotinaSemanal") idRotinaSemanal: Int): Response<Int>
 
-    @PATCH("/rotinaSemanais/concluir/{id}")
+    @PATCH("/rotinaSemanais/concluir/{id}") // idRotinaSemanal
     suspend fun setComplete (@Path("id") id: Int, @Query("concluir") concluido: Int): Response<RotinaSemanalExibitionDto>
 }

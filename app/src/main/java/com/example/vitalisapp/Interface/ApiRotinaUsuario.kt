@@ -12,6 +12,6 @@ interface ApiRotinaUsuario {
     @POST("/rotinaUsuarios")
     suspend fun create(@Body rotinaUsuarioDto: RotinaUsuarioCreateEditDto): Response<RotinaUsuarioExibitionDto>
 
-    @GET("/rotinaUsuarios/{id}")
-    suspend fun showByUserId(@Path("id") idUsuario: Int): Response<RotinaUsuarioExibitionDto>
+    @GET("/rotinaUsuarios/{id}")    // idUsuario
+    suspend fun showByUserId(@Path("id") id: Int): Response<RotinaUsuarioExibitionDto>
 }
