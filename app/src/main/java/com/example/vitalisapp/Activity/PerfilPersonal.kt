@@ -78,45 +78,15 @@ fun PerfilPersonal(name: String, navController: NavHostController, modifier: Mod
             especialidade = "emagrecimento",
             graduacao = "31/12/2022"
         )
-        CartaoInfoEndereco()
-    }
-}
-
-@Composable
-fun CartaoInfoEndereco() {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 48.dp, start = 16.dp, end = 16.dp),
-        shape = RoundedCornerShape(24.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
-    ) {
-        Column(
-            modifier = Modifier.padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = stringResource(R.string.info_end),
-                fontFamily = MavenPro,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = Color(134, 86, 169),
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 32.dp)
-            ) {
-                ItemInfo("CEP:", "08451-050")
-                ItemInfo("Logradouro:", "Rua serra das araras")
-                ItemInfo("Número:", "123")
-                ItemInfo("Bairro:", "Vila Yolanda (Lageado)")
-                ItemInfo("Cidade:", "São Paulo")
-                ItemInfo("Estado", "SP")
-            }
-        }
+        CardInfo(
+            tipo = "personal",
+            cep = "08451-050",
+            logradouro = "Rua serra das araras",
+            numero = "123",
+            bairro = "Vila Yolanda (Lageado)",
+            cidade = "São Paulo",
+            estado = "SP"
+        )
     }
 }
 

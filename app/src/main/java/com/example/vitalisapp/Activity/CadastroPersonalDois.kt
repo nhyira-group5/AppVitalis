@@ -32,6 +32,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -43,6 +44,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -79,9 +81,8 @@ fun SegundoPersonal(name: String, modifier: Modifier = Modifier) {
     var complemento by remember { mutableStateOf("") }
     var dataFormacao by remember { mutableStateOf("") }
     var especialidade by remember { mutableStateOf("") }
-    var espExpanded by remember { mutableStateOf(false) }
-    val espOptions = listOf("Musculação", "Yoga", "Pilates", "Crossfit")
-
+    var expandido by remember { mutableStateOf(false) }
+    val especialidades = listOf("Emagrecimento", "Ganho de Massa", "Flexibilidade")
     val contexto = LocalContext.current
 
     Column(
@@ -106,7 +107,7 @@ fun SegundoPersonal(name: String, modifier: Modifier = Modifier) {
                 .padding(16.dp)
         ) {
             Text(
-                text = "Bem-vindo à nossa plataforma! Cadastre-se para acessar recursos e trabalhar conosco.",
+                text = stringResource(R.string.cadastre),
                 color = Color.Black,
                 fontFamily = MavenPro,
                 modifier = Modifier
@@ -126,7 +127,7 @@ fun SegundoPersonal(name: String, modifier: Modifier = Modifier) {
             )
 
             Text(
-                text = "É um Instrutor?",
+                text = stringResource(R.string.instrutor),
                 color = Color.Black,
                 fontFamily = MavenPro,
                 modifier = Modifier
@@ -144,7 +145,7 @@ fun SegundoPersonal(name: String, modifier: Modifier = Modifier) {
                     .padding(end = 16.dp, bottom = 16.dp)
             ) {
                 Text(
-                    text = "Sou um aluno",
+                    text = stringResource(R.string.aluno),
                     fontFamily = MavenPro,
                     color = Color.White)
 
@@ -152,7 +153,7 @@ fun SegundoPersonal(name: String, modifier: Modifier = Modifier) {
         }
 
         Text(
-            text = "Cadastro - Endereço",
+            text = stringResource(R.string.endereco),
             color = Color(168, 123, 199),
             fontSize = 35.sp,
             fontFamily = MavenPro,
@@ -160,15 +161,14 @@ fun SegundoPersonal(name: String, modifier: Modifier = Modifier) {
             modifier = Modifier.padding(bottom = 25.dp)
         )
         Text(
-            text = "Muito bem! Você está quase lá! Só mais alguns passos...",
+            text = stringResource(R.string.quase_la),
             color = Color.White,
             textAlign = TextAlign.Center,
             fontFamily = MavenPro,
             modifier = Modifier.padding(bottom = 10.dp)
         )
         Text(
-            text = "\n" +
-                    "Agora insira algumas informações sobre a localização da academia aonde você trabalha.",
+            text = stringResource(R.string.informacoes),
             color = Color.White,
             textAlign = TextAlign.Center,
             fontFamily = MavenPro,
@@ -210,59 +210,70 @@ fun SegundoPersonal(name: String, modifier: Modifier = Modifier) {
             label = "Data de formação"
         )
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { espExpanded = true }
-                .padding(8.dp)
-        ) {
+        Box(modifier = Modifier.fillMaxWidth()) {
             OutlinedTextField(
                 value = especialidade,
-                onValueChange = { },
+                onValueChange = { especialidade = it },
                 readOnly = true,
-                label = { Text(text = "Especialidade", fontFamily = MavenPro, color = Color.White) },
+                label = { Text("Especialidade") },
                 trailingIcon = {
                     Icon(
                         imageVector = Icons.Filled.ArrowDropDown,
                         contentDescription = null,
-                        tint = Color.White
+                        modifier = Modifier.clickable { expandido = !expandido }
                     )
                 },
                 modifier = Modifier.fillMaxWidth()
             )
+
+            DropdownMenu(
+                expanded = expandido,
+                onDismissRequest = { expandido = false }
+            ) {
+                especialidades.forEach { especialidadeItem ->
+                    DropdownMenuItem(
+                        text = { Text(text = especialidadeItem) },
+                        onClick = {
+                            especialidade = especialidadeItem
+                            expandido = false
+                        }
+                    )
+                }
+            }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
-            onClick = {val cadastroPersonal = Intent(contexto, CadastroPersonal::class.java)
-                contexto.startActivity(cadastroPersonal)},
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Red
-            )
+            onClick = {
+                val cadastroPersonal = Intent(contexto, CadastroPersonal::class.java)
+                contexto.startActivity(cadastroPersonal)
+            },
+            colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
         ) {
             Text(
                 text = "Corrigir dados",
                 fontFamily = MavenPro,
-                color = Color.White)
+                color = Color.White
+            )
         }
+
         Button(
             onClick = {
                 val login = Intent(contexto, Login::class.java)
-                contexto.startActivity(login)},
+                contexto.startActivity(login)
+            },
             modifier = Modifier,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(168, 123, 199)
-            )
+            colors = ButtonDefaults.buttonColors(containerColor = Color(168, 123, 199))
         ) {
             Text(
                 text = "Criar conta",
                 fontFamily = MavenPro,
-                color = Color.White)
+                color = Color.White
+            )
         }
     }
 }
-
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable

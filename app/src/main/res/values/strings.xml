@@ -28,6 +28,11 @@
     <string name="cadastro_instrutor">Cadastro Instrutor</string>
     <string name="sub_cadastro1">Quer acessar nossa aplicação? Vamos realizar seu cadastro! </string>
     <string name="sub_cadastro2">Insira algumas informações sobre você para fazermos o cadastro de sua conta! </string>
+    <string name="cadastre">Bem-vindo à nossa plataforma! Cadastre-se para acessar recursos e trabalhar conosco. </string>
+    <string name="aluno">Sou aluno</string>
+    <string name="endereco">Cadastro - Endereço</string>
+    <string name="quase_la">Muito bem! Você está quase lá! Só mais alguns passos...</string>
+    <string name="informacoes">Agora insira algumas informações sobre a localização da academia aonde você trabalha.</string>
 
 
     <string name="Bem_vindo">Bem vindo(a), %s</string>
@@ -42,6 +47,13 @@
     <string name="sub_mural">Poste aqui sua evolução durante a sua jornada para uma vida mais saudável!</string>
     <string name="mural">Mural de evolução</string>
     <string name="info_pessoal">Informações Pessoais</string>
+    <string name="fumante">Fumante</string>
+    <string name="alcoolatra">Alcoólatra</string>
+    <string name="deficiente">Deficiente</string>
+    <string name="problemas_cardiacos">Problemas Cardíacos</string>
+    <string name="peso">Peso: </string>
+    <string name="altura">Altura: </string>
+    <string name="meta">Meta: </string>
     <string name="info_tecnica">Informações Técnicas</string>
     <string name="info_end">Informações de Endereço</string>
 
@@ -70,5 +82,15 @@
     <string name="mes">por mês</string>
     <string name="adquirir">Adquirir Plano</string>
     <string name="cancelamento">O plano pode ser cancelado a qualquer momento em nossa plataforma</string>
+
+    <string name="afiliado">Personal Afiliado</string>
+    <string name="pago">Este é um recurso PAGO!</string>
+    <string name="acesso">Para acessá-lo, é necessário participar do plano premium. Contribua para sua experiência premium como usuário e se mantenha melhor do que nunca!!</string>
+    <string name="premium">Ser Premium</string>
+    <string name="nome">Nome: </string>
+    <string name="email">Email: </string>
+    <string name="validade">Validade: </string>
+    <string name="user">Nickname: </string>
+    <string name="especialidade">Especialidade: </string>
 
 </resources>

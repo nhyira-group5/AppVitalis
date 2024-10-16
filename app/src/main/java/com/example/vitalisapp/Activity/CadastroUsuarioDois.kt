@@ -73,7 +73,7 @@ fun SegundaParte(name: String, modifier: Modifier = Modifier) {
     var altura by remember { mutableStateOf(TextFieldValue("")) }
     var meta by remember { mutableStateOf("") }
     var metaExpanded by remember { mutableStateOf(false) }
-    val metaOptions = listOf("Perder peso", "Ganho de Massa", "Flexibilidade")
+    val metaOptions = listOf("Emagracimento", "Ganho de Massa", "Flexibilidade")
     var problemaCoracao by remember { mutableStateOf(false) }
     var dorPeito by remember { mutableStateOf(false) }
     var tontura by remember { mutableStateOf(false) }
@@ -133,33 +133,42 @@ fun SegundaParte(name: String, modifier: Modifier = Modifier) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { metaExpanded = true }
                 .padding(8.dp)
         ) {
-            OutlinedTextField(
-                value = meta,
-                onValueChange = {},
-                readOnly = true,
-                label = { Text(text = "Meta", color = Color.White) },
-                trailingIcon = {
-                    Icon(
-                        imageVector = Icons.Filled.ArrowDropDown,
-                        contentDescription = null,
-                        tint = Color.White
-                    )
-                }
-            )
-        }
+            Column {
+                OutlinedTextField(
+                    value = meta,
+                    onValueChange = {meta = it},
+                    readOnly = true,
+                    label = { Text(text = "Meta") },
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowDropDown,
+                            contentDescription = null,
+                            modifier = Modifier.clickable { metaExpanded = !metaExpanded }
+                        )
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
 
-        MetaDropdownMenu(
-            metaOptions = metaOptions,
-            metaExpanded = metaExpanded,
-            onMetaChange = { selectedMeta ->
-                meta = selectedMeta
-                metaExpanded = false
-            },
-            onDismissRequest = { metaExpanded = false }
-        )
+                DropdownMenu(
+                    expanded = metaExpanded,
+                    onDismissRequest = { metaExpanded = false },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    metaOptions.forEach { metaOption ->
+                        DropdownMenuItem(
+                            text = { Text(text = metaOption) },
+                            onClick = {
+                                meta = metaOption
+                                metaExpanded = false
+                            }
+                        )
+                    }
+                }
+            }
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -262,37 +271,6 @@ fun SegundaParte(name: String, modifier: Modifier = Modifier) {
     }
 }
 
-@Composable
-fun MetaDropdownMenu(
-    metaOptions: List<String>,
-    metaExpanded: Boolean,
-    onMetaChange: (String) -> Unit,
-    onDismissRequest: () -> Unit
-) {
-    DropdownMenu(
-        expanded = metaExpanded,
-        onDismissRequest = onDismissRequest,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        metaOptions.forEach { option ->
-            // Usando um Box para criar um item de menu personalizável
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable {
-                        onMetaChange(option)
-                        onDismissRequest() // Fecha o menu após a seleção
-                    }
-                    .padding(8.dp)
-            ) {
-                Text(
-                    text = option,
-                    color = Color.Black
-                )
-            }
-        }
-    }
-}
 @Preview(showBackground = true,showSystemUi = true)
 @Composable
 fun GreetingPreview2() {
