@@ -71,6 +71,18 @@ import com.example.vitalisapp.DTO.Treino.TreinoExibitionDto
 import com.example.vitalisapp.R
 import com.example.vitalisapp.ui.theme.MavenPro
 
+// Teste tela de carregamento
+@Composable
+fun LoadingScreen() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(text = "Carregando...", fontSize = 24.sp)
+    }
+}
+
 @Composable
 fun Menu(navController: NavController) {
     var expanded by remember { mutableStateOf(false) }
@@ -455,8 +467,8 @@ fun Porcentagem(icone: Int, valor: String, titulo: String) {
         modifier = Modifier
             .padding(4.dp)
             .size(90.dp)
-            .background(Color.White, shape = RoundedCornerShape(16.dp))
-            .shadow(elevation = 2.dp, shape = RoundedCornerShape(16.dp)),
+            .background(Color.White, shape = RoundedCornerShape(16.dp)),
+            //.shadow(elevation = 2.dp, shape = RoundedCornerShape(16.dp)),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -510,26 +522,34 @@ fun CardAtividades(
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     AsyncImage(
-                        model = { treino.exercicio.midias.find { it.tipo == "Imagem" }!!.caminho },
+                        model = treino.exercicio.midias.find { it.tipo == "Imagem" }!!.caminho ,
                         contentDescription = "Foto do exercício ${treino.exercicio.nome}",
                         modifier = Modifier
                             .size(60.dp)
                             .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp))
                     )
-                    Text(
-                        text = stringResource(R.string.exercicio),
-                        fontSize = 18.sp,
-                        fontFamily = MavenPro,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color(72, 183, 90)
-                    )
-                    Text(
-                        text = treino.exercicio.nome,
-                        fontFamily = MavenPro,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color.Black
-                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .width(225.dp),
+                        horizontalAlignment = Alignment.Start,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = stringResource(R.string.exercicio),
+                            fontSize = 16.sp,
+                            fontFamily = MavenPro,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Color(72, 183, 90)
+                        )
+                        Text(
+                            text = treino.exercicio.nome,
+                            fontFamily = MavenPro,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Color.Black
+                        )
+                    }
                 }
                 IconButton(
                     onClick = {
