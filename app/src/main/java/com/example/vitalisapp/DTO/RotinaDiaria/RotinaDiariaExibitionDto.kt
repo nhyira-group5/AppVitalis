@@ -18,6 +18,6 @@ data class RotinaSemanalDto(
 )
 
 data class RefeicaoDiariaDto(
-    val idRotinaDiaria: Int,        // DEVERIA SER idRefeicaoDiaria
+    val idRefeicaoDiaria: Int,
     val concluido: Int
 )

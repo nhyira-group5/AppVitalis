@@ -10,82 +10,135 @@ import com.example.vitalisapp.DTO.RotinaSemanal.RotinaSemanalExibitionDto
 import com.example.vitalisapp.DTO.RotinaUsuario.RotinaUsuarioExibitionDto
 import com.example.vitalisapp.DTO.Treino.TreinoExibitionDto
 import com.example.vitalisapp.Exceptions.ApiException
-import com.example.vitalisapp.Interface.ApiRefeicao
-import com.example.vitalisapp.Interface.ApiRotinaDiaria
-import com.example.vitalisapp.Interface.ApiRotinaMensal
-import com.example.vitalisapp.Interface.ApiRotinaSemanal
-import com.example.vitalisapp.Interface.ApiRotinaUsuario
-import com.example.vitalisapp.Interface.ApiTreino
-import com.example.vitalisapp.RetrofitService
+import com.example.vitalisapp.GlobalUiState
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
-class HomeViewModel : ViewModel() {
+// Ui State
+data class HomeUiState(
+    var rotinaUsuario: RotinaUsuarioExibitionDto? = null,
+    var rotinaMensal: RotinaMensalExibitionDto? = null,
+    var rotinaSemanal: RotinaSemanalExibitionDto? = null,
+    var rotinaDiaria: RotinaDiariaExibitionDto? = null,
+    var treinosDiarios: MutableList<TreinoExibitionDto> = mutableListOf(),
+    var refeicoesDiarias: MutableList<RefeicaoExibitionDto> = mutableListOf(),
+    var refeicoesConcluidasDiaria: Int = 0,
+    var refeicoesTotaisDiaria: Int = 0,
+    var treinosConcluidosDiaria: Int = 0,
+    var treinosTotaisDiaria: Int = 0,
+    var rotinasDiariasConcluidasSemana: Int = 0,
+    var rotinasDiariasTotaisSemana: Int = 0,
+    var isLoading: Boolean = true
 
-    // Chamando as RetroServices
-    private val apiRotinaUsuario: ApiRotinaUsuario
-    private val apiRotinaSemanal: ApiRotinaSemanal
-    private val apiRotinaMensal: ApiRotinaMensal
-    private val apiRotinaDiaria: ApiRotinaDiaria
-    private val apiRefeicao: ApiRefeicao
-    private val apiTreino: ApiTreino
+    // Caso tivesse um método alterando o estado na Activity
+    // Ele teria que ser implementado por aqui também e ser iniciado (INIT) na ViewModel
 
-    // ----------------------- Declaração de Itens e suas cópias modificáveis ----------------------- //
-    private var _rotinaUsuario = MutableStateFlow<RotinaUsuarioExibitionDto?>(null)       // Atributo modificável na View
-    val rotinaUsuario = _rotinaUsuario.asStateFlow()                                             // Atributo que vai ser EXPOSTO externamente (Cópia do modificável)
-
-    private var _rotinaMensal = MutableStateFlow<RotinaMensalExibitionDto?>(null)
-    val rotinaMensal = _rotinaMensal.asStateFlow()
-
-    private var _rotinaSemanal = MutableStateFlow<RotinaSemanalExibitionDto?>(null)
-    val rotinaSemanal = _rotinaSemanal.asStateFlow()
-
-    private var _rotinaDiaria = MutableStateFlow<RotinaDiariaExibitionDto?>(null)
-    val rotinaDiaria = _rotinaDiaria.asStateFlow()
-
-    private var _treinosDiarios = MutableStateFlow<MutableList<TreinoExibitionDto>>(mutableListOf())
-    val treinosDiarios = _treinosDiarios.asStateFlow()
-
-    private var _refeicoesDiarias = MutableStateFlow<MutableList<RefeicaoExibitionDto>>(mutableListOf())
-    val refeicoesDiarias = _refeicoesDiarias.asStateFlow()
-
-    private var _refeicoesConcluidasDiaria = MutableStateFlow<Int>(0)
-    val refeicoesConcluidasDiaria = _refeicoesConcluidasDiaria.asStateFlow()
-
-    private var _refeicoesTotaisDiaria = MutableStateFlow<Int>(0)
-    val refeicoesTotaisDiaria = _refeicoesTotaisDiaria.asStateFlow()
-
-    private var _treinosConcluidosDiaria = MutableStateFlow<Int>(0)
-    val treinosConcluidosDiaria = _treinosConcluidosDiaria.asStateFlow()
-
-    private var _treinosTotaisDiaria = MutableStateFlow<Int>(0)
-    val treinosTotaisDiaria = _treinosTotaisDiaria.asStateFlow()
-
-    private var _rotinasDiariasConcluidasSemana = MutableStateFlow<Int>(0)
-    val rotinasDiariasConcluidasSemana = _rotinasDiariasConcluidasSemana.asStateFlow()
-
-    private var _rotinasDiariasTotaisSemana = MutableStateFlow<Int>(0)
-    val rotinasDiariasTotaisSemana = _rotinasDiariasTotaisSemana.asStateFlow()
-    // ---------------------------------------------------------------------------------------------- //
-
-    // Inicializando a View Model com as RetroServices
-    init {
-        apiRotinaDiaria = RetrofitService.getApiRotinaDiaria()
-        apiRotinaSemanal = RetrofitService.getApiRotinaSemanal()
-        apiRotinaMensal = RetrofitService.getApiRotinaMensal()
-        apiRotinaUsuario = RetrofitService.getApiRotinaUsuario()
-        apiRefeicao = RetrofitService.getApiRefeicao()
-        apiTreino = RetrofitService.getApiTreino()
+    // Exemplo: Metodo que conclui um treino que seria usado na activity
+    // onCompleteTreino: (param) -> Unit = {}
+) {
+    fun getQuantityCompletedTrainingsForDay(): Int {
+        return treinosDiarios.count { it.concluido == 1 }
     }
 
-    fun getUserRoutineByUserId(idUsuario: Int) {
-        viewModelScope.launch {
+    fun getQuantityTrainingsForDay(): Int {
+        return treinosDiarios.count { it.concluido <= 1 }
+    }
+
+    // Feitas com a Rotina Diária pq as refeições estão salvas como DTOs de Refeição (Sem o campo "Concluido")
+    fun getQuantityCompletedMealsForDay(): Int {
+        return rotinaDiaria?.refeicaoDiaria?.count { it.concluido == 1 } ?: 0
+    }
+
+    fun getQuantityMealsForDay(): Int {
+        return rotinaDiaria?.refeicaoDiaria?.count { it.concluido <= 1 } ?: 0
+    }
+}
+
+// View Model
+class HomeViewModel : ViewModel() {
+    private val _globalUiState = MutableStateFlow(GlobalUiState())
+    val globalUiState = _globalUiState.asStateFlow()
+
+    private val _homeUiState = MutableStateFlow(HomeUiState())
+    val homeUiState = _homeUiState.asStateFlow()
+
+    init {
+        loadDataHome(1)
+
+        // Exemplo de inicialização de um metodo usado na activity
+//        _homeUiState.update { currentState ->
+//            currentState.copy(                              // Aqui que informaríamos todos os metodos
+//                onCompleteTreino = { valorInformado ->
+//                    *implementar logica*
+        // Jogue o estado atual uam cópia dele com a ateração feita no metodo
+//                    _homeUiState.value = _homeUiState.value.copy(param = valorInformado)
+//                },
+//                 onCompleteRefeicao = { ... }
+//            )
+//        }
+        _homeUiState.value.isLoading = false
+    }
+
+    private fun loadDataHome(idUsuario: Int) {
+        setUserRoutineByUserId(idUsuario)
+        setMonthRoutineByUserIdAndMonth(idUsuario)
+        setWeekRoutine(idUsuario)
+    }
+
+    private suspend fun loadKpiSemanalData(idRotinaSemanal: Int?) {
+        if (idRotinaSemanal != null) {
+            _homeUiState.value.rotinasDiariasConcluidasSemana =
+                getQuantityCompletedDailyRoutinesForWeek(homeUiState.value.rotinaSemanal!!.idRotinaSemanal)
+            Log.i("API", "Rotinas diárias concluidas na semana: ${homeUiState.value.rotinasDiariasConcluidasSemana}")
+
+
+            _homeUiState.value.rotinasDiariasTotaisSemana =
+                getQuantityDailyRoutinesForWeek(homeUiState.value.rotinaSemanal!!.idRotinaSemanal)
+            Log.i("API", "Rotinas diárias totais na semana: ${homeUiState.value.rotinasDiariasTotaisSemana}")
+        } else {
+            Log.e("API", "Erro ao buscar dados aos KPIs semanais: idRotinaSemanal Null")
+        }
+    }
+
+    private fun loadKpiDiarioData(idRotinaDiaria: Int?) {
+        if (idRotinaDiaria != null) {
+            _homeUiState.value.refeicoesConcluidasDiaria =
+                homeUiState.value.getQuantityCompletedMealsForDay()
+            Log.i("API", "Refeições concluidas no dia: ${homeUiState.value.refeicoesConcluidasDiaria}")
+
+            _homeUiState.value.refeicoesTotaisDiaria = homeUiState.value.getQuantityMealsForDay()
+            Log.i("API", "Refeições totais no dia: ${homeUiState.value.refeicoesTotaisDiaria}")
+
+            _homeUiState.value.treinosConcluidosDiaria =
+                homeUiState.value.getQuantityCompletedTrainingsForDay()
+            Log.i("API", "Treinos concluidos no dia: ${homeUiState.value.treinosConcluidosDiaria}")
+
+            _homeUiState.value.treinosTotaisDiaria = homeUiState.value.getQuantityTrainingsForDay()
+            Log.i("API", "Treinos totais no dia: ${homeUiState.value.treinosTotaisDiaria}")
+
+        } else {
+            Log.e("API", "Erro ao buscar dados aos KPIs semanais: idRotinaDiaria Null")
+        }
+    }
+
+    private fun loadDailyActivities(idRotinaDiaria: Int?) {
+        if (idRotinaDiaria != null) {
+            setTrainingsFromDailyRoutine(idRotinaDiaria)
+            setMealsFromDailyRoutine(idRotinaDiaria)
+        } else {
+            Log.e("API", "Erro ao buscar atividades diarias: idRotinaDiaria Null")
+        }
+    }
+
+    private fun setUserRoutineByUserId(idUsuario: Int) {
+        GlobalScope.launch {
             try {
-                val res = apiRotinaUsuario.showByUserId(idUsuario)
+                val res = globalUiState.value.apiRotinaUsuario.showByUserId(idUsuario)
                 if (res.isSuccessful) {
-                    _rotinaUsuario.value = res.body()
+                    _homeUiState.value.rotinaUsuario = res.body()
                     Log.i("API", "Rotina de usuario encontrada: ${res.body()}")
                 } else {
                     Log.e("API", "Erro ao buscar a rotina do usuario: ${res.errorBody()}")
@@ -97,12 +150,16 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    fun getMonthRoutineByUserIdAndMonth(idUsuario: Int) {
-        viewModelScope.launch {
+    private fun setMonthRoutineByUserIdAndMonth(idUsuario: Int) {
+        GlobalScope.launch {
             try {
-                val res = apiRotinaMensal.showByUserIdAndMonth(idUsuario, LocalDate.now().monthValue)
+                val res =
+                    globalUiState.value.apiRotinaMensal.showByUserIdAndMonth(
+                        idUsuario,
+                        LocalDate.now().monthValue
+                    )
                 if (res.isSuccessful) {
-                    _rotinaMensal.value = res.body()
+                    _homeUiState.value.rotinaMensal = res.body()
                     Log.i("API", "Rotina de mensal encontrada: ${res.body()}")
                 } else {
                     Log.e("API", "Erro ao buscar a rotina mensal: ${res.errorBody()}")
@@ -114,32 +171,45 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-     fun getWeekRoutine(idUsuario: Int) {
-        viewModelScope.launch {
-             try {
-                 val res = apiRotinaSemanal.showCurrentWeekRoutineByUserId(idUsuario)
-                 if (res.isSuccessful) {
-                     _rotinaSemanal.value = res.body()
-                     Log.i("API","Rotina semanal encontrada: ${rotinaSemanal.value}")
-                 } else {
-                     Log.e("API","Erro ao buscar a rotina semanal atual: ${res.errorBody()}")
-                 }
-             } catch (e: Exception) {
-                 Log.e("API", "Erro na API ao buscar a rotina semanal atual: ${e.message}")
-                 throw ApiException("Buscar rotina semanal atual", e.message)
-             }
-         }
+    private fun setWeekRoutine(idUsuario: Int) {
+        GlobalScope.launch {
+            try {
+                val res =
+                    globalUiState.value.apiRotinaSemanal.showCurrentWeekRoutineByUserId(idUsuario)
+                if (res.isSuccessful) {
+                    _homeUiState.value.rotinaSemanal = res.body()
+                    Log.i("API", "Rotina semanal encontrada: ${homeUiState.value.rotinaSemanal}")
+                    loadKpiSemanalData(homeUiState.value.rotinaSemanal!!.idRotinaSemanal)
+                    setDailyRoutine(homeUiState.value.rotinaSemanal!!.idRotinaSemanal)
+                } else {
+                    Log.e("API", "Erro ao buscar a rotina semanal atual: ${res.errorBody()}")
+                }
+            } catch (e: Exception) {
+                Log.e("API", "Erro na API ao buscar a rotina semanal atual: ${e.message}")
+                throw ApiException("Buscar rotina semanal atual", e.message)
+            }
+        }
     }
 
-    fun getDailyRoutine(idRotinaSemanal: Int) {
-        viewModelScope.launch {
+    private fun setDailyRoutine(idRotinaSemanal: Int?) {
+        GlobalScope.launch {
             try {
-                val res = apiRotinaDiaria.showCurrentDailyRoutine(idRotinaSemanal)
-                if (res.isSuccessful) {
-                    _rotinaDiaria.value = res.body()
-                    Log.i("API", "Rotina diaria encontrada: ${rotinaDiaria.value}")
+                if (idRotinaSemanal != null) {
+                    val res =
+                        globalUiState.value.apiRotinaDiaria.showCurrentDailyRoutine(idRotinaSemanal)
+                    if (res.isSuccessful) {
+                        _homeUiState.value.rotinaDiaria = res.body()
+                        Log.i("API", "Rotina diaria encontrada: ${homeUiState.value.rotinaDiaria}")
+                        loadDailyActivities(_homeUiState.value.rotinaDiaria!!.idRotinaDiaria)
+                        loadKpiDiarioData(_homeUiState.value.rotinaDiaria!!.idRotinaDiaria)
+                    } else {
+                        Log.e(
+                            "API",
+                            "Nenhuma rotina diaria correspondente para o dia da semana atual: ${res.errorBody()}"
+                        )
+                    }
                 } else {
-                    Log.e("API", "Nenhuma rotina diaria correspondente para o dia da semana atual: ${res.errorBody()}")
+                    Log.e("API", "Erro ao buscar a rotina diaria atual: idRotinaSemanal Null")
                 }
             } catch (e: Exception) {
                 Log.e("API", "Erro na API para buscar a rotina diaria atual: ${e.message}")
@@ -148,83 +218,114 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    fun getTrainingsFromDailyRoutine(idRotinaDiaria: Int) {
-        viewModelScope.launch {
+    private fun setTrainingsFromDailyRoutine(idRotinaDiaria: Int?) {
+        GlobalScope.launch {
             try {
-                val res = apiTreino.showByRotinaDiariaId(idRotinaDiaria)
-                val validationOfSucess = res.isSuccessful && res.body()!!.isNotEmpty()
-                if (validationOfSucess) {
-                    _treinosDiarios.value.clear()
-                    _treinosDiarios.value.addAll(res.body()!!)
-                }
-                Log.i("API", "Quantidade de treinos buscados para a rotina diária: ${treinosDiarios.value.size}")
-                Log.i("API","Treinos buscados para a rotina diária: ${treinosDiarios.value}")
-            } catch (e: Exception) {
-                Log.e("API","Erro na API para buscar os treinos da rotina diária: ${e.message}")
-            }
-        }
-    }
-
-    fun getMealsFromDailyRoutine(rotinaDiaria: RotinaDiariaExibitionDto) {
-        if (rotinaDiaria.refeicaoDiaria.isNotEmpty()) {
-            rotinaDiaria.refeicaoDiaria.forEach {       // Mapper é o carai kkkkkkkkkkkkk fodasse
-                viewModelScope.launch {
-                    try {
-                        val res = apiRefeicao.showById(it.idRotinaDiaria)
-                        if (res.isSuccessful) _refeicoesDiarias.value.add(res.body()!!) else Log.e("API","Erro para buscar a refeição de ID ${it.idRotinaDiaria} atribuida a rotina diária: ${res.errorBody()}")
-                    } catch (e: Exception) {
-                        Log.e("API","Erro na API para buscar a refeição de ID ${it.idRotinaDiaria} atribuida a rotina diária: ${e.message}")
+                if (idRotinaDiaria != null) {
+                    val res = globalUiState.value.apiTreino.showByRotinaDiaria(idRotinaDiaria)
+                    if (res.isSuccessful) {
+                        _homeUiState.value.treinosDiarios.clear()
+                        _homeUiState.value.treinosDiarios = res.body()!!.toMutableList()
+                        Log.i("API", "Quantidade de treinos buscados para a rotina diaria: ${homeUiState.value.treinosDiarios.size}")
+                        //Log.i("API", "Treinos buscados para a rotina diária: ${homeUiState.value.treinosDiarios}")
+                    } else {
+                        Log.e("API", "Erro ao buscar treinos diarios: ${res.errorBody()}")
                     }
+                } else {
+                    Log.e("API", "Erro ao buscar a treinos diarios: idRotinaDiaria Null")
                 }
+            } catch (e: Exception) {
+                Log.e("API", "Erro na API para buscar os treinos da rotina diaria: ${e.message}")
             }
-            Log.i("API","Quantidade de refeições atribuídas a rotina diária: ${refeicoesDiarias.value.size}")
-            Log.i("API", "Refeições atribuídas a rotina diária: ${refeicoesDiarias.value}")
         }
     }
 
-    fun getQuantityCompletedTrainingsForDay(trainings: MutableList<TreinoExibitionDto>) {
-        _treinosConcluidosDiaria.value = trainings.count { it.concluido == 1 }
-    }
-
-    fun getQuantityTrainingsForDay(trainings: MutableList<TreinoExibitionDto>) {
-        _treinosTotaisDiaria.value = trainings.count { it.concluido <= 1 }
-    }
-
-    // Feitas com a Rotina Diária pq as refeições estão salvas como DTOs de Refeição (Sem o campo "Concluido")
-    fun getQuantityCompletedMealsForDay(rotinaDiaria: RotinaDiariaExibitionDto?) {
-        if (rotinaDiaria != null) _refeicoesConcluidasDiaria.value = rotinaDiaria.refeicaoDiaria.count { it.concluido == 1 }
-    }
-
-    fun getQuantityMealsForDay(rotinaDiaria: RotinaDiariaExibitionDto?) {
-        if (rotinaDiaria != null) _refeicoesTotaisDiaria.value = rotinaDiaria.refeicaoDiaria.count { it.concluido <= 1 }
-    }
-
-    fun getQuantityDailyRoutinesForWeek(idRotinaSemanal: Int) {
-        viewModelScope.launch {
-            try {
-                val res = apiRotinaSemanal.showById(idRotinaSemanal)
-                if (res.isSuccessful) repeat(res.body()!!.rotinasDiarias.size) { _rotinasDiariasTotaisSemana.value++ } else Log.e("API", "Erro para buscar a rotina semanal: ${res.errorBody()}")
-            } catch (e: Exception) {
-                Log.e("API","Erro na API para buscar a quantidade de rotinas diária na semana: ${e.message}")
-            }
-        }
-        Log.i("API","Quantidade de rotinas diárias na semana de ID ${idRotinaSemanal}: ${rotinasDiariasTotaisSemana.value}")
-    }
-
-    fun getQuantityCompletedDailyRoutinesForWeek(idRotinaSemanal: Int) {
-        viewModelScope.launch {
-            try {
-                val res =
-                    apiRotinaSemanal.showCompletedDailyRoutinesByRotinaSemanalId(idRotinaSemanal)
-                val validationOfSucess =
-                    res.isSuccessful && (res.body() != null || res.body()!! > 0)
-                if (validationOfSucess) {
-                    _rotinasDiariasConcluidasSemana.value = res.body()!!
+    private fun setMealsFromDailyRoutine(idRotinaDiaria: Int?) {
+        if (idRotinaDiaria != null) {
+            GlobalScope.launch {
+                try {
+                    var res = globalUiState.value.apiRefeicao.showByidRotinaDiaria(idRotinaDiaria)
+                    if (res.isSuccessful) {
+                        _homeUiState.value.refeicoesDiarias.clear()
+                        _homeUiState.value.refeicoesDiarias = res.body()!!.toMutableList()
+                        Log.i(
+                            "API",
+                            "Quantidade de refeições buscadas para a rotina diária: ${homeUiState.value.refeicoesDiarias.size}"
+                        )
+                        //Log.i("API", "Refeições atribuídas a rotina diária: ${homeUiState.value.refeicoesDiarias}")
+                    } else {
+                        Log.e(
+                            "API",
+                            "Erro para buscar a refeição de ID $idRotinaDiaria atribuida a rotina diária: ${res.errorBody()}"
+                        )
+                    }
+                } catch (e: Exception) {
+                    Log.e(
+                        "API",
+                        "Erro na API para buscar a refeição de ID $idRotinaDiaria atribuida a rotina diária: ${e.message}"
+                    )
                 }
-                Log.i("API", "Quantidade de rotinas diárias concluidas na semana: ${res.body()}")
-            } catch (e: Exception) {
-                Log.e("API","Erro na API para buscar a quantidade de rotinas diárias concluidas: ${e.message}")
             }
+        } else {
+            Log.e("API", "Erro ao buscar refeicoes diarias: idRotinaDiaria Null")
+        }
+    }
+
+    suspend fun getQuantityDailyRoutinesForWeek(idRotinaSemanal: Int?): Int {
+        if (idRotinaSemanal == null) {
+            Log.e(
+                "API",
+                "Erro ao buscar quantidade de rotinas diarias totais na semana: idRotinaSemanal Null"
+            )
+            return 0
+        }
+
+        return try {
+            val res = globalUiState.value.apiRotinaSemanal.showById(idRotinaSemanal)
+            if (res.isSuccessful) {
+                res.body()?.rotinasDiarias?.size ?: 0
+            } else {
+                Log.e("API", "Erro para buscar a rotina semanal: ${res.errorBody()}")
+                0
+            }
+        } catch (e: Exception) {
+            Log.e(
+                "API",
+                "Erro na API para buscar a quantidade de rotinas diária na semana: ${e.message}"
+            )
+            0
+        }
+    }
+
+    suspend fun getQuantityCompletedDailyRoutinesForWeek(idRotinaSemanal: Int?): Int {
+        if (idRotinaSemanal == null) {
+            Log.e(
+                "API",
+                "Erro ao buscar quantidade de rotinas diarias completas na semana: idRotinaSemanal Null"
+            )
+            return 0
+        }
+
+        return try {
+            val res =
+                globalUiState.value.apiRotinaSemanal.showCompletedDailyRoutinesByRotinaSemanalId(
+                    idRotinaSemanal
+                )
+            if (res.isSuccessful && (res.body() != null && res.body()!! >= 0)) {
+                res.body()!!
+            } else {
+                Log.e(
+                    "API",
+                    "Erro para buscar a quantidade de rotinas diárias concluídas: ${res.errorBody()}"
+                )
+                0
+            }
+        } catch (e: Exception) {
+            Log.e(
+                "API",
+                "Erro na API para buscar a quantidade de rotinas diárias concluídas: ${e.message}"
+            )
+            0
         }
     }
 }

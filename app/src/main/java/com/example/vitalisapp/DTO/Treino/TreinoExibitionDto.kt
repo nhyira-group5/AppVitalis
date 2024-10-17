@@ -11,6 +11,6 @@ data class TreinoExibitionDto (
     @SerializedName("rotinaDiariaId") val rotinaDiaria: RotinaDiariaExibitionDto,   // Preguiça de fazer uma DTO e o Exibition já faz oq quero kkkk
     val serie: Int,
     val repeticao: Int,
-    val tempo: LocalTime,
+    val tempo: String,
     val concluido: Int
 )

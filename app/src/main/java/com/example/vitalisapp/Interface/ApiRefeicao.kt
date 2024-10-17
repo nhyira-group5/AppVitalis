@@ -14,14 +14,20 @@ interface ApiRefeicao {
     suspend fun showAll (): Response<MutableList<RefeicaoExibitionDto>>
 
     @GET("/refeicoes/por-meta/{idMeta}")    // idMeta
-    suspend fun showByMetaId (@Path("idMeta") idMeta: Int): Response<MutableList<RefeicaoExibitionDto>>
+    suspend fun showByMeta (@Path("idMeta") idMeta: Int): Response<MutableList<RefeicaoExibitionDto>>
 
     @GET("/refeicoes/por-dieta/{idDieta}")  // idDieta
-    suspend fun showByDietaId (@Path("idDieta") idDieta: Int): Response<MutableList<RefeicaoExibitionDto>>
+    suspend fun showByDieta (@Path("idDieta") idDieta: Int): Response<MutableList<RefeicaoExibitionDto>>
+
+    @GET("/refeicoes/por-refeicao-diaria/{idRefeicaoDiaria}")  // idRefeicaoDiaria
+    suspend fun showByRefeicaoDiaria (@Path("idRefeicaoDiaria") idRefeicaoDiaria: Int): Response<RefeicaoExibitionDto>
 
     @GET("/refeicoes/filtro/nome")
     suspend fun showByNome (@Query("nome") nome: String): Response<MutableList<RefeicaoExibitionDto>>
 
     @GET("/refeicoes/por-semana/{idRotinaSemanal}") // idRotinaSemanal
-    suspend fun showByRotinaSemanalId (@Path("idRotinaSemanal") idRotinaSemanal: Int): Response<MutableList<RefeicaoExibitionDto>>
+    suspend fun showByRotinaSemanal (@Path("idRotinaSemanal") idRotinaSemanal: Int): Response<MutableList<RefeicaoExibitionDto>>
+
+    @GET("/refeicoes/por-dia/{idRotinaDiaria}") // idRotinaDiaria
+    suspend fun showByidRotinaDiaria (@Path("idRotinaDiaria") idRotinaDiaria: Int): Response<MutableList<RefeicaoExibitionDto>>
 }

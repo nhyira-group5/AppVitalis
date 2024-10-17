@@ -10,8 +10,8 @@ data class TreinoExibitionAltDto(
     val descricao: String,
     val serie: Int,
     val repeticao: Int,
-    val tempo: LocalTime,
-    val concluido: Integer,
+    val tempo: String,
+    val concluido: Int,
     val rotinaDiaria: RotinaDiariaDto,
     @SerializedName("midia") val midias: MutableList<MidiaDto>
 )

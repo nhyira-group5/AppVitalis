@@ -41,6 +41,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.vitalisapp.Entity.Usuario.loginUsuario
+import com.example.vitalisapp.Service.HomeViewModel
 import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
 import loginService
@@ -145,7 +146,10 @@ fun LoginCliente(name: String, navController: NavHostController, modifier: Modif
                 }
             }
         }
-        composable("home") { Home(viewModel(), navController) }
+        composable("home") {
+            val viewModel: HomeViewModel = viewModel()
+            Home(viewModel = viewModel, navController)
+        }
         composable("cadastro") { CadastroCliente(name = name, navController) }
         composable("perfil") { PerfilUsuario(name = name, navController) }
         composable("perfilPersonal") { PerfilPersonal(name = name, navController) }

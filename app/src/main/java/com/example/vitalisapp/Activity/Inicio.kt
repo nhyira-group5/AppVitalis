@@ -21,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -39,9 +40,9 @@ class Inicio : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            VitalisAppTheme {
-                val viewModel by viewModels<HomeViewModel>()   // Chamando o viewModel
+            val viewModel by viewModels<HomeViewModel>() // Chama o ViewModel aqui
 
+            VitalisAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Home(
                         viewModel,
@@ -60,44 +61,30 @@ fun Home(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
-    var isLoading = remember { mutableStateOf(true) }
+    // Gerenciador de estado
+        // Responsável por gerenciar as mudanças na tela, muda estados
+    val homeUiState by viewModel.homeUiState.collectAsState()
 
-    // Pegando o atribuito EXPOSTO da View
-    val rotinaUsuario by viewModel.rotinaUsuario.collectAsState()
-    val rotinaMensal by viewModel.rotinaMensal.collectAsState()
-    val rotinaSemanal by viewModel.rotinaSemanal.collectAsState()
-    val rotinaDiaria by viewModel.rotinaDiaria.collectAsState()
-    val treinosDiarios by viewModel.treinosDiarios.collectAsState()
-    val refeicoesDiarias by viewModel.refeicoesDiarias.collectAsState()
-    val refeicoesConcluidasDiaria by viewModel.refeicoesConcluidasDiaria.collectAsState()
-    val refeicoesTotaisDiaria by viewModel.refeicoesTotaisDiaria.collectAsState()
-    val treinosConcluidosDiaria by viewModel.treinosConcluidosDiaria.collectAsState()
-    val treinosTotaisDiaria by viewModel.treinosTotaisDiaria.collectAsState()
-    val rotinasDiariasConcluidasSemana by viewModel.rotinasDiariasConcluidasSemana.collectAsState()
-    val rotinasDiariasTotaisSemana by viewModel.rotinasDiariasTotaisSemana.collectAsState()
+    // Buscando todos os valores do UiState
+        // Valores esses que podem ser alterados, mudados de estado
+    val rotinaUsuario = homeUiState.rotinaUsuario
+    val rotinaMensal = homeUiState.rotinaMensal
+    val rotinaSemanal = homeUiState.rotinaSemanal
+    val rotinaDiaria = homeUiState.rotinaDiaria
+    val treinosDiarios = homeUiState.treinosDiarios
+    val refeicoesDiarias = homeUiState.refeicoesDiarias
+    val refeicoesConcluidasDiaria = homeUiState.refeicoesConcluidasDiaria
+    val refeicoesTotaisDiaria = homeUiState.refeicoesTotaisDiaria
+    val treinosConcluidosDiaria = homeUiState.treinosConcluidosDiaria
+    val treinosTotaisDiaria = homeUiState.treinosTotaisDiaria
+    val rotinasDiariasConcluidasSemana = homeUiState.rotinasDiariasConcluidasSemana
+    val rotinasDiariasTotaisSemana = homeUiState.rotinasDiariasTotaisSemana
+    val isLoading = homeUiState.isLoading
 
-    val nomeLogin = "Poliana" // Pegar o valor buscado da tela de login e jogar aqui
+    val nomeLogin by remember { mutableStateOf("Poliana") }  // Pegar o valor buscado da tela de login e jogar aqui
 
-    /// Quando carrega a tela, faz essas func
-    LaunchedEffect(Unit) {
-        viewModel.getUserRoutineByUserId(1)                 // Passar ID buscado no login
-        viewModel.getMonthRoutineByUserIdAndMonth(1)        // Passar ID buscado no login
-        viewModel.getWeekRoutine(1)                          // Passar ID buscado no login
-        viewModel.getDailyRoutine(rotinaSemanal!!.idRotinaSemanal)
-        viewModel.getTrainingsFromDailyRoutine(rotinaDiaria!!.idRotinaDiaria)
-//        viewModel.getMealsFromDailyRoutine(rotinaDiaria!!)
-//        viewModel.getQuantityCompletedMealsForDay(rotinaDiaria)
-//        viewModel.getQuantityMealsForDay(rotinaDiaria)
-//        viewModel.getQuantityCompletedTrainingsForDay(treinosDiarios)
-//        viewModel.getQuantityTrainingsForDay(treinosDiarios)
-//        viewModel.getQuantityCompletedDailyRoutinesForWeek(rotinaSemanal!!.idRotinaSemanal)
-//        viewModel.getQuantityCompletedDailyRoutinesForWeek(rotinaSemanal!!.idRotinaSemanal)
-
-        isLoading.value = false  // Diz que carregou td
-    }
-
-    if (isLoading.value) {      // Carregou? Então carrega o conteudo
-        LoadingScreen()         // Pode fazer uma tela de carregamento
+    if (isLoading) {            // Não carregou? Então carrega um tela de loading
+        LoadingScreen()         // Pode fazer uma tela de carregamento melhor kkkk
     } else {
         Column(
             modifier = Modifier
@@ -116,19 +103,6 @@ fun Home(
                     .padding(bottom = 5.dp)
                     .align(Alignment.CenterHorizontally)
             )
-
-//            if (rotinaUsuario != null) Text(text = "rotina usuario foi")
-//            if (rotinaMensal != null) Text(text = "rotina mensal foi")
-//            if (rotinaSemanal != null) Text(text = "rotina semanal foi: $rotinaSemanal")
-            if (treinosDiarios.isNotEmpty()) Text(text = "treinos foi: $treinosDiarios")
-            //if (refeicoesDiarias.isNotEmpty()) Text(text = "treinos foi: $refeicoesDiarias")
-//
-//        Button(onClick = { viewModel.getDailyRoutine(rotinaSemanal!!.idRotinaSemanal) }) {
-//            Text(text = "gerar rotina diaria")
-//        }
-//        Text(
-//            text = "$rotinaDiaria"
-//        )
 
             Atividade(
                 treinosDiarios,
@@ -157,6 +131,9 @@ fun LoadingScreen() {
 @Composable
 fun Home() {
     VitalisAppTheme {
-        Home(viewModel(), rememberNavController())
+        Home(
+            viewModel<HomeViewModel>(),
+            rememberNavController(),
+        )
     }
 }
