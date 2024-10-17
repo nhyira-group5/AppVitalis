@@ -368,150 +368,6 @@ fun CardConversa(
 }
 
 @Composable
-fun Atividade() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(16.dp)
-    ) {
-        Text(
-            text = stringResource(R.string.atividade),
-            fontSize = 20.sp,
-            fontFamily = MavenPro,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black,
-            modifier = Modifier
-                .padding(bottom = 15.dp)
-                .align(Alignment.CenterHorizontally)
-        )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color(18, 18, 19), shape = RoundedCornerShape(24.dp)),
-            horizontalArrangement = Arrangement.spacedBy(5.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Porcentagem(
-                icone = R.mipmap.comidappreto,
-                valor = "--/10",
-                titulo = "Refeições"
-            )
-            Porcentagem(
-                icone = R.mipmap.exerciciopreto,
-                valor = "01/10",
-                titulo = "Exercícios"
-            )
-            Porcentagem(
-                icone = R.mipmap.calendario,
-                valor = "01/03",
-                titulo = "Meta Semanal"
-            )
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-        CardAtividades(titulo="Título")
-        Spacer(modifier = Modifier.weight(1f))
-    }
-}
-
-@Composable
-fun Porcentagem(icone: Int, valor: String, titulo: String) {
-    Column(
-        modifier = Modifier
-            .padding(8.dp)
-            .size(90.dp)
-            .background(Color.White, shape = RoundedCornerShape(16.dp))
-            .shadow(elevation = 2.dp, shape = RoundedCornerShape(16.dp)),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Image(
-            painter = painterResource(id = icone),
-            contentDescription = null,
-            modifier = Modifier
-                .size(24.dp)
-                .align(Alignment.CenterHorizontally)
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = valor,
-            fontFamily = MavenPro,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.SemiBold,
-            color = Color.Black
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = titulo,
-            fontSize = 12.sp,
-            fontFamily = MavenPro,
-            fontWeight = FontWeight.Medium,
-            color = Color.Black
-        )
-    }
-}
-
-@Composable
-fun CardAtividades( titulo: String) {
-    val contexto = LocalContext.current
-    Column {
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(70.dp)
-                .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp)),
-            shape = RoundedCornerShape(16.dp)
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(start = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(10.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.mipmap.tortadefrango),
-                        contentDescription = "Exercicio",
-                        modifier = Modifier
-                            .size(60.dp)
-                            .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp))
-                    )
-                    Text(
-                        text = stringResource(R.string.exercicio),
-                        fontSize = 18.sp,
-                        fontFamily = MavenPro,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color(72, 183, 90)
-                    )
-                    Text(
-                        text = titulo,
-                        fontFamily = MavenPro,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color.Black
-                    )
-                }
-                IconButton(
-                    onClick = {val detalheExercicio = Intent(contexto, DetalheExercicio::class.java)
-                        contexto.startActivity(detalheExercicio)},
-                    modifier = Modifier.padding(end = 16.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.mipmap.seta),
-                        contentDescription = "seta",
-                        modifier = Modifier.size(34.dp)
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
 fun InfoCard(title: String, value: String) {
     Card(
         shape = RoundedCornerShape(8.dp),
@@ -671,6 +527,103 @@ fun UserCard(user: String, meta: String, numero: Int, imagemUSer: Int) {
             }
             Spacer(modifier = Modifier.weight(1f))
 
+        }
+    }
+}
+
+@Composable
+fun Porcentagem(icone: Int, valor: String, titulo: String) {
+    Column(
+        modifier = Modifier
+            .padding(8.dp)
+            .size(90.dp)
+            .background(Color.White, shape = RoundedCornerShape(16.dp))
+            .shadow(elevation = 2.dp, shape = RoundedCornerShape(16.dp)),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Image(
+            painter = painterResource(id = icone),
+            contentDescription = null,
+            modifier = Modifier
+                .size(24.dp)
+                .align(Alignment.CenterHorizontally)
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = valor,
+            fontFamily = MavenPro,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.SemiBold,
+            color = Color.Black
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = titulo,
+            fontSize = 12.sp,
+            fontFamily = MavenPro,
+            fontWeight = FontWeight.Medium,
+            color = Color.Black
+        )
+    }
+}
+
+@Composable
+fun CardAtividades( titulo: String) {
+    val contexto = LocalContext.current
+    Column {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(70.dp)
+                .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp)),
+            shape = RoundedCornerShape(16.dp)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(start = 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.mipmap.tortadefrango),
+                        contentDescription = "Exercicio",
+                        modifier = Modifier
+                            .size(60.dp)
+                            .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp))
+                    )
+                    Text(
+                        text = stringResource(R.string.exercicio),
+                        fontSize = 18.sp,
+                        fontFamily = MavenPro,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color(72, 183, 90)
+                    )
+                    Text(
+                        text = titulo,
+                        fontFamily = MavenPro,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color.Black
+                    )
+                }
+                IconButton(
+                    onClick = {val detalheExercicio = Intent(contexto, DetalheExercicio::class.java)
+                        contexto.startActivity(detalheExercicio)},
+                    modifier = Modifier.padding(end = 16.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.mipmap.seta),
+                        contentDescription = "seta",
+                        modifier = Modifier.size(34.dp)
+                    )
+                }
+            }
         }
     }
 }

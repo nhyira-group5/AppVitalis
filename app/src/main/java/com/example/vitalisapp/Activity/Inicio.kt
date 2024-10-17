@@ -103,6 +103,52 @@ fun Home(name: String, navController: NavHostController, modifier: Modifier = Mo
 
     }
 }
+    @Composable
+    fun Atividade() {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(16.dp)
+        ) {
+            Text(
+                text = stringResource(R.string.atividade),
+                fontSize = 20.sp,
+                fontFamily = MavenPro,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black,
+                modifier = Modifier
+                    .padding(bottom = 15.dp)
+                    .align(Alignment.CenterHorizontally)
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color(18, 18, 19), shape = RoundedCornerShape(24.dp)),
+                horizontalArrangement = Arrangement.spacedBy(5.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Porcentagem(
+                    icone = R.mipmap.comidappreto,
+                    valor = "--/10",
+                    titulo = "Refeições"
+                )
+                Porcentagem(
+                    icone = R.mipmap.exerciciopreto,
+                    valor = "01/10",
+                    titulo = "Exercícios"
+                )
+                Porcentagem(
+                    icone = R.mipmap.calendario,
+                    valor = "01/03",
+                    titulo = "Meta Semanal"
+                )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            CardAtividades(titulo="Título")
+            Spacer(modifier = Modifier.weight(1f))
+        }
+    }
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
