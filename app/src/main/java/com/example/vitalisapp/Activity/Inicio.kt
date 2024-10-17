@@ -7,21 +7,25 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.ui.Modifier
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -61,12 +65,15 @@ fun Home(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
+    val configuration = LocalConfiguration.current      // Obtém a configuração atual da tela
+    val screenHeight = configuration.screenHeightDp.dp  // Calcula a altura da tela em dp
+
     // Gerenciador de estado
-        // Responsável por gerenciar as mudanças na tela, muda estados
+    // Responsável por gerenciar as mudanças na tela, muda estados
     val homeUiState by viewModel.homeUiState.collectAsState()
 
     // Buscando todos os valores do UiState
-        // Valores esses que podem ser alterados, mudados de estado
+    // Valores esses que podem ser alterados, mudados de estado
     val rotinaUsuario = homeUiState.rotinaUsuario
     val rotinaMensal = homeUiState.rotinaMensal
     val rotinaSemanal = homeUiState.rotinaSemanal
@@ -86,11 +93,13 @@ fun Home(
     if (isLoading) {            // Não carregou? Então carrega um tela de loading
         LoadingScreen()         // Pode fazer uma tela de carregamento melhor kkkk
     } else {
-        Column(
+        Column (
             modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxWidth()
+                .height(screenHeight)
+                .padding(14.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(18.dp)
         ) {
             Menu(navController)
             Text(
@@ -100,17 +109,13 @@ fun Home(
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
                 modifier = Modifier
-                    .padding(bottom = 5.dp)
-                    .align(Alignment.CenterHorizontally)
             )
-
-            Atividade(
-                treinosDiarios,
-                refeicoesDiarias,
+            KpiHome(
                 refeicoesTotaisDiaria, refeicoesConcluidasDiaria,
                 treinosTotaisDiaria, treinosConcluidosDiaria,
                 rotinasDiariasTotaisSemana, rotinasDiariasConcluidasSemana
             )
+            DailyActivities(treinosDiarios, refeicoesDiarias)
         }
     }
 }

@@ -2,7 +2,6 @@ package com.example.vitalisapp.Service
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.vitalisapp.DTO.Refeicao.RefeicaoExibitionDto
 import com.example.vitalisapp.DTO.RotinaDiaria.RotinaDiariaExibitionDto
 import com.example.vitalisapp.DTO.RotinaMensal.RotinaMensalExibitionDto
@@ -93,7 +92,6 @@ class HomeViewModel : ViewModel() {
             _homeUiState.value.rotinasDiariasConcluidasSemana =
                 getQuantityCompletedDailyRoutinesForWeek(homeUiState.value.rotinaSemanal!!.idRotinaSemanal)
             Log.i("API", "Rotinas diárias concluidas na semana: ${homeUiState.value.rotinasDiariasConcluidasSemana}")
-
 
             _homeUiState.value.rotinasDiariasTotaisSemana =
                 getQuantityDailyRoutinesForWeek(homeUiState.value.rotinaSemanal!!.idRotinaSemanal)

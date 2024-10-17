@@ -1,6 +1,12 @@
 package com.example.vitalisapp.Activity
 
 import android.content.Intent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -13,6 +19,7 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,9 +28,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -73,20 +82,24 @@ fun Menu(navController: NavController) {
     ) {
         Image(
             painter = painterResource(id = R.mipmap.areausuario),
-            contentDescription = null,
+            contentDescription = "Sessão Atual: ",
             modifier = Modifier
                 .size(60.dp)
                 .clickable { expanded = !expanded }
         )
 
-        if (expanded) {
+        AnimatedVisibility(
+            visible = expanded,
+            enter = expandVertically(animationSpec = tween(durationMillis = 500)) + fadeIn(),
+            exit = shrinkVertically(animationSpec = tween(durationMillis = 400)) + fadeOut()
+        ) {
             Row(
-                horizontalArrangement = Arrangement.spacedBy(5.dp),
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .wrapContentWidth()
                     .background(Color(72, 183, 90), shape = RoundedCornerShape(12.dp))
-                    .padding(vertical = 4.dp)
+                    .padding(6.dp)
                     .height(IntrinsicSize.Min)
             ) {
                 Image(
@@ -371,18 +384,35 @@ fun CardConversa(
 }
 
 @Composable
-fun Atividade(
-    treinos: MutableList<TreinoExibitionDto>,
-    refeicoes: MutableList<RefeicaoExibitionDto>,
+fun DailyActivities(
+    trainings: MutableList<TreinoExibitionDto>,
+    meals: MutableList<RefeicaoExibitionDto>
+) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(15.dp)
+    ) {
+        items(items = trainings) { item ->
+            CardAtividades(item)
+        }
+        items(items = meals) { item ->
+            CardAtividades(item)
+        }
+    }
+}
+
+@Composable
+fun KpiHome(
     refeicoesTotaisDiaria: Int, refeicoesConcluidasDiaria: Int,
     treinosTotaisDiaria: Int, treinosConcluidosDiaria: Int,
     rotinasDiariasTotaisSemana: Int, rotinasDiariasConcluidasSemana: Int
 ) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(16.dp)
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = stringResource(R.string.atividade),
@@ -391,15 +421,14 @@ fun Atividade(
             fontWeight = FontWeight.Bold,
             color = Color.Black,
             modifier = Modifier
-                .padding(bottom = 15.dp)
-                .align(Alignment.CenterHorizontally)
         )
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color(18, 18, 19), shape = RoundedCornerShape(24.dp)),
-            horizontalArrangement = Arrangement.spacedBy(5.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .height(120.dp)
+                .background(Color(18, 18, 19), shape = RoundedCornerShape(20.dp)),
+            horizontalArrangement = Arrangement.SpaceAround,
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Porcentagem(
                 icone = R.mipmap.comidappreto,
@@ -417,16 +446,6 @@ fun Atividade(
                 titulo = "Meta Semanal"
             )
         }
-        Spacer(modifier = Modifier.height(16.dp))
-        if (treinos.isEmpty() && refeicoes.isEmpty()) {
-            Text(
-                text = "Não existe uma rotina para o dia de hoje!"
-            )
-        } else {
-            refeicoes.forEach { CardAtividades(it) }
-            treinos.forEach { CardAtividades(it) }
-        }
-        Spacer(modifier = Modifier.weight(1f))
     }
 }
 
@@ -434,12 +453,12 @@ fun Atividade(
 fun Porcentagem(icone: Int, valor: String, titulo: String) {
     Column(
         modifier = Modifier
-            .padding(8.dp)
+            .padding(4.dp)
             .size(90.dp)
             .background(Color.White, shape = RoundedCornerShape(16.dp))
             .shadow(elevation = 2.dp, shape = RoundedCornerShape(16.dp)),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         Image(
             painter = painterResource(id = icone),
@@ -448,7 +467,6 @@ fun Porcentagem(icone: Int, valor: String, titulo: String) {
                 .size(24.dp)
                 .align(Alignment.CenterHorizontally)
         )
-        Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = valor,
             fontFamily = MavenPro,
@@ -456,7 +474,6 @@ fun Porcentagem(icone: Int, valor: String, titulo: String) {
             fontWeight = FontWeight.SemiBold,
             color = Color.Black
         )
-        Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = titulo,
             fontSize = 12.sp,
@@ -472,13 +489,12 @@ fun CardAtividades(
     treino: TreinoExibitionDto
 ) {
     val contexto = LocalContext.current
-    val scrollState = rememberScrollState()
 
-    Column(modifier = Modifier.verticalScroll(scrollState)) {
+    Column(modifier = Modifier) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(70.dp)
+                .height(85.dp)
                 .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp)),
             shape = RoundedCornerShape(16.dp)
         ) {
