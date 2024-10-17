@@ -35,11 +35,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.vitalisapp.Entity.Usuario.loginUsuario
+import com.example.vitalisapp.Service.HomeViewModel
 import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
 import loginService
@@ -144,14 +146,17 @@ fun LoginCliente(name: String, navController: NavHostController, modifier: Modif
                 }
             }
         }
-        composable("home") { Home(name = name, navController) }
+        composable("home") {
+            val viewModel: HomeViewModel = viewModel()
+            Home(viewModel = viewModel, navController)
+        }
         composable("cadastro") { CadastroCliente(name = name, navController) }
         composable("perfil") { PerfilUsuario(name = name, navController) }
         composable("perfilPersonal") { PerfilPersonal(name = name, navController) }
         composable("homePersonal") { HomeProfessor(name = name, navController) }
         composable("exercicios") { GaleriaExercicio(name = name, navController) }
         composable("refeicao") { Refeicao(name = name, navController) }
-// composable("relatorio") { RefeicaoTela() }
+//        composable("relatorio") { RefeicaoTela() }
         composable("busca") { BuscaAcademia(name = name, navController) }
         composable("chat") { ConversaChat(name = name, navController) }
         composable("chatPersonal") { ChatPersonal(name = name, navController) }

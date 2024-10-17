@@ -1,6 +1,12 @@
 package com.example.vitalisapp.Activity
 
 import android.content.Intent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -13,6 +19,7 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,9 +28,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -56,8 +65,23 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
+import com.example.vitalisapp.DTO.Refeicao.RefeicaoExibitionDto
+import com.example.vitalisapp.DTO.Treino.TreinoExibitionDto
 import com.example.vitalisapp.R
 import com.example.vitalisapp.ui.theme.MavenPro
+
+// Teste tela de carregamento
+@Composable
+fun LoadingScreen() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(text = "Carregando...", fontSize = 24.sp)
+    }
+}
 
 @Composable
 fun Menu(navController: NavController) {
@@ -70,20 +94,24 @@ fun Menu(navController: NavController) {
     ) {
         Image(
             painter = painterResource(id = R.mipmap.areausuario),
-            contentDescription = null,
+            contentDescription = "Sessão Atual: ",
             modifier = Modifier
                 .size(60.dp)
                 .clickable { expanded = !expanded }
         )
 
-        if (expanded) {
+        AnimatedVisibility(
+            visible = expanded,
+            enter = expandVertically(animationSpec = tween(durationMillis = 500)) + fadeIn(),
+            exit = shrinkVertically(animationSpec = tween(durationMillis = 400)) + fadeOut()
+        ) {
             Row(
-                horizontalArrangement = Arrangement.spacedBy(5.dp),
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
                     .wrapContentWidth()
                     .background(Color(72, 183, 90), shape = RoundedCornerShape(12.dp))
-                    .padding(vertical = 4.dp)
+                    .padding(6.dp)
                     .height(IntrinsicSize.Min)
             ) {
                 Image(
@@ -204,7 +232,7 @@ fun MenuPersonal(navController: NavController) {
                     modifier = Modifier
                         .size(30.dp)
                         .padding(horizontal = 4.dp)
-                        .clickable {navController.navigate("chatPersonal") }
+                        .clickable { navController.navigate("chatPersonal") }
                 )
             }
         }
@@ -360,6 +388,246 @@ fun CardConversa(
                         fontFamily = MavenPro,
                         color = Color.Gray,
                         fontSize = 5.sp
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun DailyActivities(
+    trainings: MutableList<TreinoExibitionDto>,
+    meals: MutableList<RefeicaoExibitionDto>
+) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(15.dp)
+    ) {
+        items(items = trainings) { item ->
+            CardAtividades(item)
+        }
+        items(items = meals) { item ->
+            CardAtividades(item)
+        }
+    }
+}
+
+@Composable
+fun KpiHome(
+    refeicoesTotaisDiaria: Int, refeicoesConcluidasDiaria: Int,
+    treinosTotaisDiaria: Int, treinosConcluidosDiaria: Int,
+    rotinasDiariasTotaisSemana: Int, rotinasDiariasConcluidasSemana: Int
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = stringResource(R.string.atividade),
+            fontSize = 20.sp,
+            fontFamily = MavenPro,
+            fontWeight = FontWeight.Bold,
+            color = Color.Black,
+            modifier = Modifier
+        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(120.dp)
+                .background(Color(18, 18, 19), shape = RoundedCornerShape(20.dp)),
+            horizontalArrangement = Arrangement.SpaceAround,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Porcentagem(
+                icone = R.mipmap.comidappreto,
+                valor = "$refeicoesConcluidasDiaria/$refeicoesTotaisDiaria",
+                titulo = "Refeições"
+            )
+            Porcentagem(
+                icone = R.mipmap.exerciciopreto,
+                valor = "$treinosConcluidosDiaria/$treinosTotaisDiaria",
+                titulo = "Exercícios"
+            )
+            Porcentagem(
+                icone = R.mipmap.calendario,
+                valor = "$rotinasDiariasConcluidasSemana/$rotinasDiariasTotaisSemana",
+                titulo = "Meta Semanal"
+            )
+        }
+    }
+}
+
+@Composable
+fun Porcentagem(icone: Int, valor: String, titulo: String) {
+    Column(
+        modifier = Modifier
+            .padding(4.dp)
+            .size(90.dp)
+            .background(Color.White, shape = RoundedCornerShape(16.dp)),
+            //.shadow(elevation = 2.dp, shape = RoundedCornerShape(16.dp)),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+    ) {
+        Image(
+            painter = painterResource(id = icone),
+            contentDescription = null,
+            modifier = Modifier
+                .size(24.dp)
+                .align(Alignment.CenterHorizontally)
+        )
+        Text(
+            text = valor,
+            fontFamily = MavenPro,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.SemiBold,
+            color = Color.Black
+        )
+        Text(
+            text = titulo,
+            fontSize = 12.sp,
+            fontFamily = MavenPro,
+            fontWeight = FontWeight.Medium,
+            color = Color.Black
+        )
+    }
+}
+
+@Composable
+fun CardAtividades(
+    treino: TreinoExibitionDto
+) {
+    val contexto = LocalContext.current
+
+    Column(modifier = Modifier) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(85.dp)
+                .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp)),
+            shape = RoundedCornerShape(16.dp)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(start = 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    AsyncImage(
+                        model = treino.exercicio.midias.find { it.tipo == "Imagem" }!!.caminho ,
+                        contentDescription = "Foto do exercício ${treino.exercicio.nome}",
+                        modifier = Modifier
+                            .size(60.dp)
+                            .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp))
+                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .width(225.dp),
+                        horizontalAlignment = Alignment.Start,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = stringResource(R.string.exercicio),
+                            fontSize = 16.sp,
+                            fontFamily = MavenPro,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Color(72, 183, 90)
+                        )
+                        Text(
+                            text = treino.exercicio.nome,
+                            fontFamily = MavenPro,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Color.Black
+                        )
+                    }
+                }
+                IconButton(
+                    onClick = {
+                        val detalheExercicio = Intent(contexto, DetalheExercicio::class.java)
+                        contexto.startActivity(detalheExercicio)
+                    },
+                    modifier = Modifier.padding(end = 16.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.mipmap.seta),
+                        contentDescription = "seta",
+                        modifier = Modifier.size(34.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun CardAtividades(
+    refeicao: RefeicaoExibitionDto
+) {
+    val contexto = LocalContext.current
+    val scrollState = rememberScrollState()
+
+    Column(modifier = Modifier.verticalScroll(scrollState)) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(70.dp)
+                .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp)),
+            shape = RoundedCornerShape(16.dp)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(start = 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    AsyncImage(
+                        model = { refeicao.midias.find { it.tipo == "Imagem" }!!.caminho },
+                        contentDescription = "Foto da refeição ${refeicao.nome}",
+                        modifier = Modifier
+                            .size(60.dp)
+                            .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp))
+                    )
+                    Text(
+                        text = stringResource(R.string.exercicio),
+                        fontSize = 18.sp,
+                        fontFamily = MavenPro,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color(72, 183, 90)
+                    )
+                    Text(
+                        text = refeicao.nome,
+                        fontFamily = MavenPro,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color.Black
+                    )
+                }
+                IconButton(
+                    onClick = {
+                        val detalheExercicio = Intent(contexto, DetalheExercicio::class.java)
+                        contexto.startActivity(detalheExercicio)
+                    },
+                    modifier = Modifier.padding(end = 16.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.mipmap.seta),
+                        contentDescription = "seta",
+                        modifier = Modifier.size(34.dp)
                     )
                 }
             }
@@ -532,103 +800,6 @@ fun UserCard(user: String, meta: String, numero: Int, imagemUSer: Int) {
 }
 
 @Composable
-fun Porcentagem(icone: Int, valor: String, titulo: String) {
-    Column(
-        modifier = Modifier
-            .padding(8.dp)
-            .size(90.dp)
-            .background(Color.White, shape = RoundedCornerShape(16.dp))
-            .shadow(elevation = 2.dp, shape = RoundedCornerShape(16.dp)),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Image(
-            painter = painterResource(id = icone),
-            contentDescription = null,
-            modifier = Modifier
-                .size(24.dp)
-                .align(Alignment.CenterHorizontally)
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = valor,
-            fontFamily = MavenPro,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.SemiBold,
-            color = Color.Black
-        )
-        Spacer(modifier = Modifier.height(4.dp))
-        Text(
-            text = titulo,
-            fontSize = 12.sp,
-            fontFamily = MavenPro,
-            fontWeight = FontWeight.Medium,
-            color = Color.Black
-        )
-    }
-}
-
-@Composable
-fun CardAtividades( titulo: String) {
-    val contexto = LocalContext.current
-    Column {
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(70.dp)
-                .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp)),
-            shape = RoundedCornerShape(16.dp)
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(start = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(10.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.mipmap.tortadefrango),
-                        contentDescription = "Exercicio",
-                        modifier = Modifier
-                            .size(60.dp)
-                            .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp))
-                    )
-                    Text(
-                        text = stringResource(R.string.exercicio),
-                        fontSize = 18.sp,
-                        fontFamily = MavenPro,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color(72, 183, 90)
-                    )
-                    Text(
-                        text = titulo,
-                        fontFamily = MavenPro,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color.Black
-                    )
-                }
-                IconButton(
-                    onClick = {val detalheExercicio = Intent(contexto, DetalheExercicio::class.java)
-                        contexto.startActivity(detalheExercicio)},
-                    modifier = Modifier.padding(end = 16.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.mipmap.seta),
-                        contentDescription = "seta",
-                        modifier = Modifier.size(34.dp)
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
 fun ExercicioItem(exercicios: List<String>) {
     val contexto = LocalContext.current
 
@@ -658,7 +829,7 @@ fun GridReceita(receitas: List<String>) {
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(receitas) { receita ->
-            CardReceita(receita){
+            CardReceita(receita) {
                 val receita = Intent(contexto, Receita::class.java)
                 contexto.startActivity(receita)
             }
@@ -667,19 +838,25 @@ fun GridReceita(receitas: List<String>) {
 }
 
 @Composable
-fun BarraPesquisa(modifier: Modifier = Modifier,  onTextChange: (String) -> Unit) {
+fun BarraPesquisa(modifier: Modifier = Modifier, onTextChange: (String) -> Unit) {
     var searchText by remember { mutableStateOf("") }
 
     OutlinedTextField(
         value = searchText,
-        onValueChange = { searchText = it
-            onTextChange(it)},
+        onValueChange = {
+            searchText = it
+            onTextChange(it)
+        },
         modifier = modifier
             .clip(RoundedCornerShape(30.dp))
             .background(Color(255, 255, 255))
             .border(2.dp, Color(0, 0, 0), RoundedCornerShape(30.dp)),
-        placeholder = { Text(stringResource(R.string.pesquisa),
-            fontFamily = MavenPro,) },
+        placeholder = {
+            Text(
+                stringResource(R.string.pesquisa),
+                fontFamily = MavenPro,
+            )
+        },
         leadingIcon = {
             Image(
                 painter = painterResource(id = R.mipmap.lupa),
@@ -691,7 +868,7 @@ fun BarraPesquisa(modifier: Modifier = Modifier,  onTextChange: (String) -> Unit
 }
 
 @Composable
-fun DateInput(modifier: Modifier = Modifier,  onTextChange: (String) -> Unit) {
+fun DateInput(modifier: Modifier = Modifier, onTextChange: (String) -> Unit) {
     var searchDate by remember { mutableStateOf("") }
 
     Column(modifier = modifier) {
@@ -706,10 +883,12 @@ fun DateInput(modifier: Modifier = Modifier,  onTextChange: (String) -> Unit) {
         )
         OutlinedTextField(
             value = searchDate,
-            onValueChange = {searchDate = it
-                onTextChange(it)},
+            onValueChange = {
+                searchDate = it
+                onTextChange(it)
+            },
             modifier = Modifier.fillMaxWidth(),
-            placeholder = { Text("Data",fontFamily = MavenPro) },
+            placeholder = { Text("Data", fontFamily = MavenPro) },
             leadingIcon = {
                 Image(
                     painter = painterResource(id = R.mipmap.calendario),
@@ -723,7 +902,7 @@ fun DateInput(modifier: Modifier = Modifier,  onTextChange: (String) -> Unit) {
 }
 
 @Composable
-    fun ItemInfo(label: String, valor: String, modifier: Modifier = Modifier) {
+fun ItemInfo(label: String, valor: String, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         Text(
             text = label,
@@ -754,7 +933,7 @@ fun CartaoInfo(
     sexo: String,
     especialidade: String = "",
     graduacao: String = "",
-    //onClick: () -> Unit
+    onEditClick: () -> Unit
 ) {
 
     val corTexto = if (tipoUsuario == "personal") Color(134, 86, 169) else Color(72, 183, 90)
@@ -791,15 +970,15 @@ fun CartaoInfo(
                         .clip(CircleShape)
                         .border(2.dp, Color.Gray, CircleShape)
                 )
-//                Image(
-//                    painter = painterResource(id = corBotao),
-//                    contentDescription = "Botão",
-//                    modifier = Modifier
-//                        .size(50.dp)
-//                        .clip(CircleShape)
-//                        .clickable { onClick = onClick}
-//                        .align(Alignment.BottomEnd)
-//                )
+                Image(
+                    painter = painterResource(id = corBotao),
+                    contentDescription = "Botão",
+                    modifier = Modifier
+                        .size(50.dp)
+                        .clip(CircleShape)
+                        .clickable { onEditClick() }
+                        .align(Alignment.BottomEnd)
+                )
             }
             Column(
                 modifier = Modifier
@@ -853,518 +1032,5 @@ fun Checkbox(
             fontFamily = MavenPro,
             color = Color.White
         )
-    }
-}
-
-@Composable
-fun CurrentPlanCard(onClick: () -> Unit) {
-    Card(
-        modifier = Modifier
-            .padding(top = 50.dp)
-            .fillMaxWidth(),
-        shape = RoundedCornerShape(24.dp)
-    ) {
-        Row(
-            modifier = Modifier.padding(20.dp),
-            horizontalArrangement = Arrangement.spacedBy(20.dp)
-        ) {
-            Column {
-                Text(
-                    text = stringResource(R.string.gratuito),
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    color =  Color(72, 183, 90),
-                )
-                Text(
-                    text = stringResource(R.string.beneficios),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    modifier = Modifier.padding(top = 32.dp)
-                )
-                Row {
-                    Image(
-                        painter = painterResource(id = R.mipmap.check),
-                        contentDescription = "check",
-                        modifier = Modifier
-                            .size(30.dp)
-                            .align(Alignment.CenterVertically)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = stringResource(R.string.objetivo) ,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Medium,
-                        modifier = Modifier.padding(top = 20.dp)
-                    )
-                }
-                Row {
-                    Image(
-                        painter = painterResource(id = R.mipmap.check),
-                        contentDescription = "check",
-                        modifier = Modifier
-                            .size(30.dp)
-                            .align(Alignment.CenterVertically)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = stringResource(R.string.mural_avanco),
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Medium,
-                        modifier = Modifier.padding(top = 20.dp)
-                    )
-                }
-
-                Row {
-                    Image(
-                        painter = painterResource(id = R.mipmap.check),
-                        contentDescription = "check",
-                        modifier = Modifier
-                            .size(30.dp)
-                            .align(Alignment.CenterVertically)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = stringResource(R.string.rotina),
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Medium,
-                        modifier = Modifier.padding(top = 20.dp)
-                    )
-                }
-
-                Row {
-                    Image(
-                        painter = painterResource(id = R.mipmap.check),
-                        contentDescription = "check",
-                        modifier = Modifier
-                            .size(30.dp)
-                            .align(Alignment.CenterVertically)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = stringResource(R.string.alimentacao),
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Medium,
-                        modifier = Modifier.padding(top = 20.dp)
-                    )
-                }
-                Row {
-                    Image(
-                        painter = painterResource(id = R.mipmap.check),
-                        contentDescription = "check",
-                        modifier = Modifier
-                            .size(30.dp)
-                            .align(Alignment.CenterVertically)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = stringResource(R.string.personais),
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Medium,
-                        modifier = Modifier.padding(top = 20.dp)
-                    )
-                }
-
-                Button(
-                    onClick = { },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 40.dp)
-                        .height(56.dp),
-                    shape = RoundedCornerShape(16.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(72, 183, 90)
-                    )) {
-                    Text(
-                        text = stringResource(R.string.satisfeito),
-                        color = Color.White,
-                        fontSize = 16.sp
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun VivaPlanCard(onClick: () -> Unit) {
-    Card(
-        modifier = Modifier
-            .padding(top = 28.dp)
-            .fillMaxWidth(),
-        shape = RoundedCornerShape(24.dp)
-    ) {
-        Column(
-            modifier = Modifier.padding(32.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = stringResource(R.string.plano),
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                color =  Color(72, 183, 90),
-            )
-            Text(
-                text = stringResource(R.string.e_mais),
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Medium,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(top = 36.dp)
-            )
-            Row {
-                Image(
-                    painter = painterResource(id = R.mipmap.check),
-                    contentDescription = "check",
-                    modifier = Modifier
-                        .size(30.dp)
-                        .align(Alignment.CenterVertically)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = stringResource(R.string.chat),
-                    fontSize = 18.sp,
-                    modifier = Modifier.padding(top = 32.dp)
-                )
-            }
-
-            Row {
-                Image(
-                    painter = painterResource(id = R.mipmap.check),
-                    contentDescription = "check",
-                    modifier = Modifier
-                        .size(30.dp)
-                        .align(Alignment.CenterVertically)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    text = stringResource(R.string.acompanhamento),
-                    fontSize = 18.sp,
-                    modifier = Modifier.padding(top = 32.dp)
-                )
-            }
-
-
-            Row(
-                modifier = Modifier.padding(top = 48.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = stringResource(R.string.por),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    color =  Color(72, 183, 90),
-                )
-                Text(
-                    text = stringResource(R.string.valor),
-                    fontSize = 40.sp,
-                    fontWeight = FontWeight.Bold,
-                    color =  Color(72, 183, 90),
-                    modifier = Modifier.padding(start = 12.dp)
-                )
-            }
-            Text(
-                text = stringResource(R.string.mes),
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold,
-                color =  Color(72, 183, 90),
-                modifier = Modifier.padding(top = 16.dp)
-            )
-            Button(
-                onClick = { },
-                modifier = Modifier
-                    .padding(top = 36.dp)
-                    .width(277.dp)
-                    .height(72.dp),
-                shape = RoundedCornerShape(24.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(72, 183, 90)
-                )
-            ) {
-                Text(
-                    text = stringResource(R.string.adquirir),
-                    color = Color.White,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-            }
-            Text(
-                text = stringResource(R.string.cancelamento),
-                fontSize = 12.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(top = 24.dp)
-            )
-        }
-    }
-}
-
-@Composable
-fun CardInfo(
-    tipo: String,
-    cep: String = "",
-    logradouro: String = "",
-    numero: String = "",
-    bairro: String = "",
-    cidade: String = "",
-    estado: String = "",
-    fumante: Boolean = false,
-    alcoolatra: Boolean = false,
-    deficiente: Boolean = false,
-    problemaCardiaco: Boolean = false,
-    peso: String = "",
-    altura: String = "",
-    meta: String = ""
-) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 36.dp, start = 16.dp, end = 16.dp),
-        shape = RoundedCornerShape(24.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
-    ) {
-        if (tipo == "usuario") {
-            Column(
-                modifier = Modifier.padding(44.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.info_tecnica),
-                    fontFamily = MavenPro,
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color(72, 183, 90),
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
-
-                CheckboxRow(label = "Fumante", checked = fumante)
-                CheckboxRow(label = "Alcoolatra", checked = alcoolatra)
-                CheckboxRow(label = "Deficiente", checked = deficiente)
-                CheckboxRow(label = "Problemas Cardíacos", checked = problemaCardiaco)
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    text = "Peso: $peso",
-                    fontFamily = MavenPro,
-                    fontSize = 18.sp
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    text = "Altura: $altura",
-                    fontFamily = MavenPro,
-                    fontSize = 18.sp
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    text = "Meta: $meta",
-                    fontFamily = MavenPro,
-                    fontSize = 18.sp
-                )
-            }
-        } else {
-            Column(
-                modifier = Modifier.padding(24.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = stringResource(R.string.info_end),
-                    fontFamily = MavenPro,
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color(134, 86, 169),
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 32.dp)
-                ) {
-                    ItemInfo("CEP:", cep)
-                    ItemInfo("Logradouro:", logradouro)
-                    ItemInfo("Número:", numero)
-                    ItemInfo("Bairro:", bairro)
-                    ItemInfo("Cidade:", cidade)
-                    ItemInfo("Estado:", estado)
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun CheckboxRow(label: String, checked: Boolean) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(bottom = 8.dp)
-    ) {
-        Checkbox(
-            checked = checked,
-            onCheckedChange = { },
-            colors = CheckboxDefaults.colors(
-                checkedColor = if (checked) Color(72, 183, 90) else Color.White,
-                uncheckedColor = Color.Gray
-            )
-        )
-        Text(
-            text = label,
-            fontFamily = MavenPro,
-            fontSize = 18.sp
-        )
-    }
-}
-
-@Composable
-fun CartaoAfiliacao(
-    afiliadoComPersonal: Boolean,
-    nomePersonal: String = "",
-    emailPersonal: String = "",
-    validadeAfiliacao: String = "",
-    usernamePersonal: String = "",
-    especialidade: String = "",
-    onClickVerPersonal: () -> Unit = {}
-) {
-    if (afiliadoComPersonal) {
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            colors = CardDefaults.cardColors(containerColor = Color.DarkGray)
-        ) {
-            Row(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column(
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Text(
-                        text = stringResource(R.string.nome, nomePersonal),
-                        fontFamily = MavenPro,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = stringResource(R.string.email, emailPersonal),
-                        fontFamily = MavenPro,
-                        color = Color.White
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = stringResource(R.string.validade, validadeAfiliacao),
-                        fontFamily = MavenPro,
-                        color = Color.White
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = stringResource(R.string.user, usernamePersonal),
-                        fontFamily = MavenPro,
-                        color = Color.White
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = stringResource(R.string.especialidade, especialidade),
-                        fontFamily = MavenPro,
-                        color = Color.White
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Button(
-                        onClick = onClickVerPersonal,
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(72, 183, 90)
-                        )
-                    ) {
-                        Text(text = "Ir para o Chat", fontFamily = MavenPro, color = Color.White)
-                    }
-                }
-                Spacer(modifier = Modifier.width(16.dp))
-                Box(
-                    modifier = Modifier
-                        .size(80.dp)
-                        .clip(CircleShape)
-                        .background(Color.Gray)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.mipmap.usuarioperfil),
-                        contentDescription = "Imagem do Perfil",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.fillMaxSize()
-                    )
-                }
-            }
-        }
-    } else {
-        val contexto = LocalContext.current
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            shape = RoundedCornerShape(24.dp),
-            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-            colors = CardDefaults.cardColors(containerColor = Color.White)
-        ) {
-            Column(
-                modifier = Modifier
-                    .padding(32.dp)
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = stringResource(R.string.afiliado),
-                        fontFamily = MavenPro,
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color(72, 183, 90),
-                        modifier = Modifier.weight(1f)
-                    )
-                    Image(
-                        painter = painterResource(id = R.mipmap.cadeado),
-                        contentDescription = "Ícone Premium",
-                        modifier = Modifier.size(60.dp)
-                    )
-                }
-                Text(
-                    text = stringResource(R.string.pago),
-                    fontFamily = MavenPro,
-                    fontSize = 16.sp,
-                    color = Color.Black,
-                    modifier = Modifier
-                        .padding(top = 16.dp)
-                )
-                Text(
-                    text = stringResource(R.string.acesso),
-                    fontFamily = MavenPro,
-                    fontSize = 16.sp,
-                    color = Color.Black,
-                    modifier = Modifier
-                        .padding(top = 16.dp)
-                )
-                Button(
-                    onClick = { val plano = Intent(contexto, Plano::class.java)
-                        contexto.startActivity(plano)},
-                    modifier = Modifier
-                        .padding(top = 24.dp)
-                        .fillMaxWidth()
-                        .height(50.dp),
-                    shape = RoundedCornerShape(30.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(22, 101, 52))
-                ) {
-                    Text(
-                        text = stringResource(R.string.premium),
-                        fontFamily = MavenPro,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color.White
-                    )
-                }
-            }
-        }
     }
 }
