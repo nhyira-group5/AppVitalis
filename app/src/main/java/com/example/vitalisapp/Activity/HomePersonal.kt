@@ -32,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -69,7 +70,7 @@ fun HomeProfessor(name: String, navController: NavHostController, modifier: Modi
     ) {
         MenuPersonal(navController)
         Text(
-            text = "Bem vindo(a), $name",
+            text = stringResource(R.string.Bem_vindo, name),
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Black,
@@ -94,7 +95,7 @@ fun HomeProfessor(name: String, navController: NavHostController, modifier: Modi
                         .padding(16.dp)
                 ) {
                     Text(
-                        text = "Usuários afiliados",
+                        text = stringResource(R.string.filiado),
                         fontSize = 20.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = Color(0, 0, 0)
@@ -105,7 +106,11 @@ fun HomeProfessor(name: String, navController: NavHostController, modifier: Modi
                         modifier = Modifier.fillMaxSize()
                     ) {
                         items(5) {
-                            UserCard()
+                            UserCard(
+                                user="User",
+                                meta="Perda de peso",
+                                numero =3,
+                                imagemUSer = R.mipmap.foto)
                             Spacer(modifier = Modifier.height(10.dp))
                         }
                     }
@@ -128,7 +133,7 @@ fun HomeProfessor(name: String, navController: NavHostController, modifier: Modi
                         .padding(16.dp)
                 ) {
                     Text(
-                        text = "Solicitações de afiliação",
+                        text = stringResource(R.string.solicitacao),
                         fontSize = 20.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = Color.White
@@ -139,7 +144,11 @@ fun HomeProfessor(name: String, navController: NavHostController, modifier: Modi
                         modifier = Modifier.fillMaxSize()
                     ) {
                         items(3) {
-                            CardAfiliado()
+                            CardAfiliado(
+                                nick="nick",
+                                nome = "nome",
+                                meta = "meta"
+                            )
                             Spacer(modifier = Modifier.height(10.dp))
                         }
                     }
@@ -150,57 +159,7 @@ fun HomeProfessor(name: String, navController: NavHostController, modifier: Modi
 }
 
 @Composable
-fun UserCard() {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp)
-    ) {
-        Row(
-            modifier = Modifier.padding(10.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Image(
-                painter = painterResource(id = R.mipmap.foto),
-                contentDescription = "User Avatar",
-                modifier = Modifier
-                    .size(65.dp)
-                    .clip(CircleShape),
-            )
-            Spacer(modifier = Modifier.width(20.dp))
-            Column {
-                Text(
-                    text = "User0101",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color(134, 86, 169)
-                )
-                Row {
-                    Text(text = "Meta:", color = Color(134, 86, 169))
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = "Perda de peso",
-                        fontWeight = FontWeight.Bold,
-                        color = Color(24, 24, 27)
-                    )
-                }
-                Text(
-                    text = "Você tem 2 novas mensagens",
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black
-                )
-            }
-            Spacer(modifier = Modifier.weight(1f))
-            Image(
-                painter = painterResource(id = R.mipmap.menu),
-                contentDescription = "Message Icon",
-                modifier = Modifier.size(30.dp)
-            )
-        }
-    }
-}
-
-@Composable
-fun CardAfiliado() {
+fun CardAfiliado(nick: String, nome: String, meta:String) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -210,25 +169,28 @@ fun CardAfiliado() {
         Row {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = "Nickname",
+                    text = nick,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = Color(0xFF52525B)
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
-                    text = "Nome do usuário",
+                    text = nome,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = Color.Black
                 )
                 Spacer(modifier = Modifier.height(10.dp))
-                Text(
-                    text = "Meta: meta do usuário",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.Black
-                )
+                Row {
+                    Text(text = "Meta:", color = Color(134, 86, 169))
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = meta,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(24, 24, 27)
+                    )
+                }
             }
 
             Column(
@@ -253,7 +215,8 @@ fun CardAfiliado() {
                     onClick = { },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(50.dp),
+                        .height(50.dp)
+                        .padding(bottom = 10.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color(76, 206, 109)
                     )

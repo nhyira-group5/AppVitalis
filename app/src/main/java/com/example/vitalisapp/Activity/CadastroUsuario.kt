@@ -21,6 +21,8 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
@@ -39,6 +41,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -80,7 +83,9 @@ fun CadastroCliente(name: String, navController: NavHostController, modifier: Mo
     var senha by remember { mutableStateOf("") }
     var confirmarSenha by remember { mutableStateOf("") }
     var cpf by remember { mutableStateOf("") }
-    var sexo by remember { mutableStateOf("M") }
+    var sexo by remember { mutableStateOf("") }
+    var masc by remember { mutableStateOf(false) }
+    var fem by remember { mutableStateOf(false) }
     val contexto = LocalContext.current
 
     Column(
@@ -105,7 +110,7 @@ fun CadastroCliente(name: String, navController: NavHostController, modifier: Mo
                 .padding(16.dp)
         ) {
             Text(
-                text = "Bem-vindo à nossa plataforma! Cadastra-se para acessar nossos recursos",
+                text = stringResource(R.string.cabecalho_intrutor),
                 color = Color.Black,
                 fontFamily = MavenPro,
                 modifier = Modifier
@@ -159,88 +164,54 @@ fun CadastroCliente(name: String, navController: NavHostController, modifier: Mo
             modifier = Modifier.padding(bottom = 25.dp)
         )
         Text(
-            text = "Quer acessar nossa aplicação? Vamos realizar seu cadastro!",
+            text = stringResource(R.string.sub_cadastro1),
             color = Color.White,
             textAlign = TextAlign.Center,
             fontFamily = MavenPro,
             modifier = Modifier.padding(bottom = 16.dp)
         )
         Text(
-            text = "Insira algumas informações sobre você para fazermos o cadastro de sua conta!",
+            text = stringResource(R.string.sub_cadastro2),
             color = Color.White,
             textAlign = TextAlign.Center,
             fontFamily = MavenPro,
             modifier = Modifier.padding(bottom = 16.dp)
         )
-        OutlinedTextField(
+        InputText(
             value = nomeUsuario,
             onValueChange = {nomeUsuario = it},
-            label = { Text(
-                text = "Nome do Usuário",
-                fontFamily = MavenPro,
-                color = Color.White) },
-            modifier = Modifier.fillMaxWidth()
+            label = "Nome do Usuário"
         )
-        OutlinedTextField(
+        InputText(
             value = apelido,
             onValueChange = {apelido = it},
-            label = { Text(
-                text = "Apelido",
-                fontFamily = MavenPro,
-                color = Color.White) },
-            modifier = Modifier.fillMaxWidth()
+            label = "Apelido"
         )
-        OutlinedTextField(
+        InputText(
             value = email,
             onValueChange = {email = it},
-            label = { Text(
-                text = "Email",
-                fontFamily = MavenPro,
-                color = Color.White) },
-            modifier = Modifier.fillMaxWidth()
+            label = "Email"
         )
-        OutlinedTextField(
+        InputText(
             value = dataNascimento,
             onValueChange = {dataNascimento = it
                             },
-            label = { Text(
-                text = "Data de nascimento",
-                fontFamily = MavenPro,
-                color = Color.White)
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier.fillMaxWidth()
+            label = "Data de nascimento"
         )
-        OutlinedTextField(
+        InputText(
             value = senha,
             onValueChange = {senha = it},
-            label = { Text(
-                text = "Senha",
-                fontFamily = MavenPro,
-                color = Color.White) },
-            modifier = Modifier.fillMaxWidth()
+            label = "Senha"
         )
-        OutlinedTextField(
+        InputText(
             value = confirmarSenha,
             onValueChange = {confirmarSenha = it},
-            label = { Text(
-                text = "Confirmar Senha",
-                fontFamily = MavenPro,
-                color = Color.White) },
-            modifier = Modifier.fillMaxWidth()
+            label = "Confirmar Senha"
         )
-        OutlinedTextField(
+        InputText(
             value = cpf,
             onValueChange = {cpf = it},
-            label = { Text(
-                text = "CPF",
-                color = Color.White) },
-            placeholder = { Text(
-                text = "123.456.789-10",
-                fontFamily = MavenPro,
-                color = Color.White) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier.fillMaxWidth()
+            label = "CPF"
         )
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -249,29 +220,34 @@ fun CadastroCliente(name: String, navController: NavHostController, modifier: Mo
             Text(
                 text = "Sexo:",
                 fontFamily = MavenPro,
-                color = Color.White)
-            RadioButton(
-                selected = true,
-                onClick = {sexo = "M" },
-                colors = RadioButtonDefaults.colors(
-                    selectedColor = Color(72, 183, 90),
-                    unselectedColor = Color.White)
+                color = Color.White
             )
-            Text(
-                text = "M",
-                fontFamily = MavenPro,
-                color = Color.White)
-            RadioButton(
-                selected = false,
-                onClick = { sexo = "F" },
-                colors = RadioButtonDefaults.colors(
-                    selectedColor = Color(72, 183, 90),
-                    unselectedColor = Color.White)
+
+            Checkbox(
+                checked = masc,
+                onCheckedChange = { checked ->
+                    masc = checked
+                    if (checked) {
+                        fem = false
+                        sexo = "M"
+                    }
+                },
+                label = "M",
+                isPersonal = false
             )
-            Text(
-                text = "F",
-                fontFamily = MavenPro,
-                color = Color.White)
+
+            Checkbox(
+                checked = fem,
+                onCheckedChange = { checked ->
+                    fem = checked
+                    if (checked) {
+                        masc = false
+                        sexo = "F"
+                    }
+                },
+                label = "F",
+                isPersonal = false // Defina se é personal ou usuário
+            )
         }
 
         Button(

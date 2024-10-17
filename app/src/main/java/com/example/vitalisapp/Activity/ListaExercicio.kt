@@ -22,12 +22,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.vitalisapp.R
 import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
 
@@ -59,7 +61,7 @@ fun GaleriaExercicio(name: String, navController: NavHostController, modifier: M
             Menu(navController)
 
             Text(
-                text = "Exercícios - 13/05/2024",
+                text = stringResource(R.string.exercicio),
                 fontFamily = MavenPro,
                 fontSize = 25.sp,
                 fontWeight = FontWeight.Bold,
@@ -67,34 +69,17 @@ fun GaleriaExercicio(name: String, navController: NavHostController, modifier: M
             )
             Spacer(modifier = Modifier.height(16.dp))
 
-            ExercicioItem()
+            ExercicioItem(
+                exercicios = listOf(
+                "Agachamento", "Flexão de braço", "Abdominal", "Burpee",
+                "Prancha", "Elevação lateral", "Corrida no lugar", "Pular corda",
+                "Afundo", "Polichinelo", "Mountain climber", "Supino",
+                "Levantamento terra", "Extensão de tríceps", "Rosca bíceps"
+            ))
         }
     }
 
-    @Composable
-    fun ExercicioItem() {
-        val contexto = LocalContext.current
-        val exercicios = listOf(
-            "Agachamento", "Flexão de braço", "Abdominal", "Burpee",
-            "Prancha", "Elevação lateral", "Corrida no lugar", "Pular corda",
-            "Afundo", "Polichinelo", "Mountain climber", "Supino",
-            "Levantamento terra", "Extensão de tríceps", "Rosca bíceps"
-        )
 
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            contentPadding = PaddingValues(top = 20.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            items(exercicios) { exercicio ->
-                CardReceita(exercicio) {
-                    val detalheExercicio = Intent(contexto, DetalheExercicio::class.java)
-                    contexto.startActivity(detalheExercicio)
-                }
-            }
-        }
-    }
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable

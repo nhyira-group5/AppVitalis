@@ -42,7 +42,7 @@
             android:theme="@style/Theme.VitalisApp" />
         <activity
             android:name=".Activity.Inicio"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/title_activity_inicio"
             android:theme="@style/Theme.VitalisApp" />
         <activity
@@ -89,11 +89,7 @@
             android:name=".Activity.Mural"
             android:exported="false"
             android:label="@string/title_activity_mural"
-            android:theme="@style/Theme.VitalisApp" /> <!-- <activity -->
-        <!-- android:name=".Login" -->
-        <!-- android:exported="false" -->
-        <!-- android:label="@string/title_activity_login" -->
-        <!-- android:theme="@style/Theme.VitalisApp" /> -->
+            android:theme="@style/Theme.VitalisApp" />
         <activity
             android:name=".Activity.ConfirmacaoParq"
             android:exported="false"
@@ -108,11 +104,6 @@
             android:name=".Activity.CadastroPersonal"
             android:exported="false"
             android:label="@string/title_activity_cadastro_personal"
-            android:theme="@style/Theme.VitalisApp" />
-        <activity
-            android:name=".Activity.ConfirmacaoCadastro"
-            android:exported="false"
-            android:label="@string/title_activity_confirmacao_cadastro"
             android:theme="@style/Theme.VitalisApp" />
         <activity
             android:name=".Activity.CadastroUsuarioDois"

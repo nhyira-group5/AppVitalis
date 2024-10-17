@@ -44,6 +44,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -82,7 +83,15 @@ fun PerfilUsuario(name: String, navController: NavHostController, modifier: Modi
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Menu(navController)
-        CartaoInfoPessoal()
+        CartaoInfo(
+            tipoUsuario = "usuario",
+            imagemUsuario = R.mipmap.usuarioperfil,
+            nome = "Marcos de Oliveira",
+            email = "marcos@gmail.com",
+            emailRecuperacao = "marcos5@gmail.com",
+            nickname = "marCOS20!",
+            sexo = "Masculino",
+            aniversario = "17/01/1998")
         CartaoInfoTecnica()
         CartaoPremium()
 //        CartaoPersonal(
@@ -96,87 +105,7 @@ fun PerfilUsuario(name: String, navController: NavHostController, modifier: Modi
     }
 }
 
-@Composable
-fun CartaoInfoPessoal() {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 15.dp, start = 16.dp, end = 16.dp),
-        shape = RoundedCornerShape(24.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
-    ) {
-        Column(
-            modifier = Modifier.padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = "Informações Pessoais",
-                fontFamily = MavenPro,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = Color(72, 183, 90),
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-            Box(
-                contentAlignment = Alignment.Center
-            ) {
-                Image(
-                    painter = painterResource(id = R.mipmap.usuarioperfil),
-                    contentDescription = "Foto Usuário",
-                    modifier = Modifier
-                        .size(150.dp)
-                        .clip(CircleShape)
-                        .border(2.dp, Color.Gray, CircleShape)
-                )
-                Image(
-                    painter = painterResource(id = R.mipmap.botaomural),
-                    contentDescription = "Botão",
-                    modifier = Modifier
-                        .size(50.dp)
-                        .clip(CircleShape)
-                        .clickable { onEditClick() }
-                        .align(Alignment.BottomEnd)
-                )
-            }
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 32.dp)
-            ) {
-                ItemInfoPessoal("Nome completo:", "Marcos da Silva")
-                ItemInfoPessoal("E-mail principal:", "FulanoSailva@gmail.com")
-                ItemInfoPessoal("E-mail de recuperação:", "FulanoSilvaSalada2@gmail.com")
-                ItemInfoPessoal("Nickname:", "marC0S23!")
-                ItemInfoPessoal("Data de nascimento:", "17 / 01 / 2005")
-                ItemInfoPessoal("Sexo:", "Masculino")
-            }
-        }
-    }
-}
-
 fun onEditClick() {
-}
-
-
-@Composable
-fun ItemInfoPessoal(label: String, valor: String, modifier: Modifier = Modifier) {
-    Column(modifier = modifier) {
-        Text(
-            text = label,
-            fontFamily = MavenPro,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black
-        )
-        Text(
-            text = valor,
-            fontFamily = MavenPro,
-            fontSize = 16.sp,
-            color = Color(24, 24, 27),
-            modifier = Modifier.padding(top = 8.dp)
-        )
-    }
 }
 
 @Composable
@@ -200,7 +129,7 @@ fun CartaoInfoTecnica() {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Informações Técnicas",
+                    text = stringResource(R.string.info_tecnica),
                     fontFamily = MavenPro,
                     fontSize = 22.sp,
                     fontWeight = FontWeight.SemiBold,
@@ -300,32 +229,6 @@ fun CartaoInfoTecnica() {
 
                 Text(
                     text = "Meta: Perda de peso",
-                    fontFamily = MavenPro,
-                    fontSize = 18.sp
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    text = "P.C",
-                    fontFamily = MavenPro,
-                    fontSize = 18.sp
-                )
-                Text(
-                    text = "Lorem Ipsum; Lorem Ipsum; Lorem Ipsum; Lorem Ipsum ...",
-                    fontFamily = MavenPro,
-                    fontSize = 18.sp
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    text = "Deficiente",
-                    fontFamily = MavenPro,
-                    fontSize = 18.sp
-                )
-                Text(
-                    text = "Lorem Ipsum; Lorem Ipsum; Lorem Ipsum; Lorem Ipsum ...",
                     fontFamily = MavenPro,
                     fontSize = 18.sp
                 )

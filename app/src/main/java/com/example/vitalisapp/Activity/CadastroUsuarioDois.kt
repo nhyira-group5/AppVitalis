@@ -26,6 +26,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -76,7 +77,6 @@ fun SegundaParte(name: String, modifier: Modifier = Modifier) {
     var tontura by remember { mutableStateOf(false) }
     var problemaOsseo by remember { mutableStateOf(false) }
     var medicamento by remember { mutableStateOf(false) }
-
     val customColor = Color(72, 183, 90)
     val scrollState = rememberScrollState()
 
@@ -111,25 +111,18 @@ fun SegundaParte(name: String, modifier: Modifier = Modifier) {
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.fillMaxWidth()
         ) {
-            OutlinedTextField(
-                value = peso,
-                onValueChange = { peso = it },
-                modifier = Modifier.weight(1f),
-                label = { Text(
-                    text = "Peso",
-                    fontFamily = MavenPro,
-                    color = Color.White) },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+            InputText(
+                value = "",
+                onValueChange = {},
+                label = "Peso",
+                modifier = Modifier.weight(1f)
             )
-            OutlinedTextField(
-                value = altura,
-                onValueChange = { altura = it },
-                modifier = Modifier.weight(1f),
-                label = { Text(
-                    text = "Altura (cm)",
-                    fontFamily = MavenPro,
-                    color = Color.White) },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+
+            InputText(
+                value = "",
+                onValueChange = { },
+                label = "Altura (cm)",
+                modifier = Modifier.weight(1f)
             )
         }
 
@@ -143,20 +136,15 @@ fun SegundaParte(name: String, modifier: Modifier = Modifier) {
         ) {
             OutlinedTextField(
                 value = meta,
-                onValueChange = { },
+                onValueChange = {},
                 readOnly = true,
-                label = { Text(
-                    text = "Meta",
-                    fontFamily = MavenPro,
-                    color = Color.White) },
+                label = { Text(text = "Meta", color = Color.White) },
                 trailingIcon = {
-                    Box(modifier = Modifier.background(Color.Gray)) {
-                        Icon(
-                            imageVector = Icons.Filled.ArrowDropDown,
-                            contentDescription = null,
-                            tint = Color.White
-                        )
-                    }
+                    Icon(
+                        imageVector = Icons.Filled.ArrowDropDown,
+                        contentDescription = null,
+                        tint = Color.White
+                    )
                 }
             )
         }
@@ -269,8 +257,8 @@ fun SegundaParte(name: String, modifier: Modifier = Modifier) {
         ) {
             Button(
                 onClick = {
-                    val confirmacaoCadastro = Intent(contexto, ConfirmacaoCadastro::class.java)
-                    contexto.startActivity(confirmacaoCadastro)
+                    val inicio = Intent(contexto, Inicio::class.java)
+                    contexto.startActivity(inicio)
                 },
                 modifier = Modifier,
                 colors = ButtonDefaults.buttonColors(
@@ -300,23 +288,24 @@ fun MetaDropdownMenu(
         modifier = Modifier.fillMaxWidth()
     ) {
         metaOptions.forEach { option ->
-            DropdownMenuItem(onClick = {
-                onMetaChange(option)
-            }) {
+            // Usando um Box para criar um item de menu personalizável
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable {
+                        onMetaChange(option)
+                        onDismissRequest() // Fecha o menu após a seleção
+                    }
+                    .padding(8.dp)
+            ) {
                 Text(
                     text = option,
-                    color = Color.Black,
-                    modifier = Modifier.padding(8.dp)
+                    color = Color.Black
                 )
             }
         }
     }
 }
-
-fun DropdownMenuItem(onClick: () -> Unit, interactionSource: @Composable () -> Unit) {
-
-}
-
 @Preview(showBackground = true,showSystemUi = true)
 @Composable
 fun GreetingPreview2() {

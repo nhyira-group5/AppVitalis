@@ -38,6 +38,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -68,6 +69,7 @@ class ListaRefeicao : ComponentActivity() {
 
 @Composable
 fun Refeicao(name: String, navController: NavHostController, modifier: Modifier = Modifier) {
+    var searchQuery by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -96,102 +98,18 @@ fun Refeicao(name: String, navController: NavHostController, modifier: Modifier 
             BarraPesquisa(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(50.dp)
-            )
-            IngredienteDropdown(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp)
+                    .height(50.dp),
+                onTextChange = { searchQuery = it }
+
             )
         }
 
-        GridReceita()
-    }
-}
-
-@Composable
-fun BarraPesquisa(modifier: Modifier = Modifier) {
-    var searchText by remember { mutableStateOf("") }
-
-    OutlinedTextField(
-        value = searchText,
-        onValueChange = { searchText = it },
-        modifier = modifier
-            .clip(RoundedCornerShape(30.dp))
-            .background(Color(255, 255, 255))
-            .border(2.dp, Color(0, 0, 0), RoundedCornerShape(30.dp)),
-        placeholder = { Text("Pesquise uma refeição!",
-            fontFamily = MavenPro,) },
-        leadingIcon = {
-            Image(
-                painter = painterResource(id = R.mipmap.lupa),
-                contentDescription = "Lupa",
-                modifier = Modifier.size(25.dp)
-            )
-        }
-    )
-}
-
-@Composable
-fun IngredienteDropdown(modifier: Modifier = Modifier) {
-    var expanded by remember { mutableStateOf(false) }
-
-    Box(
-        modifier = modifier
-    ) {
-        Button(
-            onClick = { expanded = true },
-            modifier = Modifier
-                .fillMaxSize()
-                .clip(RoundedCornerShape(30.dp))
-                .border(2.dp, Color(0, 0, 0), RoundedCornerShape(30.dp)),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(255, 255, 255))
-        ) {
-            Text(
-                "Ingrediente",
-                fontFamily = MavenPro,
-                color = Color(113, 113, 122),
-                modifier = Modifier.weight(1f)
-            )
-            Image(
-                painter = painterResource(id = R.mipmap.lupa),
-                contentDescription = "Lupa",
-                modifier = Modifier.size(25.dp)
-            )
-        }
-
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
-        ) {
-            // Adicione os itens do dropdown aqui
-        }
-    }
-}
-
-@Composable
-fun GridReceita() {
-    val contexto = LocalContext.current
-    val receitas = listOf(
-        "Torta de frango", "Brigadeiro fit", "Linguiça recheada com queijo",
-        "Salada cezar", "Refogado de panela", "Escondidinho",
-        "Virada paulista", "Macarrão com frango", "Frango grelhado",
-        "Mousse de maracuja", "Sanduiche integral de frango", "Strogonoff",
-        "Sopa de legumes", "Suco de laranja com torrada de ricota", "Pão com ovo"
-    )
-
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        contentPadding = PaddingValues(top = 20.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        items(receitas) { receita ->
-            CardReceita(receita){
-                val receita = Intent(contexto, Receita::class.java)
-                contexto.startActivity(receita)
-            }
-        }
+        GridReceita(listOf(
+            "Torta de frango", "Brigadeiro fit", "Linguiça recheada com queijo",
+            "Salada cezar", "Refogado de panela", "Escondidinho",
+            "Virada paulista", "Macarrão com frango", "Frango grelhado",
+            "Mousse de maracuja", "Sanduiche integral de frango", "Strogonoff",
+            "Sopa de legumes", "Suco de laranja com torrada de ricota", "Pão com ovo"))
     }
 }
 

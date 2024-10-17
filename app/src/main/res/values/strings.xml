@@ -22,4 +22,29 @@
     <string name="title_activity_chat_usuario">ChatUsuario</string>
     <string name="title_activity_chat_personal">ChatPersonal</string>
     <string name="title_activity_home_personal">HomePersonal</string>
+
+    <string name="cabecalho_intrutor">Bem-vindo à nossa plataforma! Cadastre-se para acessar recursos e trabalhar conosco.</string>
+    <string name="instrutor">É um instrutor?</string>
+    <string name="cadastro_instrutor">Cadastro Instrutor</string>
+    <string name="sub_cadastro1">Quer acessar nossa aplicação? Vamos realizar seu cadastro! </string>
+    <string name="sub_cadastro2">Insira algumas informações sobre você para fazermos o cadastro de sua conta! </string>
+
+
+    <string name="Bem_vindo">Bem vindo(a), %s</string>
+    <string name="atividade">Atividades de hoje</string>
+    <string name="exercicio">Exercícios</string>
+
+    <string name="informação">Informações de execução</string>
+    <string name="encontre">Encontre um personal</string>
+    <string name="filiado">Usuários afiliados</string>
+    <string name="solicitacao">Solicitações de afiliação</string>
+    <string name="pesquisa">Pesquise uma refeição!</string>
+    <string name="sub_mural">Poste aqui sua evolução durante a sua jornada para uma vida mais saudável!</string>
+    <string name="mural">Mural de evolução</string>
+    <string name="info_pessoal">Informações Pessoais</string>
+    <string name="info_tecnica">Informações Técnicas</string>
+    <string name="info_end">Informações de Endereço</string>
+
+    <string name="plano">Plano Vitalis</string>
+
 </resources>

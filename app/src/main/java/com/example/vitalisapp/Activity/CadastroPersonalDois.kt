@@ -173,72 +173,40 @@ fun SegundoPersonal(name: String, modifier: Modifier = Modifier) {
             fontFamily = MavenPro,
             modifier = Modifier.padding(bottom = 10.dp, top= 5.dp)
         )
-        OutlinedTextField(
-            value = "",
-            onValueChange = {},
-            label = { Text(
-                text = "CEP",
-                fontFamily = MavenPro,
-                color = Color.White)
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier.fillMaxWidth()
+        InputText(
+            value = cep,
+            onValueChange = {cep =it},
+            label = "CEP"
         )
-        OutlinedTextField(
-            value = "",
-            onValueChange = {},
-            label = { Text(
-                text = "Rua",
-                fontFamily = MavenPro,
-                color = Color.White) },
-            modifier = Modifier.fillMaxWidth()
+        InputText(
+            value = rua,
+            onValueChange = {rua =it},
+            label = "Rua"
         )
-        OutlinedTextField(
-            value = "",
-            onValueChange = {},
-            label = { Text(
-                text = "Estado",
-                fontFamily = MavenPro,
-                color = Color.White) },
-            modifier = Modifier.fillMaxWidth()
+        InputText(
+            value = estado,
+            onValueChange = {estado = it},
+            label = "Estado"
         )
-        OutlinedTextField(
-            value = "",
-            onValueChange = {},
-            label = { Text(
-                text = "Bairro",
-                fontFamily = MavenPro,
-                color = Color.White) },
-            modifier = Modifier.fillMaxWidth()
+        InputText(
+            value = bairro,
+            onValueChange = {bairro = it},
+            label = "Bairro"
         )
-        OutlinedTextField(
-            value = "",
-            onValueChange = {},
-            label = { Text(
-                text = "Número",
-                fontFamily = MavenPro,
-                color = Color.White) },
-            modifier = Modifier.fillMaxWidth()
+        InputText(
+            value = numero,
+            onValueChange = {numero = it},
+            label = "Número"
         )
-        OutlinedTextField(
-            value = "",
-            onValueChange = {},
-            label = { Text(
-                text = "Complemento",
-                fontFamily = MavenPro,
-                color = Color.White) },
-            modifier = Modifier.fillMaxWidth()
+        InputText(
+            value = complemento,
+            onValueChange = {complemento =it},
+            label = "Complemento"
         )
-        OutlinedTextField(
-            value = "",
-            onValueChange = {},
-            label = { Text(
-                text = "Data de formação",
-                fontFamily = MavenPro,
-                color = Color.White)
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier.fillMaxWidth()
+        InputText(
+            value = dataFormacao,
+            onValueChange = {dataFormacao = it},
+            label = "Data de formação"
         )
 
         Box(
@@ -316,17 +284,17 @@ fun EspecialidadeDropdownMenu(
         onDismissRequest = onDismissRequest,
         modifier = Modifier.fillMaxWidth()
     ) {
-        metaOptions.forEach { option ->
-            DropdownMenuItem(onClick = {
-                onMetaChange(option)
-            }) {
-                Text(
-                    text = option,
-                    color = Color.Black,
-                    modifier = Modifier.padding(8.dp)
-                )
-            }
-        }
+//        metaOptions.forEach { option ->
+//            DropdownMenu(
+//                onClick = { onMetaChange(option) }
+//            ) {
+//                Text(
+//                    text = option,
+//                    color = Color.Black,
+//                    modifier = Modifier.padding(8.dp)
+//                )
+//            }
+//        }
     }
 }
 

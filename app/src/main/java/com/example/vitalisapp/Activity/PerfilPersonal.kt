@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -66,68 +67,18 @@ fun PerfilPersonal(name: String, navController: NavHostController, modifier: Mod
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         MenuPersonal(navController)
-        CartaoInfoPersonal()
+        CartaoInfo(
+            tipoUsuario = "personal",
+            imagemUsuario = R.mipmap.usuarioperfil,
+            nome = "Marcos da SIlva",
+            email = "marcos@gmail.com",
+            nickname = "marCOS23!",
+            sexo = "Masculino",
+            aniversario = "17/01/1998",
+            especialidade = "emagrecimento",
+            graduacao = "31/12/2022"
+        )
         CartaoInfoEndereco()
-    }
-}
-
-@Composable
-fun CartaoInfoPersonal() {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 10.dp, start = 16.dp, end = 16.dp),
-        shape = RoundedCornerShape(24.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
-    ) {
-        Column(
-            modifier = Modifier.padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = "Informações Pessoais",
-                fontFamily = MavenPro,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = Color(134, 86, 169),
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-            Box(
-                contentAlignment = Alignment.Center
-            ) {
-                Image(
-                    painter = painterResource(id = R.mipmap.usuarioperfil),
-                    contentDescription = "Foto Usuário",
-                    modifier = Modifier
-                        .size(150.dp)
-                        .clip(CircleShape)
-                        .border(2.dp, Color.Gray, CircleShape)
-                )
-                Image(
-                    painter = painterResource(id = R.mipmap.botaopersonal),
-                    contentDescription = "Botão",
-                    modifier = Modifier
-                        .size(50.dp)
-                        .clip(CircleShape)
-                        .clickable { onEditClick() }
-                        .align(Alignment.BottomEnd)
-                )
-            }
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 32.dp)
-            ) {
-                ItemInfoPersonal("Nome completo:", "Marcos da Silva")
-                ItemInfoPersonal("E-mail principal:", "FulanoSailva@gmail.com")
-                ItemInfoPersonal("Nickname:", "marC0S23!")
-                ItemInfoPersonal("Data de nascimento:", "17 / 01 / 1995")
-                ItemInfoPersonal("Sexo:", "Masculino")
-                ItemInfoPersonal("Especialidade:", "Emagrecimento")
-                ItemInfoPersonal("Data de formação:", "31/12/2022")
-            }
-        }
     }
 }
 
@@ -146,7 +97,7 @@ fun CartaoInfoEndereco() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Informações de Endereço",
+                text = stringResource(R.string.info_end),
                 fontFamily = MavenPro,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.SemiBold,
@@ -158,34 +109,14 @@ fun CartaoInfoEndereco() {
                     .fillMaxWidth()
                     .padding(top = 32.dp)
             ) {
-                ItemInfoPersonal("CEP:", "08451-050")
-                ItemInfoPersonal("Logradouro:", "Rua serra das araras")
-                ItemInfoPersonal("Número:", "123")
-                ItemInfoPersonal("Bairro:", "Vila Yolanda (Lageado)")
-                ItemInfoPersonal("Cidade:", "São Paulo")
-                ItemInfoPersonal("Estado", "SP")
+                ItemInfo("CEP:", "08451-050")
+                ItemInfo("Logradouro:", "Rua serra das araras")
+                ItemInfo("Número:", "123")
+                ItemInfo("Bairro:", "Vila Yolanda (Lageado)")
+                ItemInfo("Cidade:", "São Paulo")
+                ItemInfo("Estado", "SP")
             }
         }
-    }
-}
-
-@Composable
-fun ItemInfoPersonal(label: String, valor: String, modifier: Modifier = Modifier) {
-    Column(modifier = modifier) {
-        Text(
-            text = label,
-            fontFamily = MavenPro,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.Black
-        )
-        Text(
-            text = valor,
-            fontFamily = MavenPro,
-            fontSize = 16.sp,
-            color = Color(24, 24, 27),
-            modifier = Modifier.padding(top = 8.dp)
-        )
     }
 }
 
