@@ -723,7 +723,7 @@ fun DateInput(modifier: Modifier = Modifier,  onTextChange: (String) -> Unit) {
 }
 
 @Composable
-fun ItemInfo(label: String, valor: String, modifier: Modifier = Modifier) {
+    fun ItemInfo(label: String, valor: String, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         Text(
             text = label,
