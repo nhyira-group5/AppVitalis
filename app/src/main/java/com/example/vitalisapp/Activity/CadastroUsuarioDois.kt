@@ -40,11 +40,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.vitalisapp.R
 import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
 
@@ -71,7 +73,7 @@ fun SegundaParte(name: String, modifier: Modifier = Modifier) {
     var altura by remember { mutableStateOf(TextFieldValue("")) }
     var meta by remember { mutableStateOf("") }
     var metaExpanded by remember { mutableStateOf(false) }
-    val metaOptions = listOf("Perder peso", "Ganho de Massa", "Flexibilidade")
+    val metaOptions = listOf("Emagracimento", "Ganho de Massa", "Flexibilidade")
     var problemaCoracao by remember { mutableStateOf(false) }
     var dorPeito by remember { mutableStateOf(false) }
     var tontura by remember { mutableStateOf(false) }
@@ -90,7 +92,7 @@ fun SegundaParte(name: String, modifier: Modifier = Modifier) {
             .padding(16.dp)
     ) {
         Text(
-            text = "Estamos quase lá!",
+            text = stringResource(R.string.quase),
             fontFamily = MavenPro,
             color = customColor,
             fontSize = 40.sp,
@@ -100,7 +102,7 @@ fun SegundaParte(name: String, modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(10.dp))
 
         Text(
-            text = "Antes de você acessar nosso sistema, você deve informar algumas informações sobre você e sua saúde.",
+            text =stringResource(R.string.sub_cadast),
             fontFamily = MavenPro,
             color = Color.White
         )
@@ -131,44 +133,53 @@ fun SegundaParte(name: String, modifier: Modifier = Modifier) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { metaExpanded = true }
                 .padding(8.dp)
         ) {
-            OutlinedTextField(
-                value = meta,
-                onValueChange = {},
-                readOnly = true,
-                label = { Text(text = "Meta", color = Color.White) },
-                trailingIcon = {
-                    Icon(
-                        imageVector = Icons.Filled.ArrowDropDown,
-                        contentDescription = null,
-                        tint = Color.White
-                    )
-                }
-            )
-        }
+            Column {
+                OutlinedTextField(
+                    value = meta,
+                    onValueChange = {meta = it},
+                    readOnly = true,
+                    label = { Text(text = "Meta") },
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowDropDown,
+                            contentDescription = null,
+                            modifier = Modifier.clickable { metaExpanded = !metaExpanded }
+                        )
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
 
-        MetaDropdownMenu(
-            metaOptions = metaOptions,
-            metaExpanded = metaExpanded,
-            onMetaChange = { selectedMeta ->
-                meta = selectedMeta
-                metaExpanded = false
-            },
-            onDismissRequest = { metaExpanded = false }
-        )
+                DropdownMenu(
+                    expanded = metaExpanded,
+                    onDismissRequest = { metaExpanded = false },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    metaOptions.forEach { metaOption ->
+                        DropdownMenuItem(
+                            text = { Text(text = metaOption) },
+                            onClick = {
+                                meta = metaOption
+                                metaExpanded = false
+                            }
+                        )
+                    }
+                }
+            }
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             Checkbox(
-                checked = dorPeito,
-                onCheckedChange = { dorPeito = it },
+                checked = problemaCoracao,
+                onCheckedChange = { problemaCoracao = it },
                 colors = CheckboxDefaults.colors(checkedColor = customColor)
             )
             Text(
-                text = "Algum médico já disse que você possui algum problema de coração e que só deveria realizar atividade física supervisionado por profissionais de saúde?",
+                text = stringResource(R.string.dor_core),
                 fontFamily = MavenPro,
                 color = Color.White
             )
@@ -183,7 +194,7 @@ fun SegundaParte(name: String, modifier: Modifier = Modifier) {
                 colors = CheckboxDefaults.colors(checkedColor = customColor)
             )
             Text(
-                text = "Você sente dores no peito quando pratica atividade física?",
+                text = stringResource(R.string.dor_peito),
                 fontFamily = MavenPro,
                 color = Color.White
             )
@@ -198,7 +209,7 @@ fun SegundaParte(name: String, modifier: Modifier = Modifier) {
                 colors = CheckboxDefaults.colors(checkedColor = customColor)
             )
             Text(
-                text = "No último mês, você sentiu dores no peito quando praticou atividade física?",
+                text = stringResource(R.string.tontura),
                 fontFamily = MavenPro,
                 color = Color.White
             )
@@ -213,22 +224,7 @@ fun SegundaParte(name: String, modifier: Modifier = Modifier) {
                 colors = CheckboxDefaults.colors(checkedColor = customColor)
             )
             Text(
-                text = "Você apresenta desequilíbrio devido à tontura e/ou perda de consciência?",
-                fontFamily = MavenPro,
-                color = Color.White
-            )
-        }
-
-        Spacer(modifier = Modifier.height(15.dp))
-
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Checkbox(
-                checked = medicamento,
-                onCheckedChange = { medicamento = it },
-                colors = CheckboxDefaults.colors(checkedColor = customColor)
-            )
-            Text(
-                text = "Você possui algum problema ósseo ou articular que poderia ser piorado pela atividade física?",
+                text = stringResource(R.string.osseo),
                 fontFamily = MavenPro,
                 color = Color.White
             )
@@ -238,12 +234,12 @@ fun SegundaParte(name: String, modifier: Modifier = Modifier) {
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             Checkbox(
-                checked = dorPeito,
-                onCheckedChange = { dorPeito = it },
+                checked = medicamento,
+                onCheckedChange = { medicamento = it },
                 colors = CheckboxDefaults.colors(checkedColor = customColor)
             )
             Text(
-                text = "Você toma atualmente algum medicamento para pressão arterial e/ou problema de coração?",
+                text = stringResource(R.string.pressao),
                 fontFamily = MavenPro,
                 color = Color.White
             )
@@ -275,37 +271,6 @@ fun SegundaParte(name: String, modifier: Modifier = Modifier) {
     }
 }
 
-@Composable
-fun MetaDropdownMenu(
-    metaOptions: List<String>,
-    metaExpanded: Boolean,
-    onMetaChange: (String) -> Unit,
-    onDismissRequest: () -> Unit
-) {
-    DropdownMenu(
-        expanded = metaExpanded,
-        onDismissRequest = onDismissRequest,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        metaOptions.forEach { option ->
-            // Usando um Box para criar um item de menu personalizável
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable {
-                        onMetaChange(option)
-                        onDismissRequest() // Fecha o menu após a seleção
-                    }
-                    .padding(8.dp)
-            ) {
-                Text(
-                    text = option,
-                    color = Color.Black
-                )
-            }
-        }
-    }
-}
 @Preview(showBackground = true,showSystemUi = true)
 @Composable
 fun GreetingPreview2() {

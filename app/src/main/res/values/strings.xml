@@ -28,6 +28,11 @@
     <string name="cadastro_instrutor">Cadastro Instrutor</string>
     <string name="sub_cadastro1">Quer acessar nossa aplicação? Vamos realizar seu cadastro! </string>
     <string name="sub_cadastro2">Insira algumas informações sobre você para fazermos o cadastro de sua conta! </string>
+    <string name="cadastre">Bem-vindo à nossa plataforma! Cadastre-se para acessar recursos e trabalhar conosco. </string>
+    <string name="aluno">Sou aluno</string>
+    <string name="endereco">Cadastro - Endereço</string>
+    <string name="quase_la">Muito bem! Você está quase lá! Só mais alguns passos...</string>
+    <string name="informacoes">Agora insira algumas informações sobre a localização da academia aonde você trabalha.</string>
 
 
     <string name="Bem_vindo">Bem vindo(a), %s</string>
@@ -42,9 +47,50 @@
     <string name="sub_mural">Poste aqui sua evolução durante a sua jornada para uma vida mais saudável!</string>
     <string name="mural">Mural de evolução</string>
     <string name="info_pessoal">Informações Pessoais</string>
+    <string name="fumante">Fumante</string>
+    <string name="alcoolatra">Alcoólatra</string>
+    <string name="deficiente">Deficiente</string>
+    <string name="problemas_cardiacos">Problemas Cardíacos</string>
+    <string name="peso">Peso: </string>
+    <string name="altura">Altura: </string>
+    <string name="meta">Meta: </string>
     <string name="info_tecnica">Informações Técnicas</string>
     <string name="info_end">Informações de Endereço</string>
 
+    <string name="sub_cadast">Antes de você acessar nosso sistema, você deve informar algumas informações sobre você e sua saúde.</string>
+    <string name="quase">Estamos quase lá !</string>
+    <string name="dor_core">Algum médico já disse que você possui algum problema de coração e que só deveria realizar atividade física supervisionado por profissionais de saúde?</string>
+    <string name="dor_peito">Você sente dores no peito quando pratica atividade física?</string>
+    <string name="tontura">Você apresenta desequilíbrio devido à tontura e/ou perda de consciência?</string>
+    <string name="osseo">Você possui algum problema ósseo ou articular que poderia ser piorado pela atividade física?</string>
+    <string name="pressao">Você toma atualmente algum medicamento para pressão arterial e/ou problema de coração?</string>
+
+    <string name="satisfeito">Estou satisfeito</string>
+    <string name="gratuito">Plano atual - Gratuito</string>
+    <string name="beneficios">Benefícios Atuais</string>
+    <string name="objetivo">Plano de exercícios de acordo com seu objetivo;</string>
+    <string name="mural_avanco">Mural - Espaço para você registrar seu avanço corporal;</string>
+    <string name="rotina">Acesso a sua rotina (guia de alimentação, e seus exercícios do dia);</string>
+    <string name="alimentacao">Opções de Alimentação</string>
+    <string name="personais">Personais e Academias perto de você</string>
     <string name="plano">Plano Vitalis</string>
+    <string name="e_mais">Além dos benefícios atuais que você já possui, você terá acesso à:</string>
+    <string name="chat">Chat com Personal Trainer de sua escolha;</string>
+    <string name="acompanhamento">Acompanhamento personalisado com o personal para chegar mais perto de seu ojetivo!</string>
+    <string name="por">Por:</string>
+    <string name="valor">R$ 49,99</string>
+    <string name="mes">por mês</string>
+    <string name="adquirir">Adquirir Plano</string>
+    <string name="cancelamento">O plano pode ser cancelado a qualquer momento em nossa plataforma</string>
+
+    <string name="afiliado">Personal Afiliado</string>
+    <string name="pago">Este é um recurso PAGO!</string>
+    <string name="acesso">Para acessá-lo, é necessário participar do plano premium. Contribua para sua experiência premium como usuário e se mantenha melhor do que nunca!!</string>
+    <string name="premium">Ser Premium</string>
+    <string name="nome">Nome: </string>
+    <string name="email">Email: </string>
+    <string name="validade">Validade: </string>
+    <string name="user">Nickname: </string>
+    <string name="especialidade">Especialidade: </string>
 
 </resources>
