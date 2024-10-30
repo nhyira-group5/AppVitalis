@@ -91,27 +91,30 @@ fun PerfilUsuario(name: String, navController: NavHostController, modifier: Modi
             emailRecuperacao = "marcos5@gmail.com",
             nickname = "marCOS20!",
             sexo = "Masculino",
-            aniversario = "17/01/1998")
+            aniversario = "17/01/1998",
+            onEditClick = {}
+        )
 
-        CardInfo(
-            tipo = "usuario",
-            fumante = true,
-            alcoolatra = false,
-            deficiente = false,
-            problemaCardiaco = true,
-            peso = "70kg",
-            altura = "1.75m",
-            meta = "Ganhar massa"
-        )
-        CartaoAfiliacao(
-            afiliadoComPersonal = true,
-            nomePersonal = "Will",
-            emailPersonal = "will@exemplo.com",
-            validadeAfiliacao = "12/2024 à 12/2025",
-            usernamePersonal = "personal123",
-            especialidade = "emagrecimento",
-            onClickVerPersonal = {}
-        )
+//        CardInfo(
+//            tipo = "usuario",
+//            fumante = true,
+//            alcoolatra = false,
+//            deficiente = false,
+//            problemaCardiaco = true,
+//            peso = "70kg",
+//            altura = "1.75m",
+//            meta = "Ganhar massa",
+//            onEditClick = {}
+//        )
+//        CartaoAfiliacao(
+//            afiliadoComPersonal = true,
+//            nomePersonal = "Will",
+//            emailPersonal = "will@exemplo.com",
+//            validadeAfiliacao = "12/2024 à 12/2025",
+//            usernamePersonal = "personal123",
+//            especialidade = "emagrecimento",
+//            onClickVerPersonal = {}
+//        )
     }
 }
 

@@ -90,8 +90,8 @@ fun TelaPlano(name: String, navController: NavHostController, modifier: Modifier
                 color = Color(72, 183, 90),
                 textAlign = TextAlign.Center
             )
-            CurrentPlanCard(onClick = { })
-            VivaPlanCard(onClick = {})
+//            CurrentPlanCard(onClick = { })
+//            VivaPlanCard(onClick = {})
             Image(
                 painter = painterResource(id = R.mipmap.vitalisbranco),
                 contentDescription = null,

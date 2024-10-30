@@ -32,6 +32,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,9 +48,17 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.vitalisapp.Entity.Ficha.FichaCriacao
 import com.example.vitalisapp.R
 import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.vitalisapp.DTO.RotinaUsuario.RotinaUsuarioCreateEditDto
+import com.example.vitalisapp.Service.MetaViewModel
+import com.example.vitalisapp.Service.RotinaUsuarioModel
+import com.example.vitalisapp.ViewModel.FichaViewModel
 
 class CadastroUsuarioDois : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +69,7 @@ class CadastroUsuarioDois : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     SegundaParte(
                         name = "Android",
+                        rememberNavController(),
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -68,21 +79,35 @@ class CadastroUsuarioDois : ComponentActivity() {
 }
 
 @Composable
-fun SegundaParte(name: String, modifier: Modifier = Modifier) {
-    var peso by remember { mutableStateOf(TextFieldValue("")) }
-    var altura by remember { mutableStateOf(TextFieldValue("")) }
+fun SegundaParte(name: String, navController: NavHostController, modifier: Modifier = Modifier, viewModel: FichaViewModel = viewModel(), viewModelMeta: MetaViewModel = viewModel(), viewModelRotUsuario: RotinaUsuarioModel = viewModel() ) {
+
+
+//    val rotinaUsuario = homeUiState.rotinaUsuario
+
+    var peso by remember { mutableStateOf(0.0) }
+    var altura by remember { mutableStateOf(0.0) }
     var meta by remember { mutableStateOf("") }
+    var idMeta by remember {
+        mutableStateOf(0)
+    }
     var metaExpanded by remember { mutableStateOf(false) }
     val metaOptions = listOf("Emagracimento", "Ganho de Massa", "Flexibilidade")
-    var problemaCoracao by remember { mutableStateOf(false) }
-    var dorPeito by remember { mutableStateOf(false) }
-    var tontura by remember { mutableStateOf(false) }
-    var problemaOsseo by remember { mutableStateOf(false) }
-    var medicamento by remember { mutableStateOf(false) }
+    var problemasCardiacos by remember { mutableStateOf(0) }
+    var dorPeito by remember { mutableStateOf(0) }
+    var dorPeitoUltimoMes by remember { mutableStateOf(0) }
+    var problemaOsseo by remember { mutableStateOf(0) }
+    var medicamentoPressaoCoracao by remember { mutableStateOf(0) }
+    var impedimentoAtividade by remember { mutableStateOf(0) }
+
+
     val customColor = Color(72, 183, 90)
     val scrollState = rememberScrollState()
 
     val contexto = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        viewModelMeta.getLista()
+    }
 
     Column(
         modifier = Modifier
@@ -114,15 +139,20 @@ fun SegundaParte(name: String, modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth()
         ) {
             InputText(
-                value = "",
-                onValueChange = {},
-                label = "Peso",
+                value = peso.toString(), // Converter o valor Double para String
+                onValueChange = { novoValor ->
+                    // Tenta converter o novo valor para Double e atualiza a variável 'peso'
+                    peso = novoValor.toDoubleOrNull() ?: 0.0
+                },
+                label ="Peso",
                 modifier = Modifier.weight(1f)
             )
 
             InputText(
-                value = "",
-                onValueChange = { },
+                value = altura.toString(),
+                onValueChange = { novoValor ->
+                    // Tenta converter o novo valor para Double e atualiza a variável 'peso'
+                    altura = novoValor.toDoubleOrNull() ?: 0.0 },
                 label = "Altura (cm)",
                 modifier = Modifier.weight(1f)
             )
@@ -133,12 +163,13 @@ fun SegundaParte(name: String, modifier: Modifier = Modifier) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
+                .clickable { metaExpanded = true }
                 .padding(8.dp)
         ) {
             Column {
                 OutlinedTextField(
                     value = meta,
-                    onValueChange = {meta = it},
+                    onValueChange = { meta = it },
                     readOnly = true,
                     label = { Text(text = "Meta") },
                     trailingIcon = {
@@ -157,25 +188,27 @@ fun SegundaParte(name: String, modifier: Modifier = Modifier) {
                     onDismissRequest = { metaExpanded = false },
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    metaOptions.forEach { metaOption ->
-                        DropdownMenuItem(
-                            text = { Text(text = metaOption) },
+                    viewModelMeta.listaMetas.value.forEach { item ->
+                        DropdownMenuItem(text = {
+                            Text(text = item.nome!!)
+                        },
                             onClick = {
-                                meta = metaOption
+                                meta = item.nome!!
                                 metaExpanded = false
-                            }
-                        )
+                                idMeta = item.id!!
+                            })
                     }
                 }
             }
+
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             Checkbox(
-                checked = problemaCoracao,
-                onCheckedChange = { problemaCoracao = it },
+                checked = problemasCardiacos == 1,
+                onCheckedChange = { problemasCardiacos = if (it) 1 else 0 },
                 colors = CheckboxDefaults.colors(checkedColor = customColor)
             )
             Text(
@@ -189,8 +222,8 @@ fun SegundaParte(name: String, modifier: Modifier = Modifier) {
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             Checkbox(
-                checked = dorPeito,
-                onCheckedChange = { dorPeito = it },
+                checked = dorPeito == 1,
+                onCheckedChange = { problemasCardiacos = if (it) 1 else 0  },
                 colors = CheckboxDefaults.colors(checkedColor = customColor)
             )
             Text(
@@ -204,8 +237,8 @@ fun SegundaParte(name: String, modifier: Modifier = Modifier) {
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             Checkbox(
-                checked = tontura,
-                onCheckedChange = { tontura = it },
+                checked = dorPeitoUltimoMes == 1,
+                onCheckedChange = { dorPeitoUltimoMes = if(it) 1 else 0 },
                 colors = CheckboxDefaults.colors(checkedColor = customColor)
             )
             Text(
@@ -219,8 +252,8 @@ fun SegundaParte(name: String, modifier: Modifier = Modifier) {
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             Checkbox(
-                checked = problemaOsseo,
-                onCheckedChange = { problemaOsseo = it },
+                checked = problemaOsseo == 1,
+                onCheckedChange = { problemaOsseo = if(it) 1 else 0},
                 colors = CheckboxDefaults.colors(checkedColor = customColor)
             )
             Text(
@@ -234,8 +267,8 @@ fun SegundaParte(name: String, modifier: Modifier = Modifier) {
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             Checkbox(
-                checked = medicamento,
-                onCheckedChange = { medicamento = it },
+                checked = medicamentoPressaoCoracao == 1,
+                onCheckedChange = { medicamentoPressaoCoracao = if(it) 1 else 0 },
                 colors = CheckboxDefaults.colors(checkedColor = customColor)
             )
             Text(
@@ -253,8 +286,13 @@ fun SegundaParte(name: String, modifier: Modifier = Modifier) {
         ) {
             Button(
                 onClick = {
-                    val inicio = Intent(contexto, Inicio::class.java)
-                    contexto.startActivity(inicio)
+                    val fichaCriacao = FichaCriacao(problemasCardiacos, dorPeito, dorPeitoUltimoMes, problemaOsseo, medicamentoPressaoCoracao, impedimentoAtividade, altura, peso, 10)
+                    viewModel.createFicha(fichaCriacao)
+                    val confirmacaoCadastro = Intent(contexto, ConfirmacaoParq::class.java)
+                    val rotinaUsuario = RotinaUsuarioCreateEditDto(10, idMeta)
+                    viewModelRotUsuario.createRotinaUsuario(rotinaUsuario)
+//                    viewModel.rotinaUsuarioModel.createRotinaUsuario(rotinaUsuario)
+                    contexto.startActivity(confirmacaoCadastro)
                 },
                 modifier = Modifier,
                 colors = ButtonDefaults.buttonColors(
@@ -275,6 +313,6 @@ fun SegundaParte(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview2() {
     VitalisAppTheme {
-        SegundaParte("Android")
+        SegundaParte("Android", rememberNavController())
     }
 }
