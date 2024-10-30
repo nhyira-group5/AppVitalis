@@ -1,8 +1,8 @@
 package com.example.vitalisapp.DTO.Usuario
 
 import com.example.vitalisapp.DTO.Meta.MetaExibitionDto
-import com.example.vitalisapp.Entity.RotinaUsuario.RotinaUsuario
-import com.example.vitalisapp.Entity.Usuario.TipoUsuario
+import com.example.vitalisapp.View.RotinaUsuario.RotinaUsuario
+import com.example.vitalisapp.View.Usuario.TipoUsuario
 import com.google.gson.annotations.SerializedName
 import java.time.LocalDate
 

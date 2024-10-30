@@ -76,17 +76,18 @@ fun PerfilPersonal(name: String, navController: NavHostController, modifier: Mod
             sexo = "Masculino",
             aniversario = "17/01/1998",
             especialidade = "emagrecimento",
-            graduacao = "31/12/2022"
+            graduacao = "31/12/2022",
+            onEditClick = {}
         )
-        CardInfo(
-            tipo = "personal",
-            cep = "08451-050",
-            logradouro = "Rua serra das araras",
-            numero = "123",
-            bairro = "Vila Yolanda (Lageado)",
-            cidade = "São Paulo",
-            estado = "SP"
-        )
+//        CardInfo(
+//            tipo = "personal",
+//            cep = "08451-050",
+//            logradouro = "Rua serra das araras",
+//            numero = "123",
+//            bairro = "Vila Yolanda (Lageado)",
+//            cidade = "São Paulo",
+//            estado = "SP"
+//        )
     }
 }
 

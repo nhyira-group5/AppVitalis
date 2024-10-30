@@ -17,15 +17,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxDefaults
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,18 +36,19 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.vitalisapp.Entity.Usuario.TipoUsuario
+import com.example.vitalisapp.View.Usuario.TipoUsuario
 import com.example.vitalisapp.R
+import com.example.vitalisapp.Service.CadastroUsuarioService
 import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
-import registerUsuario
+
 
 
 class CadastroUsuario : ComponentActivity() {
@@ -75,7 +70,7 @@ class CadastroUsuario : ComponentActivity() {
 }
 
 @Composable
-fun CadastroCliente(name: String, navController: NavHostController, modifier: Modifier = Modifier) {
+fun CadastroCliente(name: String, navController: NavHostController, modifier: Modifier = Modifier, viewModel: CadastroUsuarioService = viewModel()) {
     var nomeUsuario by remember { mutableStateOf("") }
     var apelido by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -252,7 +247,7 @@ fun CadastroCliente(name: String, navController: NavHostController, modifier: Mo
 
         Button(
             onClick = {
-                registerUsuario(nomeUsuario, apelido, cpf, "2004-09-13", senha, sexo, email, TipoUsuario.USUARIO)
+                viewModel.registerUsuario(nomeUsuario, apelido, cpf, "2004-09-13", senha, sexo, email, TipoUsuario.USUARIO)
                 val cadastroUsuarioDois = Intent(contexto, CadastroUsuarioDois::class.java)
                 contexto.startActivity(cadastroUsuarioDois)},
             modifier = Modifier,
