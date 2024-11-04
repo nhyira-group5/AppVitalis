@@ -54,7 +54,7 @@ data class HomeUiState(
     }
 
     fun getQuantityMealsForDay(): Int {
-        return rotinaDiaria?.refeicaoDiaria?.count { it.concluido <= 1 } ?: 0
+        return rotinaDiaria?.refeicaoDiaria?.count { it.concluido == 0 } ?: 0
     }
 }
 

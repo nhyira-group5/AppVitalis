@@ -40,6 +40,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.vitalisapp.DTO.RotinaDiaria.RotinaDiariaExibitionDto
+import com.example.vitalisapp.DTO.RotinaMensal.RotinaMensalExibitionDto
+import com.example.vitalisapp.DTO.RotinaSemanal.RotinaSemanalExibitionDto
+import com.example.vitalisapp.DTO.RotinaUsuario.RotinaUsuarioExibitionDto
 import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
 import com.example.vitalisapp.Service.CadastroUsuarioService
@@ -67,7 +71,13 @@ class Login : ComponentActivity() {
 }
 
 @Composable
-fun LoginCliente(name: String, navController: NavHostController, modifier: Modifier = Modifier, viewModel: CadastroUsuarioService = viewModel(), viewModelFicha: FichaViewModel = viewModel()) {
+fun LoginCliente(
+    name: String,
+    navController: NavHostController,
+    modifier: Modifier = Modifier,
+    viewModel: CadastroUsuarioService = viewModel(),
+    viewModelFicha: FichaViewModel = viewModel()
+) {
     var nickname by remember { mutableStateOf("") }
     var senha by remember { mutableStateOf("") }
 
@@ -114,7 +124,8 @@ fun LoginCliente(name: String, navController: NavHostController, modifier: Modif
                 )
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Button(onClick = {
+                Button(
+                    onClick = {
                         val login = loginUsuario(nickname, senha)
                         viewModel.loginService(login)
                         var retorno = viewModel.login.value
@@ -126,13 +137,14 @@ fun LoginCliente(name: String, navController: NavHostController, modifier: Modif
                             } else {
                                 navController.navigate("home/${retorno.id}")
                             }
-                        }else{
+                        } else {
                             navController.navigate("homePersonal/${retorno.id}")
                         }
 
 
 
-                            navController.navigate ("CadastroUsuarioDois") },
+                        navController.navigate("CadastroUsuarioDois")
+                    },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(72, 183, 90))
                 ) {
                     Text(text = "Entrar", fontFamily = MavenPro)
@@ -162,10 +174,15 @@ fun LoginCliente(name: String, navController: NavHostController, modifier: Modif
         }
         composable("home") {
             val viewModel: HomeViewModel = viewModel()
-            Home(viewModel = viewModel, navController)
+            Home(
+                RotinaUsuarioExibitionDto(), RotinaMensalExibitionDto(),
+                RotinaSemanalExibitionDto(), RotinaDiariaExibitionDto(),
+                viewModel,
+                navController
+            )
         }
         composable("cadastro") { CadastroCliente(name = name, navController) }
-        composable("CadastroUsuarioDois"){SegundaParte(name = name, navController)}
+        composable("CadastroUsuarioDois") { SegundaParte(name = name, navController) }
         composable("perfil") { PerfilUsuario(name = name, navController) }
         composable("perfilPersonal") { PerfilPersonal(name = name, navController) }
         composable("homePersonal") { HomeProfessor(name = name, navController) }
@@ -176,10 +193,9 @@ fun LoginCliente(name: String, navController: NavHostController, modifier: Modif
         composable("chat") { ConversaChat(name = name, navController) }
         composable("chatPersonal") { ChatPersonal(name = name, navController) }
         composable("galeria") { Galeria(name = name, navController) }
-        composable("planos") { TelaPlano(name = name, navController) }
+        composable("planos") { TelaPlano(navController) }
     }
 }
-
 
 
 @Preview(showBackground = true, showSystemUi = true)

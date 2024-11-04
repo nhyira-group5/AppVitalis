@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".Application"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -52,7 +53,7 @@
             android:theme="@style/Theme.VitalisApp" />
         <activity
             android:name=".Activity.Plano"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/title_activity_plano"
             android:theme="@style/Theme.VitalisApp" />
         <activity

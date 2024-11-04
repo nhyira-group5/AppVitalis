@@ -3,20 +3,20 @@ package com.example.vitalisapp.DTO.RotinaSemanal
 import com.google.gson.annotations.SerializedName
 
 data class RotinaSemanalExibitionDto (
-    @SerializedName("id") val idRotinaSemanal: Int,
-    @SerializedName("rotinaMensalId") val rotinaMensal: RotinaMensalDto,
-    @SerializedName("rotinaDiariaDtos") val rotinasDiarias: MutableList<RotinaDiariaDto>,
-    val numSemana: Int,
-    val concluido: Int
+    @SerializedName("id") var idRotinaSemanal: Int? = null,
+    @SerializedName("rotinaMensalId") var rotinaMensal: RotinaMensalDto? = null,
+    @SerializedName("rotinaDiariaDtos") var rotinasDiarias: MutableList<RotinaDiariaDto>? = mutableListOf(),
+    var numSemana: Int? = null,
+    var concluido: Int? = null
 )
 
 data class RotinaMensalDto(
-    val id: Int,
-    val mes: Int,
-    val ano: Int
+    var id: Int? = null,
+    var mes: Int? = null,
+    var ano: Int? = null
 )
 
 data class RotinaDiariaDto(
-    val idRotinaDiaria: Int,
-    val concluido: Int
+    var idRotinaDiaria: Int? = null,
+    var concluido: Int? = null
 )
