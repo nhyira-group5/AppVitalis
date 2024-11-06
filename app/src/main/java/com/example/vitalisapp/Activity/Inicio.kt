@@ -86,7 +86,6 @@ fun Home(
 
     // Buscando todos os valores do UiState
     // Valores esses que podem ser alterados, mudados de estado
-
     val treinosDiarios = homeUiState.treinosDiarios
     val refeicoesDiarias = homeUiState.refeicoesDiarias
     val refeicoesConcluidasDiaria = homeUiState.refeicoesConcluidasDiaria

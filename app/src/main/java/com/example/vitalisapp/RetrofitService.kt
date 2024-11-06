@@ -3,6 +3,7 @@ package com.example.vitalisapp
 import com.example.vitalisapp.Interface.ApiExercicio
 import com.example.vitalisapp.Interface.ApiFicha
 import com.example.vitalisapp.Interface.ApiMeta
+import com.example.vitalisapp.Interface.ApiPagamento
 import com.example.vitalisapp.Interface.ApiRefeicao
 import com.example.vitalisapp.Interface.ApiRefeicaoDiaria
 import com.example.vitalisapp.Interface.ApiRotinaDiaria
@@ -137,6 +138,17 @@ object RetrofitService {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(ApiMeta::class.java)
+
+        return cliente
+    }
+
+    fun getApiPagamento(): ApiPagamento {
+        val cliente =
+            Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(ApiPagamento::class.java)
 
         return cliente
     }

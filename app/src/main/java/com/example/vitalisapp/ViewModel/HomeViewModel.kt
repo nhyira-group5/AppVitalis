@@ -60,8 +60,7 @@ data class HomeUiState(
 
 // View Model
 class HomeViewModel : ViewModel() {
-    private val _globalUiState = MutableStateFlow(GlobalUiState())
-    val globalUiState = _globalUiState.asStateFlow()
+    private val globalUiState = MutableStateFlow(GlobalUiState())
 
     private val _homeUiState = MutableStateFlow(HomeUiState())
     val homeUiState = _homeUiState.asStateFlow()

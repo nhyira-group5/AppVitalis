@@ -51,6 +51,7 @@ import com.example.vitalisapp.View.Usuario.TipoUsuario
 import com.example.vitalisapp.View.Usuario.loginUsuario
 import com.example.vitalisapp.ViewModel.FichaViewModel
 import com.example.vitalisapp.ViewModel.HomeViewModel
+import com.example.vitalisapp.ViewModel.PlanoViewModel
 
 class Login : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -193,7 +194,13 @@ fun LoginCliente(
         composable("chat") { ConversaChat(name = name, navController) }
         composable("chatPersonal") { ChatPersonal(name = name, navController) }
         composable("galeria") { Galeria(name = name, navController) }
-        composable("planos") { TelaPlano(navController) }
+        composable("planos") {
+            val viewModel: PlanoViewModel = viewModel()
+            TelaPlano(
+                viewModel,
+                navController
+            )
+        }
     }
 }
 
