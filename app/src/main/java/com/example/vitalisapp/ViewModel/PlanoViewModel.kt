@@ -18,14 +18,13 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
 data class PlanoUiState(
-    var isPagando: Boolean = false,
     var paymentCreationObject: PaymentResponse? = null,
     var paymentObject: PaymentResponse? = null,
 
+    // Colocando aqui para facilitar a vida algumas info do pagamento, já que retorna um Object da API
     var paymentComplete: Boolean? = null,
     var dateExpirePayment: String? = null,
-
-    // Colocando aqui para facilitar a vida, já que retorna um Object da API
+    var paymentId: Int? = null,
     var qrCodeBase64: String? = null
 ){  }
 
@@ -35,7 +34,8 @@ class PlanoViewModel : ViewModel() {
     private val _planoUiState = MutableStateFlow(PlanoUiState())
     val planoUiState = _planoUiState.asStateFlow()
 
-    init {  }
+    // Verifica o status do pagamento
+    init { if (planoUiState.value.paymentId != null) getPayment(planoUiState.value.paymentId!!) }
 
     fun createPayment(paymentDto: PagamentoCreateEditDto) {
         viewModelScope.launch {
@@ -45,8 +45,8 @@ class PlanoViewModel : ViewModel() {
                     val jsonString = res.body().toString()
                     _planoUiState.update { cs ->
                         cs.copy(
-                            isPagando = true,
                             paymentCreationObject = res.body(),
+                            paymentId = extractPaymentId(jsonString),
                             qrCodeBase64 = extractQRCodePayment(jsonString),
                             paymentComplete = false
                         )
@@ -62,7 +62,7 @@ class PlanoViewModel : ViewModel() {
         }
     }
 
-    fun getPayment(paymentId: Int) {
+    private fun getPayment(paymentId: Int) {
         viewModelScope.launch {
             try {
                 val res = globalUiState.value.apiPagamento.showById(paymentId)
@@ -95,6 +95,11 @@ class PlanoViewModel : ViewModel() {
     private fun extractStatusPayment(jsonString: String): String? {
         val jsonObject = JSONObject(jsonString)
         return jsonObject.optString("status")
+    }
+
+    private fun extractPaymentId(jsonString: String): Int {
+        val jsonObject = JSONObject(jsonString)
+        return jsonObject.optString("id").toInt()
     }
 
     private fun extractExpireDatePayment(jsonString: String): LocalDateTime? {

@@ -52,6 +52,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import com.example.vitalisapp.DTO.Pagamento.PagamentoCreateEditDto
+import com.example.vitalisapp.DTO.Usuario.UsuarioExibitionDto
 import com.example.vitalisapp.R
 import com.example.vitalisapp.ViewModel.HomeViewModel
 import com.example.vitalisapp.ViewModel.PlanoViewModel
@@ -89,10 +91,6 @@ fun TelaPlano(
     var isFiliado by remember { mutableStateOf(false) }
     //var penis by remember { mutableStateOf(true) }  // Teste de front - Apagar quando terminar
 
-    LaunchedEffect(Unit) {
-
-    }
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -122,7 +120,7 @@ fun TelaPlano(
                 textAlign = TextAlign.Center
             )
 
-            if (!planoUiState.value.isPagando || planoUiState.value.paymentComplete != false) {
+            if (planoUiState.value.paymentComplete != false) {
             //if (!penis) {    // Teste de front - Apagar quando terminar
                 // CARD - Plano Gratuito
                 Column(
@@ -360,7 +358,7 @@ fun TelaPlano(
                                 containerColor = colorResource(R.color.gray_300),
                                 contentColor = Color.White
                             ),
-                            onClick = { }
+                            onClick = { navController.navigate("home") }
                         ) {
                             Text(
                                 text = "Este é seu plano atual!",
@@ -376,7 +374,12 @@ fun TelaPlano(
                                 contentColor = Color.White
                             ),
                             onClick = {
-
+                                // passar o id do user via local storage
+                                    // Como temos uma assinatura, vai ser mockado memo fodase
+                                viewModel.createPayment(
+                                    PagamentoCreateEditDto(
+                                        1, "PIX", 1)
+                                )
                             }
                         ) {
                             Text(
