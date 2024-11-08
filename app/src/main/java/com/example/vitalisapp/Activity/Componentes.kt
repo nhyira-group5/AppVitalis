@@ -58,6 +58,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -397,19 +398,36 @@ fun CardConversa(
 
 @Composable
 fun DailyActivities(
-    trainings: MutableList<TreinoExibitionDto>,
-    meals: MutableList<RefeicaoExibitionDto>
+    trainings: MutableList<TreinoExibitionDto>?,
+    meals: MutableList<RefeicaoExibitionDto>?
 ) {
     LazyColumn(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxWidth()
+            .padding(10.dp),
         verticalArrangement = Arrangement.spacedBy(15.dp)
     ) {
-        items(items = trainings) { item ->
-            CardAtividades(item)
+        item {
+            Text(
+                text = "Atividades do Dia",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth(),
+                color = colorResource(R.color.green_300)
+            )
         }
-        items(items = meals) { item ->
-            CardAtividades(item)
+        if (trainings != null) {
+            items(items = trainings) { item ->
+                CardAtividades(item)
+            }
+        }
+
+        if (meals != null) {
+            items(items = meals) { item ->
+                CardAtividades(item)
+            }
         }
     }
 }
@@ -468,7 +486,7 @@ fun Porcentagem(icone: Int, valor: String, titulo: String) {
             .padding(4.dp)
             .size(90.dp)
             .background(Color.White, shape = RoundedCornerShape(16.dp)),
-            //.shadow(elevation = 2.dp, shape = RoundedCornerShape(16.dp)),
+        //.shadow(elevation = 2.dp, shape = RoundedCornerShape(16.dp)),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -501,69 +519,66 @@ fun CardAtividades(
     treino: TreinoExibitionDto
 ) {
     val contexto = LocalContext.current
-
-    Column(modifier = Modifier) {
-        Card(
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(85.dp)
+            .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp)),
+        shape = RoundedCornerShape(16.dp)
+    ) {
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(85.dp)
-                .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp)),
-            shape = RoundedCornerShape(16.dp)
+                .padding(10.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(start = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                AsyncImage(
+                    model = treino.exercicio.midias.find { it.tipo == "Imagem" }!!.caminho,
+                    contentDescription = "Foto do exercício ${treino.exercicio.nome}",
+                    modifier = Modifier
+                        .size(60.dp)
+                        .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp))
+                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .width(225.dp),
+                    horizontalAlignment = Alignment.Start,
+                    verticalArrangement = Arrangement.Center
                 ) {
-                    AsyncImage(
-                        model = treino.exercicio.midias.find { it.tipo == "Imagem" }!!.caminho ,
-                        contentDescription = "Foto do exercício ${treino.exercicio.nome}",
-                        modifier = Modifier
-                            .size(60.dp)
-                            .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp))
+                    Text(
+                        text = stringResource(R.string.exercicio),
+                        fontSize = 16.sp,
+                        fontFamily = MavenPro,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color(72, 183, 90)
                     )
-                    Column(
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .width(225.dp),
-                        horizontalAlignment = Alignment.Start,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Text(
-                            text = stringResource(R.string.exercicio),
-                            fontSize = 16.sp,
-                            fontFamily = MavenPro,
-                            fontWeight = FontWeight.SemiBold,
-                            color = Color(72, 183, 90)
-                        )
-                        Text(
-                            text = treino.exercicio.nome,
-                            fontFamily = MavenPro,
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            color = Color.Black
-                        )
-                    }
-                }
-                IconButton(
-                    onClick = {
-                        val detalheExercicio = Intent(contexto, DetalheExercicio::class.java)
-                        contexto.startActivity(detalheExercicio)
-                    },
-                    modifier = Modifier.padding(end = 16.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.mipmap.seta),
-                        contentDescription = "seta",
-                        modifier = Modifier.size(34.dp)
+                    Text(
+                        text = treino.exercicio.nome,
+                        fontFamily = MavenPro,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color.Black
                     )
                 }
+            }
+            IconButton(
+                onClick = {
+                    val detalheExercicio = Intent(contexto, DetalheExercicio::class.java)
+                    contexto.startActivity(detalheExercicio)
+                },
+                modifier = Modifier.padding(end = 16.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.mipmap.seta),
+                    contentDescription = "seta",
+                    modifier = Modifier.size(34.dp)
+                )
             }
         }
     }
@@ -574,62 +589,59 @@ fun CardAtividades(
     refeicao: RefeicaoExibitionDto
 ) {
     val contexto = LocalContext.current
-    val scrollState = rememberScrollState()
 
-    Column(modifier = Modifier.verticalScroll(scrollState)) {
-        Card(
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(70.dp)
+            .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp)),
+        shape = RoundedCornerShape(16.dp)
+    ) {
+        Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(70.dp)
-                .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp)),
-            shape = RoundedCornerShape(16.dp)
+                .fillMaxSize()
+                .padding(start = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(start = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(10.dp)
-                ) {
-                    AsyncImage(
-                        model = { refeicao.midias.find { it.tipo == "Imagem" }!!.caminho },
-                        contentDescription = "Foto da refeição ${refeicao.nome}",
-                        modifier = Modifier
-                            .size(60.dp)
-                            .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp))
-                    )
-                    Text(
-                        text = stringResource(R.string.exercicio),
-                        fontSize = 18.sp,
-                        fontFamily = MavenPro,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color(72, 183, 90)
-                    )
-                    Text(
-                        text = refeicao.nome,
-                        fontFamily = MavenPro,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color.Black
-                    )
-                }
-                IconButton(
-                    onClick = {
-                        val detalheExercicio = Intent(contexto, DetalheExercicio::class.java)
-                        contexto.startActivity(detalheExercicio)
-                    },
-                    modifier = Modifier.padding(end = 16.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = R.mipmap.seta),
-                        contentDescription = "seta",
-                        modifier = Modifier.size(34.dp)
-                    )
-                }
+                AsyncImage(
+                    model = refeicao.midias.find { it.tipo == "Imagem" }!!.caminho,
+                    contentDescription = "Foto da refeição ${refeicao.nome}",
+                    modifier = Modifier
+                        .size(60.dp)
+                        .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp))
+                )
+                Text(
+                    text = stringResource(R.string.refeicao),
+                    fontSize = 18.sp,
+                    fontFamily = MavenPro,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color(72, 183, 90)
+                )
+                Text(
+                    text = refeicao.nome,
+                    fontFamily = MavenPro,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color.Black
+                )
+            }
+            IconButton(
+                onClick = {
+                    val detalheRefeicao = Intent(contexto, DetalheRefeicao::class.java)
+                    contexto.startActivity(detalheRefeicao)
+                },
+                modifier = Modifier.padding(end = 16.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.mipmap.seta),
+                    contentDescription = "seta",
+                    modifier = Modifier.size(34.dp)
+                )
             }
         }
     }
@@ -830,7 +842,7 @@ fun GridReceita(receitas: List<String>) {
     ) {
         items(receitas) { receita ->
             CardReceita(receita) {
-                val receita = Intent(contexto, Receita::class.java)
+                val receita = Intent(contexto, DetalheRefeicao::class.java)
                 contexto.startActivity(receita)
             }
         }

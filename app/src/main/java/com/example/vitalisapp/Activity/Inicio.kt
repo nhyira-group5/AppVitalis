@@ -6,11 +6,15 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.ui.Modifier
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -125,11 +129,11 @@ fun Home(
         rotinaDiaria.totalExercicios = homeUiState.rotinaDiaria?.totalExercicios
         rotinaDiaria.totalExerciciosConcluidos = homeUiState.rotinaDiaria?.totalExerciciosConcluidos
 
-        Column (
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(screenHeight)
-                .padding(14.dp),
+                .height(1000.dp)
+                .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(18.dp)
         ) {
@@ -139,8 +143,7 @@ fun Home(
                 fontFamily = MavenPro,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black,
-                modifier = Modifier
+                color = Color.Black
             )
             KpiHome(
                 refeicoesTotaisDiaria, refeicoesConcluidasDiaria,
@@ -148,7 +151,7 @@ fun Home(
                 rotinasDiariasTotaisSemana, rotinasDiariasConcluidasSemana
             )
             DailyActivities(treinosDiarios, refeicoesDiarias)
-        }
+         }
     }
 }
 
@@ -157,7 +160,10 @@ fun Home(
 fun Home() {
     VitalisAppTheme {
         Home(
-            RotinaUsuarioExibitionDto(), RotinaMensalExibitionDto(), RotinaSemanalExibitionDto(), RotinaDiariaExibitionDto(),
+            RotinaUsuarioExibitionDto(),
+            RotinaMensalExibitionDto(),
+            RotinaSemanalExibitionDto(),
+            RotinaDiariaExibitionDto(),
             viewModel<HomeViewModel>(),
             rememberNavController(),
         )
