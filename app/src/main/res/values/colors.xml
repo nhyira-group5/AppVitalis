@@ -23,4 +23,8 @@
     <color name="green_300">#48B75A</color>
     <color name="green_400">#2B6E36</color>
     <color name="green_500">#0E2512</color>
+
+    <color name="red_error">#CA1B1B</color>
+    <color name="blue_sucess">#1B70CA</color>
+    <color name="yellow_warning">#ffe01a</color>
 </resources>

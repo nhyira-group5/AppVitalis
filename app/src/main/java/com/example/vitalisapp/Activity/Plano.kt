@@ -11,25 +11,20 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,8 +32,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -48,14 +43,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.graphics.createBitmap
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.example.vitalisapp.DTO.Pagamento.PagamentoCreateEditDto
-import com.example.vitalisapp.DTO.Usuario.UsuarioExibitionDto
 import com.example.vitalisapp.R
-import com.example.vitalisapp.ViewModel.HomeViewModel
 import com.example.vitalisapp.ViewModel.PlanoViewModel
 import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
@@ -373,14 +367,10 @@ fun TelaPlano(
                                 containerColor = colorResource(R.color.green_300),
                                 contentColor = Color.White
                             ),
-                            onClick = {
-                                // passar o id do user via local storage
-                                    // Como temos uma assinatura, vai ser mockado memo fodase
-                                viewModel.createPayment(
-                                    PagamentoCreateEditDto(
-                                        1, "PIX", 1)
-                                )
-                            }
+
+                            // passar o id do user via local storage
+                            // Como temos uma assinatura, vai ser mockado memo fodase
+                            onClick = { viewModel.createPayment(PagamentoCreateEditDto(1, "PIX", 1)) }
                         ) {
                             Text(
                                 text = "Adquirir o plano",
@@ -400,27 +390,45 @@ fun TelaPlano(
                     verticalArrangement = Arrangement.spacedBy(10.dp)
 
                 ) {
-                    AsyncImage(
-                        model = {
-                            val qrCode = planoUiState.value.qrCodeBase64
-                            if (qrCode != null) "data:image/jpeg;base64,${planoUiState.value.qrCodeBase64}" else "https://images.vexels.com/media/users/3/330262/isolated/preview/4c8aea14bfa7387deb2b366d57acd62a-404-error-on-a-computer-screen.png"
-                        },
-                        contentDescription = "QR Code do pagamento",
-                        modifier = Modifier
-                            .size(300.dp)
+                    if (planoUiState.value.qrCodeBitmap == null) {
+                        AsyncImage(
+                            model = "https://cdn-icons-png.flaticon.com/512/7068/7068033.png",
+                            contentDescription = "QR Code do pagamento - Erro",
+                            modifier = Modifier
+                                .size(300.dp)
                             //.shadow(elevation = 5.dp)
-                    )
-                    Text(
-                        text = "Pagamento do plano Viva Vitalis de R$49.99 via PIX",
-                        fontSize = 17.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = colorResource(R.color.green_400),
-                        textAlign = TextAlign.Center
-                    )
-                    Text(
-                        text = "Após realizar o pagamento, volte para o página inicial",
-                        fontSize = 12.sp
-                    )
+                        )
+                        Text(
+                            text = "Erro ao gerar QR Code para o Pagamento!",
+                            fontSize = 17.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = colorResource(R.color.red_error),
+                            textAlign = TextAlign.Center
+                        )
+                        Text(
+                            text = "Infelizmente ocorreu um problema na geração do QR Code. Entre em contato para suporte: contato.nhyira@gmail.com",
+                            fontSize = 12.sp
+                        )
+                    } else {
+                        Image(
+                            bitmap = planoUiState.value.qrCodeBitmap!!.asImageBitmap() ,
+                            contentDescription = "QR Code do pagamento",
+                            modifier = Modifier
+                                .size(300.dp)
+                            //.shadow(elevation = 5.dp)
+                        )
+                        Text(
+                            text = "Pagamento do plano Viva Vitalis de R$49.99 via PIX",
+                            fontSize = 17.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = colorResource(R.color.green_400),
+                            textAlign = TextAlign.Center
+                        )
+                        Text(
+                            text = "Após realizar o pagamento, volte para o página inicial",
+                            fontSize = 12.sp
+                        )
+                    }
                 }
             }
 

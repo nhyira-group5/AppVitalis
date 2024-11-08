@@ -1,7 +1,7 @@
 package com.example.vitalisapp.Interface
 
+import PaymentResponse
 import com.example.vitalisapp.DTO.Pagamento.PagamentoCreateEditDto
-import com.example.vitalisapp.DTO.Pagamento.PaymentResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -13,5 +13,5 @@ interface ApiPagamento {
     suspend fun createPayment(@Body pagamentoDto: PagamentoCreateEditDto): Response<PaymentResponse>
 
     @GET("/pagamentos/{idPagamentoMercPag}")
-    suspend fun showById(@Path("idPagamentoMercPag") idPagamentoMercPag: Int): Response<PaymentResponse>
+    suspend fun showById(@Path("idPagamentoMercPag") idPagamentoMercPag: String): Response<PaymentResponse>
 }
