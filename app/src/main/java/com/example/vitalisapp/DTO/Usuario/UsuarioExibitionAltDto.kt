@@ -1,6 +1,6 @@
 package com.example.vitalisapp.DTO.Usuario
 
-import com.example.vitalisapp.Entity.Usuario.TipoUsuario
+import com.example.vitalisapp.View.Usuario.TipoUsuario
 
 data class UsuarioExibitionAltDto (
     val idUsuario: Int,

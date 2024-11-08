@@ -5,35 +5,22 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.ui.Modifier
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,13 +31,22 @@ import androidx.navigation.compose.rememberNavController
 import com.example.vitalisapp.R
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
-import coil.compose.AsyncImage
-import com.example.vitalisapp.Service.HomeViewModel
+import com.example.vitalisapp.DTO.RotinaDiaria.RotinaDiariaExibitionDto
+import com.example.vitalisapp.DTO.RotinaMensal.RotinaMensalExibitionDto
+import com.example.vitalisapp.DTO.RotinaSemanal.RotinaSemanalExibitionDto
+import com.example.vitalisapp.DTO.RotinaUsuario.RotinaUsuarioExibitionDto
+import com.example.vitalisapp.ViewModel.HomeViewModel
 import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
+import org.koin.android.ext.android.inject
 
 class Inicio : ComponentActivity() {
     private val viewModel by viewModels<HomeViewModel>() // Chama o ViewModel aqui
+
+    private val rotinaUsuario: RotinaUsuarioExibitionDto by inject()
+    private val rotinaMensal: RotinaMensalExibitionDto by inject()
+    private val rotinaSemanal: RotinaSemanalExibitionDto by inject()
+    private val rotinaDiaria: RotinaDiariaExibitionDto by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +55,7 @@ class Inicio : ComponentActivity() {
             VitalisAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Home(
+                        rotinaUsuario, rotinaMensal, rotinaSemanal, rotinaDiaria,
                         viewModel,
                         rememberNavController(),
                         modifier = Modifier.padding(innerPadding)
@@ -71,6 +68,11 @@ class Inicio : ComponentActivity() {
 
 @Composable
 fun Home(
+    rotinaUsuario: RotinaUsuarioExibitionDto,
+    rotinaMensal: RotinaMensalExibitionDto,
+    rotinaSemanal: RotinaSemanalExibitionDto,
+    rotinaDiaria: RotinaDiariaExibitionDto,
+
     viewModel: HomeViewModel,
     navController: NavHostController,
     modifier: Modifier = Modifier
@@ -84,10 +86,6 @@ fun Home(
 
     // Buscando todos os valores do UiState
     // Valores esses que podem ser alterados, mudados de estado
-    val rotinaUsuario = homeUiState.rotinaUsuario
-    val rotinaMensal = homeUiState.rotinaMensal
-    val rotinaSemanal = homeUiState.rotinaSemanal
-    val rotinaDiaria = homeUiState.rotinaDiaria
     val treinosDiarios = homeUiState.treinosDiarios
     val refeicoesDiarias = homeUiState.refeicoesDiarias
     val refeicoesConcluidasDiaria = homeUiState.refeicoesConcluidasDiaria
@@ -103,6 +101,30 @@ fun Home(
     if (isLoading) {            // Não carregou? Então carrega um tela de loading
         LoadingScreen()         // Pode fazer uma tela de carregamento melhor kkkk
     } else {
+        // Atribuindo valores das rotinas core para os seus respectivos KOIN
+        rotinaUsuario.idRotinaUsuario = homeUiState.rotinaUsuario?.idRotinaUsuario
+        rotinaUsuario.usuario = homeUiState.rotinaUsuario?.usuario
+        rotinaUsuario.meta = homeUiState.rotinaUsuario?.meta
+        rotinaUsuario.rotinaAlternativa = homeUiState.rotinaUsuario?.rotinaAlternativa
+
+        rotinaMensal.idRotinaMensal = homeUiState.rotinaMensal?.idRotinaMensal
+        rotinaMensal.ano = homeUiState.rotinaMensal?.ano
+        rotinaMensal.mes = homeUiState.rotinaMensal?.mes
+
+        rotinaSemanal.idRotinaSemanal = homeUiState.rotinaSemanal?.idRotinaSemanal
+        rotinaSemanal.numSemana = homeUiState.rotinaSemanal?.numSemana
+        rotinaSemanal.concluido = homeUiState.rotinaSemanal?.concluido
+        rotinaSemanal.rotinaMensal = homeUiState.rotinaSemanal?.rotinaMensal
+        rotinaSemanal.rotinasDiarias = homeUiState.rotinaSemanal?.rotinasDiarias
+
+        rotinaDiaria.idRotinaDiaria = homeUiState.rotinaDiaria?.idRotinaDiaria
+        rotinaDiaria.dia = homeUiState.rotinaDiaria?.dia
+        rotinaDiaria.concluido = homeUiState.rotinaDiaria?.concluido
+        rotinaDiaria.rotinaSemanal = homeUiState.rotinaDiaria?.rotinaSemanal
+        rotinaDiaria.refeicaoDiaria = homeUiState.rotinaDiaria?.refeicaoDiaria
+        rotinaDiaria.totalExercicios = homeUiState.rotinaDiaria?.totalExercicios
+        rotinaDiaria.totalExerciciosConcluidos = homeUiState.rotinaDiaria?.totalExerciciosConcluidos
+
         Column (
             modifier = Modifier
                 .fillMaxWidth()
@@ -135,6 +157,7 @@ fun Home(
 fun Home() {
     VitalisAppTheme {
         Home(
+            RotinaUsuarioExibitionDto(), RotinaMensalExibitionDto(), RotinaSemanalExibitionDto(), RotinaDiariaExibitionDto(),
             viewModel<HomeViewModel>(),
             rememberNavController(),
         )

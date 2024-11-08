@@ -1,6 +1,9 @@
 package com.example.vitalisapp
 
 import com.example.vitalisapp.Interface.ApiExercicio
+import com.example.vitalisapp.Interface.ApiFicha
+import com.example.vitalisapp.Interface.ApiMeta
+import com.example.vitalisapp.Interface.ApiPagamento
 import com.example.vitalisapp.Interface.ApiRefeicao
 import com.example.vitalisapp.Interface.ApiRefeicaoDiaria
 import com.example.vitalisapp.Interface.ApiRotinaDiaria
@@ -14,8 +17,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitService {
 
-    //var BASE_URL = "http://192.168.150.116:8080"
-    var BASE_URL = "http://192.168.15.9:8080"
+    var BASE_URL = "http://192.168.15.5:8080"
+    //var BASE_URL = "http://10.18.7.209:8080"
 
     fun getApiUsuario(): ApiUsuario {
         val cliente =
@@ -112,6 +115,40 @@ object RetrofitService {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(ApiRotinaUsuario::class.java)
+
+        return cliente
+    }
+
+
+    fun getApiFicha(): ApiFicha {
+        val cliente =
+            Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(ApiFicha::class.java)
+
+        return cliente
+    }
+
+    fun getApiMeta(): ApiMeta {
+        val cliente =
+            Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(ApiMeta::class.java)
+
+        return cliente
+    }
+
+    fun getApiPagamento(): ApiPagamento {
+        val cliente =
+            Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(ApiPagamento::class.java)
 
         return cliente
     }

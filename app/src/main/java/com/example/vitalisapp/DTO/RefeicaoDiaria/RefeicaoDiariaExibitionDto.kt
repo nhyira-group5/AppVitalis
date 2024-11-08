@@ -1,6 +1,6 @@
 package com.example.vitalisapp.DTO.RefeicaoDiaria
 
-import com.example.vitalisapp.Entity.Midia.Midia
+import com.example.vitalisapp.View.Midia.Midia
 import com.google.gson.annotations.SerializedName
 
 data class RefeicaoDiariaExibitionDto (

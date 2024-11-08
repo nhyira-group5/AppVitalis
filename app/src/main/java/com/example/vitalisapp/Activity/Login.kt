@@ -40,11 +40,18 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.vitalisapp.Entity.Usuario.loginUsuario
-import com.example.vitalisapp.Service.HomeViewModel
+import com.example.vitalisapp.DTO.RotinaDiaria.RotinaDiariaExibitionDto
+import com.example.vitalisapp.DTO.RotinaMensal.RotinaMensalExibitionDto
+import com.example.vitalisapp.DTO.RotinaSemanal.RotinaSemanalExibitionDto
+import com.example.vitalisapp.DTO.RotinaUsuario.RotinaUsuarioExibitionDto
 import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
-import loginService
+import com.example.vitalisapp.Service.CadastroUsuarioService
+import com.example.vitalisapp.View.Usuario.TipoUsuario
+import com.example.vitalisapp.View.Usuario.loginUsuario
+import com.example.vitalisapp.ViewModel.FichaViewModel
+import com.example.vitalisapp.ViewModel.HomeViewModel
+import com.example.vitalisapp.ViewModel.PlanoViewModel
 
 class Login : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,7 +72,13 @@ class Login : ComponentActivity() {
 }
 
 @Composable
-fun LoginCliente(name: String, navController: NavHostController, modifier: Modifier = Modifier) {
+fun LoginCliente(
+    name: String,
+    navController: NavHostController,
+    modifier: Modifier = Modifier,
+    viewModel: CadastroUsuarioService = viewModel(),
+    viewModelFicha: FichaViewModel = viewModel()
+) {
     var nickname by remember { mutableStateOf("") }
     var senha by remember { mutableStateOf("") }
 
@@ -114,11 +127,25 @@ fun LoginCliente(name: String, navController: NavHostController, modifier: Modif
 
                 Button(
                     onClick = {
+                        val login = loginUsuario(nickname, senha)
+                        viewModel.loginService(login)
+                        var retorno = viewModel.login.value
+                        viewModelFicha.getFicha(retorno.id)
+                        var getFicha = viewModelFicha.ficha.value
+                        if (retorno.tipo!!.equals(TipoUsuario.USUARIO)) {
+                            if (getFicha.id == null) {
+                                navController.navigate("CadastroUsuarioDois")
+                            } else {
+                                navController.navigate("home/${retorno.id}")
+                            }
+                        } else {
+                            navController.navigate("homePersonal/${retorno.id}")
+                        }
 
-                        val login = loginUsuario(0, nickname, senha)
-                        loginService(login)
 
-                        navController.navigate("home") },
+
+                        navController.navigate("CadastroUsuarioDois")
+                    },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(72, 183, 90))
                 ) {
                     Text(text = "Entrar", fontFamily = MavenPro)
@@ -148,9 +175,15 @@ fun LoginCliente(name: String, navController: NavHostController, modifier: Modif
         }
         composable("home") {
             val viewModel: HomeViewModel = viewModel()
-            Home(viewModel = viewModel, navController)
+            Home(
+                RotinaUsuarioExibitionDto(), RotinaMensalExibitionDto(),
+                RotinaSemanalExibitionDto(), RotinaDiariaExibitionDto(),
+                viewModel,
+                navController
+            )
         }
         composable("cadastro") { CadastroCliente(name = name, navController) }
+        composable("CadastroUsuarioDois") { SegundaParte(name = name, navController) }
         composable("perfil") { PerfilUsuario(name = name, navController) }
         composable("perfilPersonal") { PerfilPersonal(name = name, navController) }
         composable("homePersonal") { HomeProfessor(name = name, navController) }
@@ -161,10 +194,15 @@ fun LoginCliente(name: String, navController: NavHostController, modifier: Modif
         composable("chat") { ConversaChat(name = name, navController) }
         composable("chatPersonal") { ChatPersonal(name = name, navController) }
         composable("galeria") { Galeria(name = name, navController) }
-        composable("planos") { TelaPlano(name = name, navController) }
+        composable("planos") {
+            val viewModel: PlanoViewModel = viewModel()
+            TelaPlano(
+                viewModel,
+                navController
+            )
         }
     }
-
+}
 
 
 @Preview(showBackground = true, showSystemUi = true)

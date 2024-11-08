@@ -1,4 +1,7 @@
 package com.example.vitalisapp.DTO.RotinaUsuario
 
-class RotinaUsuarioCreateEditDto {
+data class RotinaUsuarioCreateEditDto(
+    val usuarioId : Int? = null,
+    val metaId : Int? = null
+) {
 }
