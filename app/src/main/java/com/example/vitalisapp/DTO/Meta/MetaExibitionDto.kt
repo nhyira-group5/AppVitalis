@@ -1,6 +1,6 @@
 package com.example.vitalisapp.DTO.Meta
 
 data class MetaExibitionDto (
-    val idMeta: Int,
-    val nome: String
+    var idMeta: Int?,
+    var nome: String?
 )

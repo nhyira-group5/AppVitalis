@@ -42,9 +42,9 @@
             android:label="@string/title_activity_lista_chat_usuario"
             android:theme="@style/Theme.VitalisApp" />
         <activity
-            android:name=".Activity.Inicio"
+            android:name=".Activity.Home"
             android:exported="true"
-            android:label="@string/title_activity_inicio"
+            android:label="@string/title_activity_home"
             android:theme="@style/Theme.VitalisApp" />
         <activity
             android:name=".Activity.ListaExercicio"

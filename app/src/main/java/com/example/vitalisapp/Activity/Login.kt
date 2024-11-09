@@ -174,11 +174,10 @@ fun LoginCliente(
             }
         }
         composable("home") {
-            val viewModel: HomeViewModel = viewModel()
             Home(
                 RotinaUsuarioExibitionDto(), RotinaMensalExibitionDto(),
                 RotinaSemanalExibitionDto(), RotinaDiariaExibitionDto(),
-                viewModel,
+                HomeViewModel(),
                 navController
             )
         }
@@ -195,9 +194,8 @@ fun LoginCliente(
         composable("chatPersonal") { ChatPersonal(name = name, navController) }
         composable("galeria") { Galeria(name = name, navController) }
         composable("planos") {
-            val viewModel: PlanoViewModel = viewModel()
             TelaPlano(
-                viewModel,
+                PlanoViewModel(),
                 navController
             )
         }

@@ -611,7 +611,7 @@ fun CardAtividades(
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 AsyncImage(
-                    model = refeicao.midias.find { it.tipo == "Imagem" }!!.caminho,
+                    model = refeicao.midias?.find { it.tipo == "Imagem" }!!.caminho,
                     contentDescription = "Foto da refeição ${refeicao.nome}",
                     modifier = Modifier
                         .size(60.dp)
@@ -625,7 +625,7 @@ fun CardAtividades(
                     color = Color(72, 183, 90)
                 )
                 Text(
-                    text = refeicao.nome,
+                    text = refeicao.nome!!,
                     fontFamily = MavenPro,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.SemiBold,

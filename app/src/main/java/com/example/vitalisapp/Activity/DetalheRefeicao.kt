@@ -5,13 +5,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
@@ -22,6 +20,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -48,20 +48,33 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import com.example.vitalisapp.DTO.Refeicao.AlimentoPorRefeicaoDto
+import com.example.vitalisapp.DTO.Refeicao.MidiaDto
 import com.example.vitalisapp.R
 import com.example.vitalisapp.ViewModel.DetalheRefeicaoViewModel
 import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
 
 class DetalheRefeicao : ComponentActivity() {
-    private val viewModel by viewModels<DetalheRefeicaoViewModel>()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val idRefeicao: Int = intent.getIntExtra("ID_REFEICAO", -1)
+
+            // Criando uma factory para criar uma view model que receba param
+            val viewModel = viewModel<DetalheRefeicaoViewModel>(
+                factory = object : ViewModelProvider.Factory {
+                    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                        return DetalheRefeicaoViewModel(idRefeicao) as T
+                    }
+                }
+            )
+
             VitalisAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     DetalheReceita(
@@ -80,75 +93,78 @@ fun DetalheReceita(
     modifier: Modifier = Modifier
 ) {
     val contexto = LocalContext.current
-
     val detalheReceita = viewModel.detalheRefeicaoUiState.collectAsState()
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-            .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        Button(
-            onClick = {
-                val listaRefeicao = Intent(contexto, ListaRefeicao::class.java)
-                contexto.startActivity(listaRefeicao)
-            },
-            colors = ButtonDefaults.buttonColors(
-                contentColor = Color.Black,
-                containerColor = Color.Transparent
-            ),
-            modifier = Modifier
-        ) {
-            Row(
-                modifier = Modifier
-                    .padding(5.dp)
-                    .width(85.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Image(
-                    painter = painterResource(id = R.mipmap.voltar),
-                    contentDescription = "Voltar",
-                    modifier = Modifier.size(26.dp)
-                )
-                Text(
-                    text = "Voltar",
-                    fontFamily = MavenPro,
-                    color = Color.Black,
-                    fontSize = 17.sp
-                )
-            }
-        }
+    if (!detalheReceita.value.isLoading) {
+        LoadingScreen()
+    } else {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(5.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
+                .fillMaxSize()
+                .padding(16.dp)
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            Text(
-                text = "Torta de Frango",
-                fontFamily = MavenPro,
-                fontSize = 32.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = Color(72, 183, 90)
-            )
-            Text(
-                text = "Home > Refeição > Torta de Frango",
-                fontFamily = MavenPro,
-                fontSize = 15.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = Color(72, 183, 90)
-            )
+            Button(
+                onClick = {
+                    val listaRefeicao = Intent(contexto, ListaRefeicao::class.java)
+                    contexto.startActivity(listaRefeicao)
+                },
+                colors = ButtonDefaults.buttonColors(
+                    contentColor = Color.Black,
+                    containerColor = Color.Transparent
+                ),
+                modifier = Modifier
+            ) {
+                Row(
+                    modifier = Modifier
+                        .padding(5.dp)
+                        .width(85.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        painter = painterResource(id = R.mipmap.voltar),
+                        contentDescription = "Voltar",
+                        modifier = Modifier.size(26.dp)
+                    )
+                    Text(
+                        text = "Voltar",
+                        fontFamily = MavenPro,
+                        color = Color.Black,
+                        fontSize = 17.sp
+                    )
+                }
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(5.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Text(
+                    text = "${detalheReceita.value.nome}",
+                    fontFamily = MavenPro,
+                    fontSize = 32.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color(72, 183, 90)
+                )
+                Text(
+                    text = "Home > Refeição > ${detalheReceita.value.nome}",
+                    fontFamily = MavenPro,
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color(72, 183, 90)
+                )
+            }
+            Comida(detalheReceita.value.midias)
+            InstrucoesReceita(detalheReceita.value.preparo, detalheReceita.value.alimentos)
         }
-        Comida()
-        InstrucoesReceita()
     }
 }
 
 @Composable
-fun Comida() {
+fun Comida(midias: MutableList<MidiaDto>?) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -157,8 +173,8 @@ fun Comida() {
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         AsyncImage(
-            model = "",
-            contentDescription = "Imagem da Receita XXX",
+            model = midias?.find { it.tipo == "Imagem" }?.caminho,
+            contentDescription = "Imagem da Receita",
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
@@ -168,7 +184,10 @@ fun Comida() {
 }
 
 @Composable
-fun InstrucoesReceita() {
+fun InstrucoesReceita(
+    preparo: String?,
+    alimentos: MutableList<AlimentoPorRefeicaoDto>?
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -195,7 +214,7 @@ fun InstrucoesReceita() {
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+                    text = "$preparo",
                     fontSize = 16.sp,
                 )
             }
@@ -220,13 +239,16 @@ fun InstrucoesReceita() {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
-                    Row(
+                    LazyRow(
                         modifier = Modifier.padding(8.dp),
                         horizontalArrangement = Arrangement.spacedBy(10.dp),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
-                        AlimentoRefeicao()
-                        AlimentoRefeicao()
+                        if (alimentos != null) {
+                            items(items = alimentos) {
+                                AlimentoRefeicao(it)
+                            }
+                        }
                     }
                 }
             }
@@ -235,7 +257,7 @@ fun InstrucoesReceita() {
 }
 
 @Composable
-fun AlimentoRefeicao() {
+fun AlimentoRefeicao(alimento: AlimentoPorRefeicaoDto?) {
     Box(
         modifier = Modifier
             .width(125.dp)
@@ -243,9 +265,9 @@ fun AlimentoRefeicao() {
             .padding(5.dp)
             .clip(RoundedCornerShape(16.dp))
     ) {
-        Image(
-            painter = painterResource(id = R.mipmap.tortadefrango),
-            contentDescription = "Imagem XXX",
+        AsyncImage(
+            model = alimento?.alimento?.midia?.find { it.tipo == "Imagem" }?.caminho,
+            contentDescription = "Imagem ingrediente",
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .matchParentSize()
@@ -255,7 +277,6 @@ fun AlimentoRefeicao() {
                 .matchParentSize()
                 .background(Color.Black.copy(alpha = 0.6f))
         )
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -264,17 +285,19 @@ fun AlimentoRefeicao() {
             verticalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Alimento",
-                fontSize = 14.sp,
+                modifier = Modifier.fillMaxWidth(),
+                text = alimento?.alimento?.nome ?: "Ingrediente Undefined",
+                fontSize = 12.sp,
                 fontWeight = FontWeight.Bold,
-                color = colorResource(R.color.green_300)
+                color = colorResource(R.color.green_300),
+                textAlign = TextAlign.Center
             )
-            Text(
-                text = "Carne",
-                color = Color.White,
-                fontWeight = FontWeight.Bold,
-                fontSize = 10.sp
-            )
+//            Text(
+//                text = "${alimento?.metrica?.nome}",
+//                color = Color.White,
+//                fontWeight = FontWeight.Bold,
+//                fontSize = 10.sp
+//            )
             Button(
                 modifier = Modifier
                     .height(20.dp),
@@ -283,7 +306,9 @@ fun AlimentoRefeicao() {
                     contentColor = Color.White
                 ),
                 contentPadding = PaddingValues(1.dp),
-                onClick = { }
+                onClick = {
+                    // Implementar Modal com mais informações sobre o alimento NA RECEITA
+                }
             ) {
                 Column(
                     modifier = Modifier
@@ -309,6 +334,6 @@ fun AlimentoRefeicao() {
 @Composable
 fun Refeicao() {
     VitalisAppTheme {
-        DetalheReceita(viewModel<DetalheRefeicaoViewModel>())
+        DetalheReceita(DetalheRefeicaoViewModel(1))
     }
 }

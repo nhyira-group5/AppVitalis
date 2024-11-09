@@ -84,4 +84,6 @@ dependencies {
     implementation("androidx.datastore:datastore-core:1.1.0")
 
     implementation("io.insert-koin:koin-android:4.0.0")
+
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
 }

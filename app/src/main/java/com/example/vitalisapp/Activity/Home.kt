@@ -22,6 +22,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -30,6 +32,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.vitalisapp.R
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.vitalisapp.DTO.RotinaDiaria.RotinaDiariaExibitionDto
 import com.example.vitalisapp.DTO.RotinaMensal.RotinaMensalExibitionDto
@@ -40,7 +43,7 @@ import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
 import org.koin.android.ext.android.inject
 
-class Inicio : ComponentActivity() {
+class Home : ComponentActivity() {
     private val viewModel by viewModels<HomeViewModel>() // Chama o ViewModel aqui
 
     private val rotinaUsuario: RotinaUsuarioExibitionDto by inject()
@@ -77,6 +80,8 @@ fun Home(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
+    val contexto = LocalContext.current
+
     val configuration = LocalConfiguration.current      // Obtém a configuração atual da tela
     val screenHeight = configuration.screenHeightDp.dp  // Calcula a altura da tela em dp
 
@@ -146,14 +151,24 @@ fun Home(
                 treinosTotaisDiaria, treinosConcluidosDiaria,
                 rotinasDiariasTotaisSemana, rotinasDiariasConcluidasSemana
             )
-            DailyActivities(treinosDiarios, refeicoesDiarias)
+            if (homeUiState.rotinaDiaria == null) {
+                Text(
+                    text = "Nenhuma tarefa para realizar hoje!",
+                    color = colorResource(R.color.blue_sucess),
+                    fontWeight = FontWeight.Bold,
+                    letterSpacing = 2.sp,
+                    textAlign = TextAlign.Center
+                )
+            } else {
+                DailyActivities(treinosDiarios, refeicoesDiarias)
+            }
          }
     }
 }
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun Home() {
+fun HomePreview() {
     VitalisAppTheme {
         Home(
             RotinaUsuarioExibitionDto(),
