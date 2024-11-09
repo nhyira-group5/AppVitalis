@@ -514,6 +514,7 @@ fun Porcentagem(icone: Int, valor: String, titulo: String) {
     }
 }
 
+// Para treino
 @Composable
 fun CardAtividades(
     treino: TreinoExibitionDto
@@ -570,6 +571,7 @@ fun CardAtividades(
             IconButton(
                 onClick = {
                     val detalheExercicio = Intent(contexto, DetalheExercicio::class.java)
+                    detalheExercicio.putExtra("ID_EXERCICIO", treino.exercicio.idExercicio)
                     contexto.startActivity(detalheExercicio)
                 },
                 modifier = Modifier.padding(end = 16.dp)
@@ -633,6 +635,7 @@ fun CardAtividades(
             IconButton(
                 onClick = {
                     val detalheRefeicao = Intent(contexto, DetalheRefeicao::class.java)
+                    detalheRefeicao.putExtra("ID_REFEICAO", refeicao.idRefeicao)
                     contexto.startActivity(detalheRefeicao)
                 },
                 modifier = Modifier.padding(end = 16.dp)

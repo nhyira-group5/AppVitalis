@@ -62,8 +62,8 @@
             android:label="@string/title_activity_detalhe_exercicio"
             android:theme="@style/Theme.VitalisApp" />
         <activity
-            android:name=".Activity.Receita"
-            android:exported="false"
+            android:name=".Activity.DetalheRefeicao"
+            android:exported="true"
             android:label="@string/title_activity_receita"
             android:theme="@style/Theme.VitalisApp" />
         <activity

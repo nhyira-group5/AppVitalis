@@ -413,6 +413,7 @@ fun TelaPlano(
                         Image(
                             bitmap = planoUiState.value.qrCodeBitmap!!.asImageBitmap() ,
                             contentDescription = "QR Code do pagamento",
+
                             modifier = Modifier
                                 .size(300.dp)
                             //.shadow(elevation = 5.dp)
