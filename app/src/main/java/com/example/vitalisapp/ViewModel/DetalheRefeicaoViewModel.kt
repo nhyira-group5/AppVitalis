@@ -34,7 +34,7 @@ class DetalheRefeicaoViewModel (
     init {
         //getRecipe(1)
         getRecipe(idRefeicao)
-        _detalheRefeicaoUiState.update { cs -> cs.copy(isLoading = true) }
+        _detalheRefeicaoUiState.update { cs -> cs.copy(isLoading = false) }
     }
 
     private fun getRecipe(idRefeicao: Int) {

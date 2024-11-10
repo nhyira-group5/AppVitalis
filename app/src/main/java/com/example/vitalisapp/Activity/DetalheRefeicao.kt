@@ -95,7 +95,7 @@ fun DetalheReceita(
     val contexto = LocalContext.current
     val detalheReceita = viewModel.detalheRefeicaoUiState.collectAsState()
 
-    if (!detalheReceita.value.isLoading) {
+    if (detalheReceita.value.isLoading) {
         LoadingScreen()
     } else {
         Column(

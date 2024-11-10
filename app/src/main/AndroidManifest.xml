@@ -68,12 +68,12 @@
             android:theme="@style/Theme.VitalisApp" />
         <activity
             android:name=".Activity.ListaRefeicao"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/title_activity_lista_refeicao"
             android:theme="@style/Theme.VitalisApp" />
         <activity
             android:name=".Activity.EncontreAcademia"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/title_activity_encontre_academia"
             android:theme="@style/Theme.VitalisApp" />
         <activity

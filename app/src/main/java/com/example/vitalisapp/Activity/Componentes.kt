@@ -299,24 +299,29 @@ fun ImageCard(modifier: Modifier = Modifier, imageRes: Int, date: String) {
 }
 
 @Composable
-fun CardReceita(recipeName: String, onClick: () -> Unit) {
+fun CardReceita(
+    recipe: RefeicaoExibitionDto,
+    onClick: () -> Unit
+) {
     Card(
         modifier = Modifier
             .width(240.dp)
             .height(260.dp)
             .clip(RoundedCornerShape(16.dp))
-            .border(2.dp, Color(211, 211, 211), RoundedCornerShape(16.dp))
+            .border(2.dp, color = colorResource(R.color.green_100), RoundedCornerShape(16.dp))
             .clickable(onClick = onClick)
-            .background(Color(255, 255, 255)),
+            .background(color = colorResource(R.color.white))
+            .shadow(elevation = 10.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(10.dp)
+                .padding(10.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            Image(
-                painter = painterResource(id = R.mipmap.foto),
+            AsyncImage(
+                model = recipe.midias?.find { it.tipo == "Imagem" }?.caminho ?: R.mipmap.foto,
                 contentDescription = "Imagem da Receita",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -325,10 +330,8 @@ fun CardReceita(recipeName: String, onClick: () -> Unit) {
                     .clip(RoundedCornerShape(16.dp))
             )
 
-            Spacer(modifier = Modifier.height(10.dp))
-
             Text(
-                text = recipeName,
+                text = recipe.nome!!,
                 color = Color(24, 24, 27),
                 textAlign = TextAlign.Center,
                 fontSize = 15.sp,
@@ -825,29 +828,49 @@ fun ExercicioItem(exercicios: List<String>) {
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(exercicios) { exercicio ->
-            CardReceita(exercicio) {
-                val detalheExercicio = Intent(contexto, DetalheExercicio::class.java)
-                contexto.startActivity(detalheExercicio)
-            }
+//            CardReceita(exercicio) {
+//                val detalheExercicio = Intent(contexto, DetalheExercicio::class.java)
+//                contexto.startActivity(detalheExercicio)
+//            }
         }
     }
 }
 
 @Composable
-fun GridReceita(receitas: List<String>) {
+fun GridReceita(receitas: MutableList<RefeicaoExibitionDto>?) {
     val contexto = LocalContext.current
 
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        contentPadding = PaddingValues(top = 20.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        items(receitas) { receita ->
-            CardReceita(receita) {
-                val receita = Intent(contexto, DetalheRefeicao::class.java)
-                contexto.startActivity(receita)
+    if (!receitas.isNullOrEmpty()) {
+        LazyVerticalGrid(
+            modifier = Modifier.fillMaxHeight(),
+            columns = GridCells.Fixed(2),
+            horizontalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            items(items = receitas) { r ->
+                CardReceita(r) {
+                    val detalheReceita = Intent(contexto, DetalheRefeicao::class.java)
+                    detalheReceita.putExtra("ID_REFEICAO", r.idRefeicao)
+                    contexto.startActivity(detalheReceita)
+                }
             }
+        }
+    } else {
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(20.dp)
+        ) {
+            Text(
+                modifier = Modifier.width(250.dp),
+                fontSize = 24.sp,
+                fontFamily = MavenPro,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                text = "Nenhuma receita encontrada!",
+                color = colorResource(R.color.gray_300)
+            )
         }
     }
 }

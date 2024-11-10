@@ -51,6 +51,7 @@ import com.example.vitalisapp.View.Usuario.TipoUsuario
 import com.example.vitalisapp.View.Usuario.loginUsuario
 import com.example.vitalisapp.ViewModel.FichaViewModel
 import com.example.vitalisapp.ViewModel.HomeViewModel
+import com.example.vitalisapp.ViewModel.ListaRefeicaoViewModel
 import com.example.vitalisapp.ViewModel.PlanoViewModel
 
 class Login : ComponentActivity() {
@@ -187,18 +188,13 @@ fun LoginCliente(
         composable("perfilPersonal") { PerfilPersonal(name = name, navController) }
         composable("homePersonal") { HomeProfessor(name = name, navController) }
         composable("exercicios") { GaleriaExercicio(name = name, navController) }
-        composable("refeicao") { Refeicao(name = name, navController) }
+        composable("refeicao") { Refeicoes(ListaRefeicaoViewModel(), navController) }
 //        composable("relatorio") { RefeicaoTela() }
         composable("busca") { BuscaAcademia(name = name, navController) }
         composable("chat") { ConversaChat(name = name, navController) }
         composable("chatPersonal") { ChatPersonal(name = name, navController) }
         composable("galeria") { Galeria(name = name, navController) }
-        composable("planos") {
-            TelaPlano(
-                PlanoViewModel(),
-                navController
-            )
-        }
+        composable("planos") { TelaPlano(PlanoViewModel(), navController) }
     }
 }
 
