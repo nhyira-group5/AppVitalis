@@ -1,6 +1,7 @@
 package com.example.vitalisapp.Entity.Ficha
 
 import com.example.vitalisapp.View.Usuario.UsuarioGet
+import com.example.vitalisapp.View.Usuario.UsuarioGetFicha
 
 
 data class ExibitionFicha(
@@ -13,5 +14,5 @@ data class ExibitionFicha(
      val impedimentoAtividade:Int? = null,
      val altura: Float? = null,
      val peso:Float? = null,
-     val usuarioId: UsuarioGet? = null
+     val usuarioId: UsuarioGetFicha? = null
 )

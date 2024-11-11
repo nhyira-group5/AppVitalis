@@ -1,6 +1,7 @@
 package com.example.vitalisapp.Interface
 
 import com.example.vitalisapp.Entity.Usuario.loginRetornoUsuario
+import com.example.vitalisapp.View.Usuario.Personal
 import com.example.vitalisapp.View.Usuario.Usuario
 import com.example.vitalisapp.View.Usuario.UsuarioGet
 import com.example.vitalisapp.View.Usuario.loginUsuario
@@ -12,6 +13,9 @@ interface ApiUsuario {
 
     @POST("/usuarios")
     suspend fun postUsuario(@Body usuario: Usuario): Response<UsuarioGet>
+
+    @POST("/usuarios")
+    suspend fun postPersonal(@Body personal: Personal): Response<UsuarioGet>
 
     @POST("/login/usuario")
     suspend fun loginUsuario(@Body loginUsuario: loginUsuario): Response<loginRetornoUsuario>

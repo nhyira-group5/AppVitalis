@@ -2,6 +2,7 @@ package com.example.vitalisapp.Activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -17,12 +18,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,6 +41,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -43,12 +49,16 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.vitalisapp.View.Usuario.TipoUsuario
 import com.example.vitalisapp.R
 import com.example.vitalisapp.Service.CadastroUsuarioService
+import com.example.vitalisapp.View.Usuario.TipoUsuario
 import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
-
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
+import java.util.Locale
 
 
 class CadastroUsuario : ComponentActivity() {
@@ -244,12 +254,12 @@ fun CadastroCliente(name: String, navController: NavHostController, modifier: Mo
                 isPersonal = false // Defina se é personal ou usuário
             )
         }
-
+        val registroStatus by viewModel.registroStatus.collectAsState()
         Button(
             onClick = {
-                viewModel.registerUsuario(nomeUsuario, apelido, cpf, "2004-09-13", senha, sexo, email, TipoUsuario.USUARIO)
-                val cadastroUsuarioDois = Intent(contexto, CadastroUsuarioDois::class.java)
-                contexto.startActivity(cadastroUsuarioDois)},
+                viewModel.registerUsuario(contexto,nomeUsuario, apelido, cpf, formatarData(dataNascimento), senha, sexo, email, TipoUsuario.USUARIO)
+                Thread.sleep(6)
+                },
             modifier = Modifier,
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(72, 183, 90)
@@ -260,8 +270,31 @@ fun CadastroCliente(name: String, navController: NavHostController, modifier: Mo
                 fontFamily = MavenPro,
                 color = Color.White)
         }
+
+        LaunchedEffect(registroStatus) {
+            if (registroStatus == true) {
+                val login = Intent(contexto, Login::class.java)
+                contexto.startActivity(login)
+                viewModel.registroStatus.value == false
+            } else if (registroStatus == false) {
+                Toast.makeText(contexto, "Falha no cadastro, tente novamente.", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 }
+
+fun formatarData(dataDigitada: String): String {
+    return try {
+        val formatoEntrada = SimpleDateFormat("ddMMyyyy", Locale.getDefault())
+        val formatoSaida = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val data = formatoEntrada.parse(dataDigitada)
+        formatoSaida.format(data!!)
+    } catch (e: Exception) {
+        "Data inválida"
+    }
+}
+
+
 
 @Preview(showBackground = true, showSystemUi = true)
 

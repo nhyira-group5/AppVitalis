@@ -20,6 +20,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -43,6 +45,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
 import com.example.vitalisapp.Service.CadastroUsuarioService
+import com.example.vitalisapp.View.LoginSession.SessionLogin
 import com.example.vitalisapp.View.Usuario.TipoUsuario
 import com.example.vitalisapp.View.Usuario.loginUsuario
 import com.example.vitalisapp.ViewModel.FichaViewModel
@@ -70,6 +73,10 @@ class Login : ComponentActivity() {
 fun LoginCliente(name: String, navController: NavHostController, modifier: Modifier = Modifier, viewModel: CadastroUsuarioService = viewModel(), viewModelFicha: FichaViewModel = viewModel()) {
     var nickname by remember { mutableStateOf("") }
     var senha by remember { mutableStateOf("") }
+    val contexto = LocalContext.current
+
+    val login by viewModel.login.collectAsState()
+    val ficha by viewModelFicha.ficha.collectAsState()
 
     NavHost(modifier = modifier, navController = navController, startDestination = "login") {
         composable("login") {
@@ -115,36 +122,40 @@ fun LoginCliente(name: String, navController: NavHostController, modifier: Modif
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Button(onClick = {
-                        val login = loginUsuario(nickname, senha)
-                        viewModel.loginService(login)
-                        var retorno = viewModel.login.value
+                    SessionLogin.id = null
+                    SessionLogin.nome = null
+                    val retorno = viewModel.login.value
+                    var login = loginUsuario(nickname, senha)
+                    viewModel.loginService(login, contexto)
+                    if (retorno.id != null) {
                         viewModelFicha.getFicha(retorno.id)
-                        var getFicha = viewModelFicha.ficha.value
+                        SessionLogin.id = retorno.id
+                        SessionLogin.nome = retorno.nome
+                        val getFicha = viewModelFicha.ficha.value
                         if (retorno.tipo!!.equals(TipoUsuario.USUARIO)) {
                             if (getFicha.id == null) {
                                 navController.navigate("CadastroUsuarioDois")
                             } else {
-                                navController.navigate("home/${retorno.id}")
+                                navController.navigate("home")
                             }
-                        }else{
-                            navController.navigate("homePersonal/${retorno.id}")
+                        } else {
+                            navController.navigate("homePersonal")
                         }
-
-
-
-                            navController.navigate ("CadastroUsuarioDois") },
+                    }
+                        },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(72, 183, 90))
                 ) {
                     Text(text = "Entrar", fontFamily = MavenPro)
                 }
+
                 Spacer(modifier = Modifier.height(8.dp))
-                Button(
-                    onClick = { navController.navigate("homePersonal") },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(134, 86, 169))
-                ) {
-                    Text(text = "Entrar personal", fontFamily = MavenPro)
-                }
-                Spacer(modifier = Modifier.height(8.dp))
+//                Button(
+//                    onClick = { navController.navigate("homePersonal") },
+//                    colors = ButtonDefaults.buttonColors(containerColor = Color(134, 86, 169))
+//                ) {
+//                    Text(text = "Entrar personal", fontFamily = MavenPro)
+//                }
+//                Spacer(modifier = Modifier.height(8.dp))
 
                 TextButton(onClick = { navController.navigate("cadastro") }) {
                     Text(

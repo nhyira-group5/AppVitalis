@@ -1,7 +1,7 @@
 package com.example.vitalisapp.View.Usuario
 
-data class UsuarioGet(
-    val id: Int? = null,
+data class UsuarioGetFicha(
+    val idUsuario: Int? = null,
     val nome:String ? = null,
     val nickname:String ? = null,
     val cpf:String ? = null,

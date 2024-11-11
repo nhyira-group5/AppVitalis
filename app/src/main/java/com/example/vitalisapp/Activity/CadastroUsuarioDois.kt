@@ -58,6 +58,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.vitalisapp.DTO.RotinaUsuario.RotinaUsuarioCreateEditDto
 import com.example.vitalisapp.Service.MetaViewModel
 import com.example.vitalisapp.Service.RotinaUsuarioModel
+import com.example.vitalisapp.View.Ficha.ObjectFichaSession
+import com.example.vitalisapp.View.LoginSession.SessionLogin
+import com.example.vitalisapp.View.Meta.ObjectMeta
 import com.example.vitalisapp.ViewModel.FichaViewModel
 
 class CadastroUsuarioDois : ComponentActivity() {
@@ -91,7 +94,6 @@ fun SegundaParte(name: String, navController: NavHostController, modifier: Modif
         mutableStateOf(0)
     }
     var metaExpanded by remember { mutableStateOf(false) }
-    val metaOptions = listOf("Emagracimento", "Ganho de Massa", "Flexibilidade")
     var problemasCardiacos by remember { mutableStateOf(0) }
     var dorPeito by remember { mutableStateOf(0) }
     var dorPeitoUltimoMes by remember { mutableStateOf(0) }
@@ -139,7 +141,7 @@ fun SegundaParte(name: String, navController: NavHostController, modifier: Modif
             modifier = Modifier.fillMaxWidth()
         ) {
             InputText(
-                value = peso.toString(), // Converter o valor Double para String
+                value = peso.takeIf { it != 0.0 }?.toString() ?: "", // Converter o valor Double para String
                 onValueChange = { novoValor ->
                     // Tenta converter o novo valor para Double e atualiza a variável 'peso'
                     peso = novoValor.toDoubleOrNull() ?: 0.0
@@ -147,11 +149,9 @@ fun SegundaParte(name: String, navController: NavHostController, modifier: Modif
                 label ="Peso",
                 modifier = Modifier.weight(1f)
             )
-
             InputText(
-                value = altura.toString(),
+                value = altura.takeIf { it != 0.0 }?.toString() ?: "",
                 onValueChange = { novoValor ->
-                    // Tenta converter o novo valor para Double e atualiza a variável 'peso'
                     altura = novoValor.toDoubleOrNull() ?: 0.0 },
                 label = "Altura (cm)",
                 modifier = Modifier.weight(1f)
@@ -286,12 +286,19 @@ fun SegundaParte(name: String, navController: NavHostController, modifier: Modif
         ) {
             Button(
                 onClick = {
-                    val fichaCriacao = FichaCriacao(problemasCardiacos, dorPeito, dorPeitoUltimoMes, problemaOsseo, medicamentoPressaoCoracao, impedimentoAtividade, altura, peso, 10)
+                    val fichaCriacao = FichaCriacao(problemasCardiacos, dorPeito, dorPeitoUltimoMes, problemaOsseo, medicamentoPressaoCoracao, impedimentoAtividade, altura, peso, SessionLogin.id)
                     viewModel.createFicha(fichaCriacao)
+//                    val confirmacaoCadastro = Intent(contexto, ConfirmacaoParq::class.java)
+//                    val rotinaUsuario = RotinaUsuarioCreateEditDto(SessionLogin.id, idMeta)
+//                    viewModelRotUsuario.createRotinaUsuario(rotinaUsuario)
+//                    contexto.startActivity(confirmacaoCadastro)
+
+//                    ObjectFichaSession.inicializarSaude(problemasCardiacos, dorPeito, dorPeitoUltimoMes, problemaOsseo,
+//                        medicamentoPressaoCoracao, altura,impedimentoAtividade ,peso, SessionLogin.id)
+                    ObjectMeta.inicializarSaude(SessionLogin.id, idMeta, null)
+//                    val rotinaUsuario = RotinaUsuarioCreateEditDto(SessionLogin.id, idMeta)
+//                    viewModelRotUsuario.createRotinaUsuario(rotinaUsuario)
                     val confirmacaoCadastro = Intent(contexto, ConfirmacaoParq::class.java)
-                    val rotinaUsuario = RotinaUsuarioCreateEditDto(10, idMeta)
-                    viewModelRotUsuario.createRotinaUsuario(rotinaUsuario)
-//                    viewModel.rotinaUsuarioModel.createRotinaUsuario(rotinaUsuario)
                     contexto.startActivity(confirmacaoCadastro)
                 },
                 modifier = Modifier,

@@ -82,8 +82,10 @@ fun ChatPersonal(name: String, navController: NavHostController, modifier: Modif
                     nome = "Danilo de Souza",
                     mensagem = "Lorem Ipsum is simply dummy text of the printing...",
                     hora = "00:00",
-                    onClick = {val chatPersonal = Intent(contexto, ChatPersonal::class.java)
-                        contexto.startActivity(chatPersonal)}
+                    onClick = {
+//                        val chatPersonal = Intent(contexto, ChatPersonal::class.java)
+//                        contexto.startActivity(chatPersonal)
+                    }
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))
@@ -104,8 +106,10 @@ fun ChatPersonal(name: String, navController: NavHostController, modifier: Modif
                     mensagem = "Lorem Ipsum is simply dummy text of the printing...",
                     hora = "00:00",
                     backgroundColor = Color(216, 203, 226, 255),
-                    onClick = {val chatPersonal = Intent(contexto, ChatPersonal::class.java)
-                    contexto.startActivity(chatPersonal)}
+                    onClick = {
+//                        val chatPersonal = Intent(contexto, ChatPersonal::class.java)
+//                    contexto.startActivity(chatPersonal)
+                    }
                 )
             }
         }

@@ -1,5 +1,7 @@
 package com.example.vitalisapp.Activity
 
+import ObjectPersonal
+import ObjectPersonal.dtNasc
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -50,6 +52,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.vitalisapp.R
+import com.example.vitalisapp.View.Usuario.TipoUsuario
 import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
 
@@ -248,8 +251,12 @@ fun CadastroProfessor(name: String, modifier: Modifier = Modifier) {
 
         Button(
             onClick = {
+
+                ObjectPersonal.inicializar(nomeUsuario, apelido, cpf, formatarData(dataNascimento), senha, sexo, email,TipoUsuario.PERSONAL, null)
+                ObjectPersonal.nome
                 val cadastroPersonalDois = Intent(contexto, CadastroPersonalDois::class.java)
                 cadastroPersonalDois.putExtra("nome",nomeUsuario)
+
                 contexto.startActivity(cadastroPersonalDois)},
             modifier = Modifier,
             colors = ButtonDefaults.buttonColors(
@@ -263,6 +270,9 @@ fun CadastroProfessor(name: String, modifier: Modifier = Modifier) {
         }
     }
 }
+
+
+
 
 @Preview(showBackground = true, showSystemUi = true)
 

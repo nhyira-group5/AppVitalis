@@ -1,5 +1,6 @@
 package com.example.vitalisapp
 
+import com.example.vitalisapp.Interface.ApiEndereco
 import com.example.vitalisapp.Interface.ApiExercicio
 import com.example.vitalisapp.Interface.ApiFicha
 import com.example.vitalisapp.Interface.ApiMeta
@@ -17,7 +18,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitService {
 
     var BASE_URL = "http://192.168.0.11:8080"
-    //var BASE_URL = "http://10.18.34.229:8080"
+//    var BASE_URL = "http://192.168.145.116:8080"
+//    var BASE_URL = "http://18.211.206.217:5225"
 
     fun getApiUsuario(): ApiUsuario {
         val cliente =
@@ -140,4 +142,32 @@ object RetrofitService {
 
         return cliente
     }
+
+
+
+    fun getApiEndereco(): ApiEndereco {
+        val cliente =
+            Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(ApiEndereco::class.java)
+
+        return cliente
+    }
+
+//    var BASE_VIA_CEP = "https://viacep.com.br/ws/"
+//
+//
+//    fun getAPiViaCep(): ApiEndereco{
+//        val cliente =
+//            Retrofit.Builder()
+//                .baseUrl(BASE_VIA_CEP)
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .build()
+//                .create(ApiEndereco::class.java)
+//
+//        return cliente
+//    }
+
 }

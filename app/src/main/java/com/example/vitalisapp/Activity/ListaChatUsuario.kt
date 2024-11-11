@@ -82,8 +82,10 @@ fun ConversaChat(name: String, navController: NavHostController, modifier: Modif
                     nome = "Danilo de Souza",
                     mensagem = "Lorem Ipsum is simply dummy text of the printing...",
                     hora = "00:00",
-                    onClick = {val chatUsuario = Intent(contexto, ChatUsuario::class.java)
-                        contexto.startActivity(chatUsuario)}
+                    onClick = {
+//                        val chatUsuario = Intent(contexto, ChatUsuario::class.java)
+//                        contexto.startActivity(chatUsuario)
+                    }
                 )
 
                 Spacer(modifier = Modifier.height(28.dp))
@@ -104,8 +106,10 @@ fun ConversaChat(name: String, navController: NavHostController, modifier: Modif
                     mensagem = "Lorem Ipsum is simply dummy text of the printing...",
                     hora = "00:00",
                     backgroundColor = Color(218,241,222),
-                    onClick = {val chatUsuario = Intent(contexto, ChatUsuario::class.java)
-                    contexto.startActivity(chatUsuario)}
+                    onClick = {
+//                        val chatUsuario = Intent(contexto, ChatUsuario::class.java)
+//                    contexto.startActivity(chatUsuario)
+                    }
                 )
             }
         }
