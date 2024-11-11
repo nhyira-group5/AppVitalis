@@ -82,6 +82,7 @@ fun TelaPlano(
 ) {
     val planoUiState = viewModel.planoUiState.collectAsState()
 
+    // trocar pelo "Pagamento Ativo" do usuário logado
     var isFiliado by remember { mutableStateOf(false) }
     //var penis by remember { mutableStateOf(true) }  // Teste de front - Apagar quando terminar
 
@@ -413,6 +414,7 @@ fun TelaPlano(
                         Image(
                             bitmap = planoUiState.value.qrCodeBitmap!!.asImageBitmap() ,
                             contentDescription = "QR Code do pagamento",
+
                             modifier = Modifier
                                 .size(300.dp)
                             //.shadow(elevation = 5.dp)

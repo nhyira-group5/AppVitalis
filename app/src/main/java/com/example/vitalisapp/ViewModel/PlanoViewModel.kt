@@ -62,7 +62,7 @@ class PlanoViewModel : ViewModel() {
                         "Sucesso ao gerar o QRCODE: ${planoUiState.value.qrCodeBitmap}"
                     )
                 } else {
-                    Log.e("PlanoViewModel", "Erro ao criar o pagamento: ${res.errorBody()}")
+                    Log.e("PlanoViewModel", "Erro ao criar o pagamento: ${res.errorBody().toString()}")
                 }
             } catch (e: Exception) {
                 //Log.e("PlanoViewModel", "Erro na API para criar o pagamento: ${e.message}")
@@ -88,7 +88,7 @@ class PlanoViewModel : ViewModel() {
                     }
                     Log.e("PlanoViewModel", "Sucesso ao buscar o pagamento: ${res.body()}")
                 } else {
-                    Log.e("PlanoViewModel", "Erro ao buscar o pagamento: ${res.errorBody()}")
+                    Log.e("PlanoViewModel", "Erro ao buscar o pagamento: ${res.errorBody().toString()}")
                 }
             } catch (e: Exception) {
                 //Log.e("PlanoViewModel", "Erro na API para buscar o pagamento: ${e.message}")
