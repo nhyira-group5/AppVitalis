@@ -1,5 +1,6 @@
 package com.example.vitalisapp.Activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -39,6 +40,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.vitalisapp.DTO.RotinaUsuario.RotinaUsuarioCreateEditDto
+import com.example.vitalisapp.Entity.Ficha.FichaCriacao
+import com.example.vitalisapp.Service.MetaViewModel
+import com.example.vitalisapp.Service.RotinaUsuarioModel
+import com.example.vitalisapp.View.Ficha.ObjectFichaSession
+import com.example.vitalisapp.View.Meta.ObjectMeta
+import com.example.vitalisapp.ViewModel.FichaViewModel
 import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
 
@@ -59,8 +68,9 @@ class ConfirmacaoParq : ComponentActivity() {
     }
 }
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
-fun Parq(name: String, modifier: Modifier = Modifier) {
+fun Parq(name: String, modifier: Modifier = Modifier, viewModelRotUsuario: RotinaUsuarioModel = viewModel()) {
 
 //    showDialog: Boolean,
 //    onDismiss: () -> Unit,
@@ -141,6 +151,12 @@ fun Parq(name: String, modifier: Modifier = Modifier) {
                                 Button(
                                     onClick = {
                                         showDialog = false
+                                        var meta =  RotinaUsuarioCreateEditDto(
+                                            ObjectMeta.usuarioId,
+                                            ObjectMeta.metaId,
+                                            0
+                                        )
+                                        viewModelRotUsuario.createRotinaUsuario(meta)
                                         // Lógica para aceitar riscos
                                         val login = Intent(contexto, Login::class.java)
                                         contexto.startActivity(login)
@@ -161,9 +177,14 @@ fun Parq(name: String, modifier: Modifier = Modifier) {
                                 Button(
                                     onClick = {
                                         showDialog = false
-                                        // Lógica para pegar mais leve
-                                        val login = Intent(contexto, Login::class.java)
-                                        contexto.startActivity(login)
+                                        var meta =  RotinaUsuarioCreateEditDto(
+                                            ObjectMeta.usuarioId,
+                                            ObjectMeta.metaId,
+                                            1
+                                        )
+                                        viewModelRotUsuario.createRotinaUsuario(meta)
+                                        val home = Intent(contexto, Home::class.java)
+                                        contexto.startActivity(home)
                                     },
                                     colors = ButtonDefaults.buttonColors(
                                         containerColor = Color(0, 122, 255)

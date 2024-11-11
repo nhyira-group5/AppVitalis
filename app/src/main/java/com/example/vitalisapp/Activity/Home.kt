@@ -34,6 +34,7 @@ import com.example.vitalisapp.R
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.vitalisapp.View.LoginSession.SessionLogin
 import com.example.vitalisapp.DTO.RotinaDiaria.RotinaDiariaExibitionDto
 import com.example.vitalisapp.DTO.RotinaMensal.RotinaMensalExibitionDto
 import com.example.vitalisapp.DTO.RotinaSemanal.RotinaSemanalExibitionDto
@@ -101,7 +102,7 @@ fun Home(
     val rotinasDiariasTotaisSemana = homeUiState.rotinasDiariasTotaisSemana
     val isLoading = homeUiState.isLoading
 
-    val nomeLogin by remember { mutableStateOf("Poliana") }  // Pegar o valor buscado da tela de login e jogar aqui
+    val nomeLogin by remember { mutableStateOf(SessionLogin.nickName) }  // Pegar o valor buscado da tela de login e jogar aqui
 
     if (isLoading) {            // Não carregou? Então carrega um tela de loading
         LoadingScreen()         // Pode fazer uma tela de carregamento melhor kkkk
@@ -140,7 +141,7 @@ fun Home(
         ) {
             Menu(navController)
             Text(
-                text = stringResource(R.string.Bem_vindo, nomeLogin),
+                text = stringResource(R.string.Bem_vindo, nomeLogin!!),
                 fontFamily = MavenPro,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,

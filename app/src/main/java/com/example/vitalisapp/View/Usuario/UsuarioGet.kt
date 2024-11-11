@@ -1,12 +1,12 @@
 package com.example.vitalisapp.View.Usuario
 
 data class UsuarioGet(
-    val id: Int,
-    val nome:String,
-    val nickname:String,
-    val cpf:String,
-    val dtNasc: String,
-    val sexo:String,
-    val email:String,
-    val tipo: TipoUsuario,
+    val id: Int? = null,
+    val nome:String ? = null,
+    val nickname:String ? = null,
+    val cpf:String ? = null,
+    val dtNasc: String ? = null,
+    val sexo:String ? = null,
+    val email:String ? = null,
+    val tipo: TipoUsuario ? = null,
 )

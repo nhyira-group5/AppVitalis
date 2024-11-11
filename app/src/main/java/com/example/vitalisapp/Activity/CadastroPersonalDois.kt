@@ -1,5 +1,6 @@
 package com.example.vitalisapp.Activity
 
+import ObjectPersonal
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -30,6 +31,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,9 +50,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.vitalisapp.R
+import com.example.vitalisapp.RetrofitService
+import com.example.vitalisapp.Service.CadastroUsuarioService
+import com.example.vitalisapp.View.Endereco.CreateEndereco
+import com.example.vitalisapp.View.Usuario.Personal
+import com.example.vitalisapp.View.Usuario.TipoUsuario
+import com.example.vitalisapp.ViewModel.EnderecoViewModel
 import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
+import retrofit2.Retrofit
 
 class CadastroPersonalDois : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,17 +80,18 @@ class CadastroPersonalDois : ComponentActivity() {
 }
 
 @Composable
-fun SegundoPersonal(name: String, modifier: Modifier = Modifier) {
+fun SegundoPersonal(name: String, modifier: Modifier = Modifier, viewModel: EnderecoViewModel = viewModel(), viewModelPersonal: CadastroUsuarioService = viewModel() ) {
     var cep by remember { mutableStateOf("") }
     var rua by remember { mutableStateOf("") }
     var estado by remember { mutableStateOf("") }
     var bairro by remember { mutableStateOf("") }
     var numero by remember { mutableStateOf("") }
     var complemento by remember { mutableStateOf("") }
-    var dataFormacao by remember { mutableStateOf("") }
     var especialidade by remember { mutableStateOf("") }
+    var cidade by remember { mutableStateOf("") }
     var espExpanded by remember { mutableStateOf(false) }
     val espOptions = listOf("Musculação", "Yoga", "Pilates", "Crossfit")
+
 
     val contexto = LocalContext.current
 
@@ -175,7 +187,7 @@ fun SegundoPersonal(name: String, modifier: Modifier = Modifier) {
         )
         InputText(
             value = cep,
-            onValueChange = {cep =it},
+            onValueChange = {cep = it},
             label = "CEP"
         )
         InputText(
@@ -194,6 +206,11 @@ fun SegundoPersonal(name: String, modifier: Modifier = Modifier) {
             label = "Bairro"
         )
         InputText(
+            value = cidade,
+            onValueChange = {cidade = it},
+            label = "cidade"
+        )
+        InputText(
             value = numero,
             onValueChange = {numero = it},
             label = "Número"
@@ -203,12 +220,6 @@ fun SegundoPersonal(name: String, modifier: Modifier = Modifier) {
             onValueChange = {complemento =it},
             label = "Complemento"
         )
-        InputText(
-            value = dataFormacao,
-            onValueChange = {dataFormacao = it},
-            label = "Data de formação"
-        )
-
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -244,8 +255,10 @@ fun SegundoPersonal(name: String, modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
-            onClick = {val cadastroPersonal = Intent(contexto, CadastroPersonal::class.java)
-                contexto.startActivity(cadastroPersonal)},
+            onClick = {
+                val cadastroPersonal = Intent(contexto, CadastroPersonal::class.java)
+                contexto.startActivity(cadastroPersonal)
+                      },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Red
             )
@@ -257,8 +270,24 @@ fun SegundoPersonal(name: String, modifier: Modifier = Modifier) {
         }
         Button(
             onClick = {
+                var enderecoCreate = CreateEndereco(rua, numero,complemento, bairro, cidade, estado, cep)
+                var createPersonal = Personal(
+                        ObjectPersonal.nome!!,
+                        ObjectPersonal.nickname!!,
+                        ObjectPersonal.cpf!!,
+                        ObjectPersonal.dtNasc!!,
+                        ObjectPersonal.senha!!,
+                        ObjectPersonal.sexo!!,
+                        ObjectPersonal.email!!,
+                        TipoUsuario.PERSONAL,
+                        null)
+                viewModel.createEndereco(enderecoCreate, createPersonal)
+                var enderecoRetorno = viewModel.endereco.value
+
+
                 val login = Intent(contexto, Login::class.java)
-                contexto.startActivity(login)},
+                contexto.startActivity(login)
+                      },
             modifier = Modifier,
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(168, 123, 199)
