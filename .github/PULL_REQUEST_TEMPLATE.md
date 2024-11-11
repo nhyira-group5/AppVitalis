@@ -73,5 +73,5 @@
 
 ## 📝 Revisores da PR
 
-👤 @WillDantasJPG  
-👤 @augustoSamu
+👤 @LuigiVicchietti
+👤 @Danielr194
