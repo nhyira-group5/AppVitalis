@@ -174,7 +174,7 @@ class HomeViewModel : ViewModel() {
                     }
                     Log.i("HomeViewModel", "Rotina de usuario encontrada: ${res.body()}")
                 } else {
-                    Log.e("HomeViewModel", "Erro ao buscar a rotina do usuario: ${res.errorBody()?.toString()}")
+                    Log.e("HomeViewModel", "Erro ao buscar a rotina do usuario: ${res.errorBody().toString()}")
                 }
             } catch (e: Exception) {
                 Log.e(
@@ -200,7 +200,7 @@ class HomeViewModel : ViewModel() {
                     }
                     Log.i("HomeViewModel", "Rotina de mensal encontrada: ${res.body()}")
                 } else {
-                    Log.e("HomeViewModel", "Erro ao buscar a rotina mensal: ${res.errorBody()?.toString()}")
+                    Log.e("HomeViewModel", "Erro ao buscar a rotina mensal: ${res.errorBody().toString()}")
                 }
             } catch (e: Exception) {
                 Log.e(
@@ -232,7 +232,7 @@ class HomeViewModel : ViewModel() {
                 } else {
                     Log.e(
                         "HomeViewModel",
-                        "Erro ao buscar a rotina semanal atual: ${res.errorBody()?.toString()}"
+                        "Erro ao buscar a rotina semanal atual: ${res.errorBody().toString()}"
                     )
                 }
             } catch (e: Exception) {
@@ -290,7 +290,7 @@ class HomeViewModel : ViewModel() {
                             "Quantidade de treinos buscados para a rotina diaria: ${homeUiState.value.treinosDiarios?.size}"
                         )
                     } else {
-                        Log.e("HomeViewModel", "Erro ao buscar treinos diarios: ${res.errorBody()?.toString()}")
+                        Log.e("HomeViewModel", "Erro ao buscar treinos diarios: ${res.errorBody().toString()}")
                     }
                 } else {
                     Log.e("HomeViewModel", "Erro ao buscar a treinos diarios: idRotinaDiaria Null")
@@ -322,7 +322,7 @@ class HomeViewModel : ViewModel() {
                     } else {
                         Log.e(
                             "HomeViewModel",
-                            "Erro para buscar a refeicao de ID $idRotinaDiaria atribuida a rotina diaria: ${res.errorBody()?.toString()}"
+                            "Erro para buscar a refeicao de ID $idRotinaDiaria atribuida a rotina diaria: ${res.errorBody().toString()}"
                         )
                     }
                 } catch (e: Exception) {
@@ -351,7 +351,7 @@ class HomeViewModel : ViewModel() {
             if (res.isSuccessful) {
                 res.body()?.rotinasDiarias?.size ?: 0
             } else {
-                Log.e("HomeViewModel", "Erro para buscar a rotina semanal: ${res.errorBody()?.toString()}")
+                Log.e("HomeViewModel", "Erro para buscar a rotina semanal: ${res.errorBody().toString()}")
                 0
             }
         } catch (e: Exception) {
@@ -382,7 +382,7 @@ class HomeViewModel : ViewModel() {
             } else {
                 Log.e(
                     "HomeViewModel",
-                    "Erro para buscar a quantidade de rotinas diarias concluídas: ${res.errorBody()?.toString()}"
+                    "Erro para buscar a quantidade de rotinas diarias concluídas: ${res.errorBody().toString()}"
                 )
                 0
             }

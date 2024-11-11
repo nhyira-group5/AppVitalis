@@ -29,14 +29,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -69,6 +68,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.vitalisapp.DTO.Refeicao.RefeicaoExibitionDto
 import com.example.vitalisapp.DTO.Treino.TreinoExibitionDto
+import com.example.vitalisapp.DTO.Usuario.PersonalExibitionDto
 import com.example.vitalisapp.R
 import com.example.vitalisapp.ui.theme.MavenPro
 
@@ -542,7 +542,7 @@ fun CardAtividades(
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 AsyncImage(
-                    model = treino.exercicio.midias.find { it.tipo == "Imagem" }!!.caminho,
+                    model = treino.exercicio.midias?.find { it.tipo == "Imagem" }!!.caminho,
                     contentDescription = "Foto do exercício ${treino.exercicio.nome}",
                     modifier = Modifier
                         .size(60.dp)
@@ -563,7 +563,7 @@ fun CardAtividades(
                         color = Color(72, 183, 90)
                     )
                     Text(
-                        text = treino.exercicio.nome,
+                        text = treino.exercicio.nome!!,
                         fontFamily = MavenPro,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.SemiBold,
@@ -724,8 +724,13 @@ fun BotaoConcluido() {
     }
 }
 
+// Futuramente implementar endereço
 @Composable
-fun PersonalCard(nome: String, especialidade: String, endereco: String) {
+fun PersonalCard(
+    trainer: PersonalExibitionDto,
+) {
+    val especializations = trainer.especialidades
+
     Card(
         modifier = Modifier
             .padding(8.dp)
@@ -738,34 +743,47 @@ fun PersonalCard(nome: String, especialidade: String, endereco: String) {
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            Image(
-                painter = painterResource(id = R.mipmap.usuarioperfil),
-                contentDescription = "Profile Picture",
+            AsyncImage(
+                model = trainer.midia?.caminho ?: R.mipmap.usuarioperfil,
+                contentDescription = "Foto de perfil",
                 modifier = Modifier
                     .size(60.dp)
                     .clip(CircleShape),
                 contentScale = ContentScale.Crop
             )
-            Spacer(modifier = Modifier.width(16.dp))
-            Column {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+            ) {
                 Text(
-                    text = nome,
+                    text = trainer.nome!!,
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
                     color = Color(72, 183, 90)
                 )
-                Text(
-                    text = especialidade,
-                    fontSize = 14.sp,
-                    color = Color.Black
-                )
-                Text(
-                    text = endereco,
-                    fontSize = 14.sp,
-                    color = Color.Black
-                )
+                if (especializations != null) {
+                    if (especializations.size > 0) {
+                        LazyRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Start
+                        ) {
+                            items(items = especializations) { especialidade ->
+                                Text(
+                                    text = especialidade.especialidade?.nome!! + ". ",
+                                    fontSize = 14.sp,
+                                    color = Color.Black
+                                )
+                            }
+                        }
+                    }
+                }
+//                Text(
+//                    text = endereco,
+//                    fontSize = 14.sp,
+//                    color = Color.Black
+//                )
             }
         }
     }

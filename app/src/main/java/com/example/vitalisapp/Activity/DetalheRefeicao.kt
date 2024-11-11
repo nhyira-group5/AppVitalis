@@ -52,8 +52,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import com.example.vitalisapp.DTO.Midia.MidiaDto
 import com.example.vitalisapp.DTO.Refeicao.AlimentoPorRefeicaoDto
-import com.example.vitalisapp.DTO.Refeicao.MidiaDto
 import com.example.vitalisapp.R
 import com.example.vitalisapp.ViewModel.DetalheRefeicaoViewModel
 import com.example.vitalisapp.ui.theme.MavenPro

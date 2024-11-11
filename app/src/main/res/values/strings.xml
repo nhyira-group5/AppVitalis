@@ -10,7 +10,7 @@
     <string name="title_activity_mural">Mural</string>
     <string name="title_activity_perfil">Perfil</string>
     <string name="title_activity_perfil_usuario">PerfilUsuario</string>
-    <string name="title_activity_encontre_academia">EncontreAcademia</string>
+    <string name="title_activity_encontre_personal">EncontrePersonal</string>
     <string name="title_activity_lista_refeicao">ListaRefeicao</string>
     <string name="title_activity_receita">Receita</string>
     <string name="title_activity_detalhe_exercicio">DetalheExercicio</string>

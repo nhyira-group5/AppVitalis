@@ -82,6 +82,7 @@ fun TelaPlano(
 ) {
     val planoUiState = viewModel.planoUiState.collectAsState()
 
+    // trocar pelo "Pagamento Ativo" do usuário logado
     var isFiliado by remember { mutableStateOf(false) }
     //var penis by remember { mutableStateOf(true) }  // Teste de front - Apagar quando terminar
 

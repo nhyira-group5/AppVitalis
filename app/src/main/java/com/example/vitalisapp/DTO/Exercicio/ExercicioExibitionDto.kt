@@ -1,24 +1,17 @@
 package com.example.vitalisapp.DTO.Exercicio
 
+import com.example.vitalisapp.DTO.Midia.MidiaDto
 import com.google.gson.annotations.SerializedName
 
 data class ExercicioExibitionDto (
-    val idExercicio: Int,
-    val nome: String,
-    val descricao: String,
-    @SerializedName("idMidia") val midias: MutableList<MidiaDto>,
-    @SerializedName("TagExerciciosDtos") val tags: MutableList<TagDto>
-)
-
-data class MidiaDto(
-    val idMidia: Int,
-    val nome: String,
-    val caminho: String,
-    val extensao: String,
-    val tipo: String
+    var idExercicio: Int? = null,
+    var nome: String? = null,
+    var descricao: String? = null,
+    @SerializedName("idMidia") var midias: MutableList<MidiaDto>? = null,
+    @SerializedName("TagExerciciosDtos") var tags: MutableList<TagDto>? =  null
 )
 
 data class TagDto (
-    val idTag: Int,
-    val nome: String
+    var idTag: Int? = null,
+    var nome: String? = null
 )

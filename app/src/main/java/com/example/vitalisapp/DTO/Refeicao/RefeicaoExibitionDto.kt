@@ -1,6 +1,7 @@
 package com.example.vitalisapp.DTO.Refeicao
 
 import com.example.vitalisapp.DTO.Meta.MetaExibitionDto
+import com.example.vitalisapp.DTO.Midia.MidiaDto
 import com.google.gson.annotations.SerializedName
 
 data class RefeicaoExibitionDto (
@@ -16,14 +17,6 @@ data class AlimentoPorRefeicaoDto (
     var qtdAlimento: Int? = null,
     var alimento: AlimentoDto? = null,
     var metrica: MetaExibitionDto? = null       // Preguiça de fazer uma DTO e o Exibition já faz oq quero kkkk
-)
-
-data class MidiaDto (
-    var idMidia: Int? = null,
-    var nome: String? = null,
-    var caminho: String? = null,
-    var extensao: String? = null,
-    var tipo: String? = null,
 )
 
 data class AlimentoDto (

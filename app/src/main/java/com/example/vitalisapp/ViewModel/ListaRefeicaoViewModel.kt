@@ -37,7 +37,7 @@ class ListaRefeicaoViewModel : ViewModel() {
                     _listaRefeicaoUiState.update { cs -> cs.copy(refeicoes = res.body(), metaIdUser = idMeta) }
                     Log.i("ListaRefeicaoViewModel", "Sucesso ao buscar refeicoes pela meta: $refeicoes")
                 } else {
-                    Log.e("ListaRefeicaoViewModel", "Erro ao buscar refeicoes pela meta: ${res.errorBody()?.toString()}")
+                    Log.e("ListaRefeicaoViewModel", "Erro ao buscar refeicoes pela meta: ${res.errorBody().toString()}")
                 }
             } catch (e: Exception) {
                 throw ApiException("Busca de refeicoes por meta", e.message)
@@ -57,7 +57,7 @@ class ListaRefeicaoViewModel : ViewModel() {
                         _listaRefeicaoUiState.update { cs -> cs.copy(refeicoes = refeicoes) }
                         Log.i("ListaRefeicaoViewModel", "Sucesso ao buscar refeicoes por filtro de nome: $refeicoes")
                     } else {
-                        Log.e("ListaRefeicaoViewModel", "Erro ao buscar refeicoes por filtro de nome: ${res.errorBody()?.toString()}")
+                        Log.e("ListaRefeicaoViewModel", "Erro ao buscar refeicoes por filtro de nome: ${res.errorBody().toString()}")
                     }
                 } else {
                     Log.e("ListaRefeicaoViewModel", "Erro ao buscar refeicoes por filtro de nome: Meta do usuário não identificada")

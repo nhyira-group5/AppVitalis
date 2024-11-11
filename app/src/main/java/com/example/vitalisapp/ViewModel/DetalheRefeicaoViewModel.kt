@@ -1,11 +1,10 @@
 package com.example.vitalisapp.ViewModel
 
 import android.util.Log
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.vitalisapp.DTO.Midia.MidiaDto
 import com.example.vitalisapp.DTO.Refeicao.AlimentoPorRefeicaoDto
-import com.example.vitalisapp.DTO.Refeicao.MidiaDto
 import com.example.vitalisapp.Exceptions.ApiException
 import com.example.vitalisapp.GlobalUiState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -58,7 +57,7 @@ class DetalheRefeicaoViewModel (
                 } else {
                     Log.e(
                         "DetalheRefeicaoViewModel",
-                        "Erro na busca da receita: ${res.errorBody()?.toString()}"
+                        "Erro na busca da receita: ${res.errorBody().toString()}"
                     )
                 }
             } catch (e: Exception) {

@@ -1,6 +1,8 @@
 package com.example.vitalisapp
 
+import com.example.vitalisapp.Interface.ApiEndereco
 import com.example.vitalisapp.Interface.ApiExercicio
+import com.example.vitalisapp.Interface.externals.ApiViaCep
 import com.example.vitalisapp.Interface.ApiFicha
 import com.example.vitalisapp.Interface.ApiMeta
 import com.example.vitalisapp.Interface.ApiPagamento
@@ -17,8 +19,20 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitService {
 
-    var BASE_URL = "http://192.168.15.5:8080"
-    //var BASE_URL = "http://10.18.7.209:8080"
+    val URL_VIA_CEP = "https://viacep.com.br"
+    val BASE_URL = "http://192.168.15.5:8080"
+    //val BASE_URL = "http://10.18.7.209:8080"
+
+    fun getApiViaCep(): ApiViaCep {
+        val cliente =
+            Retrofit.Builder()
+                .baseUrl(URL_VIA_CEP)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(ApiViaCep::class.java)
+
+        return cliente
+    }
 
     fun getApiUsuario(): ApiUsuario {
         val cliente =
@@ -149,6 +163,17 @@ object RetrofitService {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(ApiPagamento::class.java)
+
+        return cliente
+    }
+
+    fun getApiEndereco(): ApiEndereco {
+        val cliente =
+            Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(ApiEndereco::class.java)
 
         return cliente
     }

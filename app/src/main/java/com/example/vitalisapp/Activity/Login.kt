@@ -49,6 +49,7 @@ import com.example.vitalisapp.ui.theme.VitalisAppTheme
 import com.example.vitalisapp.Service.CadastroUsuarioService
 import com.example.vitalisapp.View.Usuario.TipoUsuario
 import com.example.vitalisapp.View.Usuario.loginUsuario
+import com.example.vitalisapp.ViewModel.EncontrePersonalViewModel
 import com.example.vitalisapp.ViewModel.FichaViewModel
 import com.example.vitalisapp.ViewModel.HomeViewModel
 import com.example.vitalisapp.ViewModel.ListaRefeicaoViewModel
@@ -190,9 +191,7 @@ fun LoginCliente(
         composable("exercicios") { GaleriaExercicio(name = name, navController) }
         composable("refeicao") { Refeicoes(ListaRefeicaoViewModel(), navController) }
 //        composable("relatorio") { RefeicaoTela() }
-        composable("busca") { BuscaAcademia(name = name, navController) }
-        composable("chat") { ConversaChat(name = name, navController) }
-        composable("chatPersonal") { ChatPersonal(name = name, navController) }
+        composable("busca") { BuscaPersonal(EncontrePersonalViewModel(), navController) }
         composable("galeria") { Galeria(name = name, navController) }
         composable("planos") { TelaPlano(PlanoViewModel(), navController) }
     }

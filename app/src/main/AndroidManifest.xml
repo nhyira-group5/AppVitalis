@@ -72,9 +72,9 @@
             android:label="@string/title_activity_lista_refeicao"
             android:theme="@style/Theme.VitalisApp" />
         <activity
-            android:name=".Activity.EncontreAcademia"
+            android:name=".Activity.EncontrePersonal"
             android:exported="true"
-            android:label="@string/title_activity_encontre_academia"
+            android:label="@string/title_activity_encontre_personal"
             android:theme="@style/Theme.VitalisApp" />
         <activity
             android:name=".Activity.PerfilUsuario"
