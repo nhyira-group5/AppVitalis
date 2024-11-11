@@ -25,6 +25,9 @@ interface ApiRefeicao {
     @GET("/refeicoes/filtro/nome")
     suspend fun showByNome (@Query("nome") nome: String): Response<MutableList<RefeicaoExibitionDto>>
 
+    @GET("/refeicoes/por-meta/{idMeta}/filtro/nome")
+    suspend fun showByMetaAndName (@Path("idMeta") idMeta: Int, @Query("nome") nome: String): Response<MutableList<RefeicaoExibitionDto>>
+
     @GET("/refeicoes/por-semana/{idRotinaSemanal}") // idRotinaSemanal
     suspend fun showByRotinaSemanal (@Path("idRotinaSemanal") idRotinaSemanal: Int): Response<MutableList<RefeicaoExibitionDto>>
 

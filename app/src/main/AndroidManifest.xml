@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".Application"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -41,9 +42,9 @@
             android:label="@string/title_activity_lista_chat_usuario"
             android:theme="@style/Theme.VitalisApp" />
         <activity
-            android:name=".Activity.Inicio"
+            android:name=".Activity.Home"
             android:exported="true"
-            android:label="@string/title_activity_inicio"
+            android:label="@string/title_activity_home"
             android:theme="@style/Theme.VitalisApp" />
         <activity
             android:name=".Activity.ListaExercicio"
@@ -52,7 +53,7 @@
             android:theme="@style/Theme.VitalisApp" />
         <activity
             android:name=".Activity.Plano"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/title_activity_plano"
             android:theme="@style/Theme.VitalisApp" />
         <activity
@@ -61,19 +62,19 @@
             android:label="@string/title_activity_detalhe_exercicio"
             android:theme="@style/Theme.VitalisApp" />
         <activity
-            android:name=".Activity.Receita"
-            android:exported="false"
+            android:name=".Activity.DetalheRefeicao"
+            android:exported="true"
             android:label="@string/title_activity_receita"
             android:theme="@style/Theme.VitalisApp" />
         <activity
             android:name=".Activity.ListaRefeicao"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/title_activity_lista_refeicao"
             android:theme="@style/Theme.VitalisApp" />
         <activity
-            android:name=".Activity.EncontreAcademia"
-            android:exported="false"
-            android:label="@string/title_activity_encontre_academia"
+            android:name=".Activity.EncontrePersonal"
+            android:exported="true"
+            android:label="@string/title_activity_encontre_personal"
             android:theme="@style/Theme.VitalisApp" />
         <activity
             android:name=".Activity.PerfilUsuario"

@@ -38,6 +38,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -50,7 +51,7 @@ android {
 }
 
 dependencies {
-    implementation("io.coil-kt:coil-compose:2.6.0")
+    implementation("io.insert-koin:koin-android:4.0.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -67,11 +68,23 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation("androidx.navigation:navigation-compose:2.7.7")
+
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
+
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+
     implementation("androidx.compose.runtime:runtime-livedata:1.6.5")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.6")
+
     implementation ("io.coil-kt:coil-compose:2.1.0")
+    implementation("io.coil-kt:coil-compose:2.6.0")
+
+    implementation("androidx.datastore:datastore-preferences:1.1.0")
+    implementation("androidx.datastore:datastore-core:1.1.0")
+
+    implementation("io.insert-koin:koin-android:4.0.0")
+
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
 }

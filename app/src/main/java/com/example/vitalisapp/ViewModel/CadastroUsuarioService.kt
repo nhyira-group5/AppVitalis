@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.vitalisapp.Entity.Usuario.loginRetornoUsuario
 import com.example.vitalisapp.RetrofitService
+import com.example.vitalisapp.View.LoginSession.SessionLogin
 import com.example.vitalisapp.View.Usuario.Personal
 import com.example.vitalisapp.View.Usuario.TipoUsuario
 import com.example.vitalisapp.View.Usuario.Usuario
@@ -144,10 +145,30 @@ class CadastroUsuarioService : ViewModel(){
         }
     }
 
+    fun getUsuarioAtivo(id: Int?) {
+        viewModelScope.launch(Dispatchers.IO){
+                try {
+                    val resposta = apiService.getUsuarioPagamentoAtivo(id!!)
+                    if (resposta.isSuccessful) {
+                        Log.i("Sucesso", "items da API: ${resposta.body()}")
+                        SessionLogin.meta = resposta.body()!!.meta!!.nome
+                        SessionLogin.pagamentoAtivo = resposta.body()!!.pagamentoAtivo
+                        Log.e("ErroApi", "items da API: ${SessionLogin.toString()}")
+                    } else {
+                        Log.e("ErroApi", "Erro ao buscar items ${resposta.errorBody()?.string()}")
+                    }
+                } catch (exception: Exception) {
+                    Log.e("api", "Erro ao buscar items", exception)
+                }
+            } // Garante que a corrotina termine antes de continuar
+        }
 
-    fun resetLogin() {
-        _login.value.id
+
     }
+
+
+
+
 //
 //    fun loginService(loginUsuario: loginUsuario){
 //        runBlocking {
@@ -177,4 +198,3 @@ class CadastroUsuarioService : ViewModel(){
 
 
 
-}

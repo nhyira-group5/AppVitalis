@@ -2,8 +2,10 @@ package com.example.vitalisapp
 
 import com.example.vitalisapp.Interface.ApiEndereco
 import com.example.vitalisapp.Interface.ApiExercicio
+import com.example.vitalisapp.Interface.externals.ApiViaCep
 import com.example.vitalisapp.Interface.ApiFicha
 import com.example.vitalisapp.Interface.ApiMeta
+import com.example.vitalisapp.Interface.ApiPagamento
 import com.example.vitalisapp.Interface.ApiRefeicao
 import com.example.vitalisapp.Interface.ApiRefeicaoDiaria
 import com.example.vitalisapp.Interface.ApiRotinaDiaria
@@ -17,9 +19,20 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitService {
 
-    var BASE_URL = "http://192.168.0.11:8080"
-//    var BASE_URL = "http://192.168.145.116:8080"
-//    var BASE_URL = "http://18.211.206.217:5225"
+    val URL_VIA_CEP = "https://viacep.com.br"
+    val BASE_URL = "http://192.168.0.11:8080"
+    //val BASE_URL = "http://10.18.7.209:8080"
+
+    fun getApiViaCep(): ApiViaCep {
+        val cliente =
+            Retrofit.Builder()
+                .baseUrl(URL_VIA_CEP)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(ApiViaCep::class.java)
+
+        return cliente
+    }
 
     fun getApiUsuario(): ApiUsuario {
         val cliente =
@@ -143,6 +156,18 @@ object RetrofitService {
         return cliente
     }
 
+    fun getApiPagamento(): ApiPagamento {
+        val cliente =
+            Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(ApiPagamento::class.java)
+
+        return cliente
+    }
+
+
 
 
     fun getApiEndereco(): ApiEndereco {
@@ -156,18 +181,5 @@ object RetrofitService {
         return cliente
     }
 
-//    var BASE_VIA_CEP = "https://viacep.com.br/ws/"
-//
-//
-//    fun getAPiViaCep(): ApiEndereco{
-//        val cliente =
-//            Retrofit.Builder()
-//                .baseUrl(BASE_VIA_CEP)
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build()
-//                .create(ApiEndereco::class.java)
-//
-//        return cliente
-//    }
 
 }

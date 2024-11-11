@@ -1,5 +1,6 @@
 package com.example.vitalisapp.Activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -67,6 +68,7 @@ class ConfirmacaoParq : ComponentActivity() {
     }
 }
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun Parq(name: String, modifier: Modifier = Modifier, viewModelRotUsuario: RotinaUsuarioModel = viewModel()) {
 
@@ -181,7 +183,7 @@ fun Parq(name: String, modifier: Modifier = Modifier, viewModelRotUsuario: Rotin
                                             1
                                         )
                                         viewModelRotUsuario.createRotinaUsuario(meta)
-                                        val home = Intent(contexto, Inicio::class.java)
+                                        val home = Intent(contexto, Home::class.java)
                                         contexto.startActivity(home)
                                     },
                                     colors = ButtonDefaults.buttonColors(

@@ -1,5 +1,6 @@
 package com.example.vitalisapp.Interface
 
+import com.example.vitalisapp.DTO.Endereco.ViaCepDto
 import com.example.vitalisapp.View.Endereco.CreateEndereco
 import com.example.vitalisapp.View.Endereco.ExibitionEndereco
 import retrofit2.Response
