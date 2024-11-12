@@ -22,26 +22,6 @@
             android:label="@string/title_activity_home_personal"
             android:theme="@style/Theme.VitalisApp" />
         <activity
-            android:name=".Activity.ChatPersonal"
-            android:exported="false"
-            android:label="@string/title_activity_chat_personal"
-            android:theme="@style/Theme.VitalisApp" />
-        <activity
-            android:name=".Activity.ChatUsuario"
-            android:exported="false"
-            android:label="@string/title_activity_chat_usuario"
-            android:theme="@style/Theme.VitalisApp" />
-        <activity
-            android:name=".Activity.ListaChatPersonal"
-            android:exported="false"
-            android:label="@string/title_activity_lista_chat_personal"
-            android:theme="@style/Theme.VitalisApp" />
-        <activity
-            android:name=".Activity.ListaChatUsuario"
-            android:exported="false"
-            android:label="@string/title_activity_lista_chat_usuario"
-            android:theme="@style/Theme.VitalisApp" />
-        <activity
             android:name=".Activity.Home"
             android:exported="true"
             android:label="@string/title_activity_home"

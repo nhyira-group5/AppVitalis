@@ -1,5 +1,6 @@
 package com.example.vitalisapp.Activity
 
+import PaymentResponse
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -37,11 +38,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.vitalisapp.DTO.Pagamento.PaymentKoinDto
 import com.example.vitalisapp.DTO.RotinaDiaria.RotinaDiariaExibitionDto
 import com.example.vitalisapp.DTO.RotinaMensal.RotinaMensalExibitionDto
 import com.example.vitalisapp.DTO.RotinaSemanal.RotinaSemanalExibitionDto
@@ -202,15 +205,13 @@ fun LoginCliente(
 //        composable("relatorio") { RefeicaoTela() }
         composable("busca") { BuscaPersonal(EncontrePersonalViewModel(), navController) }
         composable("galeria") { Galeria(name = name, navController) }
-        composable("planos") { TelaPlano(PlanoViewModel(), navController) }
+        composable("planos") { TelaPlano(PaymentKoinDto(), PlanoViewModel(), navController) }
     }
 }
 
-
-
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun GreetingPreview7() {
+fun LoginPreview() {
     VitalisAppTheme {
         LoginCliente("Android", rememberNavController())
     }

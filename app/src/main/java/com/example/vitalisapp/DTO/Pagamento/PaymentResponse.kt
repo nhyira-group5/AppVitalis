@@ -1,185 +1,185 @@
 import com.google.gson.annotations.SerializedName
 
 data class PaymentResponse(
-    @SerializedName("accounts_info") val accountsInfo: Any?,
-    @SerializedName("acquirer_reconciliation") val acquirerReconciliation: List<Any>,
-    @SerializedName("additional_info") val additionalInfo: AdditionalInfo,
-    @SerializedName("authorization_code") val authorizationCode: Any?,
-    @SerializedName("binary_mode") val binaryMode: Boolean,
-    @SerializedName("brand_id") val brandId: Any?,
-    @SerializedName("build_version") val buildVersion: String,
-    @SerializedName("call_for_authorize_id") val callForAuthorizeId: Any?,
-    @SerializedName("callback_url") val callbackUrl: Any?,
-    @SerializedName("captured") val captured: Boolean,
-    @SerializedName("card") val card: Card,
-    @SerializedName("charges_details") val chargesDetails: List<Any>,
-    @SerializedName("charges_execution_info") val chargesExecutionInfo: ChargesExecutionInfo,
-    @SerializedName("collector_id") val collectorId: Long,
-    @SerializedName("corporation_id") val corporationId: Any?,
-    @SerializedName("counter_currency") val counterCurrency: Any?,
-    @SerializedName("coupon_amount") val couponAmount: Double,
-    @SerializedName("currency_id") val currencyId: String,
-    @SerializedName("date_approved") val dateApproved: Any?,
-    @SerializedName("date_created") val dateCreated: String,
-    @SerializedName("date_last_updated") val dateLastUpdated: String,
-    @SerializedName("date_of_expiration") val dateOfExpiration: String,
-    @SerializedName("deduction_schema") val deductionSchema: Any?,
-    @SerializedName("description") val description: String,
-    @SerializedName("differential_pricing_id") val differentialPricingId: Any?,
-    @SerializedName("external_reference") val externalReference: Any?,
-    @SerializedName("fee_details") val feeDetails: List<Any>,
-    @SerializedName("financing_group") val financingGroup: Any?,
-    @SerializedName("id") val id: Long,
-    @SerializedName("installments") val installments: Int,
-    @SerializedName("integrator_id") val integratorId: Any?,
-    @SerializedName("issuer_id") val issuerId: Long,
-    @SerializedName("live_mode") val liveMode: Boolean,
-    @SerializedName("marketplace_owner") val marketplaceOwner: Any?,
-    @SerializedName("merchant_account_id") val merchantAccountId: Any?,
-    @SerializedName("merchant_number") val merchantNumber: Any?,
-    @SerializedName("metadata") val metadata: Map<String, Any>,
-    @SerializedName("money_release_date") val moneyReleaseDate: Any?,
-    @SerializedName("money_release_schema") val moneyReleaseSchema: Any?,
-    @SerializedName("money_release_status") val moneyReleaseStatus: String,
-    @SerializedName("notification_url") val notificationUrl: Any?,
-    @SerializedName("operation_type") val operationType: String,
-    @SerializedName("order") val order: Order,
-    @SerializedName("payer") val payer: Payer,
-    @SerializedName("payment_method") val paymentMethod: PaymentMethod,
-    @SerializedName("payment_method_id") val paymentMethodId: String,
-    @SerializedName("payment_type_id") val paymentTypeId: String,
-    @SerializedName("platform_id") val platformId: Any?,
-    @SerializedName("point_of_interaction") val pointOfInteraction: PointOfInteraction,
-    @SerializedName("pos_id") val posId: Any?,
-    @SerializedName("processing_mode") val processingMode: String,
-    @SerializedName("refunds") val refunds: List<Any>,
-    @SerializedName("shipping_amount") val shippingAmount: Double,
-    @SerializedName("source") val source: Any?,
-    @SerializedName("statement_descriptor") val statementDescriptor: String,
-    @SerializedName("status") val status: String,
-    @SerializedName("status_detail") val statusDetail: String,
-    @SerializedName("store_id") val storeId: Any?,
-    @SerializedName("transaction_amount") val transactionAmount: Double,
-    @SerializedName("transaction_amount_refunded") val transactionAmountRefunded: Double,
-    @SerializedName("transaction_details") val transactionDetails: TransactionDetails,
-    @SerializedName("uuid") val uuid: String,
-    @SerializedName("verification_code") val verificationCode: Any?,
-    @SerializedName("wallet_merchant_id") val walletMerchantId: Any?
+    @SerializedName("accounts_info") var accountsInfo: Any? = null,
+    @SerializedName("acquirer_reconciliation") var acquirerReconciliation: List<Any>? = emptyList(),
+    @SerializedName("additional_info") var additionalInfo: AdditionalInfo? = null,
+    @SerializedName("authorization_code") var authorizationCode: Any? = null,
+    @SerializedName("binary_mode") var binaryMode: Boolean? = null,
+    @SerializedName("brand_id") var brandId: Any? = null,
+    @SerializedName("build_version") var buildVersion: String? = null,
+    @SerializedName("call_for_authorize_id") var callForAuthorizeId: Any? = null,
+    @SerializedName("callback_url") var callbackUrl: Any? = null,
+    @SerializedName("captured") var captured: Boolean? = null,
+    @SerializedName("card") var card: Card? = null,
+    @SerializedName("charges_details") var chargesDetails: List<Any>? = emptyList(),
+    @SerializedName("charges_execution_info") var chargesExecutionInfo: ChargesExecutionInfo? = null,
+    @SerializedName("collector_id") var collectorId: Long? = null,
+    @SerializedName("corporation_id") var corporationId: Any? = null,
+    @SerializedName("counter_currency") var counterCurrency: Any? = null,
+    @SerializedName("coupon_amount") var couponAmount: Double? = null,
+    @SerializedName("currency_id") var currencyId: String? = null,
+    @SerializedName("date_approved") var dateApproved: Any? = null,
+    @SerializedName("date_created") var dateCreated: String? = null,
+    @SerializedName("date_last_updated") var dateLastUpdated: String? = null,
+    @SerializedName("date_of_expiration") var dateOfExpiration: String? = null,
+    @SerializedName("deduction_schema") var deductionSchema: Any? = null,
+    @SerializedName("description") var description: String? = null,
+    @SerializedName("differential_pricing_id") var differentialPricingId: Any? = null,
+    @SerializedName("external_reference") var externalReference: Any? = null,
+    @SerializedName("fee_details") var feeDetails: List<Any>? = emptyList(),
+    @SerializedName("financing_group") var financingGroup: Any? = null,
+    @SerializedName("id") var id: Long? = null,
+    @SerializedName("installments") var installments: Int? = null,
+    @SerializedName("integrator_id") var integratorId: Any? = null,
+    @SerializedName("issuer_id") var issuerId: Long? = null,
+    @SerializedName("live_mode") var liveMode: Boolean? = null,
+    @SerializedName("marketplace_owner") var marketplaceOwner: Any? = null,
+    @SerializedName("merchant_account_id") var merchantAccountId: Any? = null,
+    @SerializedName("merchant_number") var merchantNumber: Any? = null,
+    @SerializedName("metadata") var metadata: Map<String, Any>? = null,
+    @SerializedName("money_release_date") var moneyReleaseDate: Any? = null,
+    @SerializedName("money_release_schema") var moneyReleaseSchema: Any? = null,
+    @SerializedName("money_release_status") var moneyReleaseStatus: String? = null,
+    @SerializedName("notification_url") var notificationUrl: Any? = null,
+    @SerializedName("operation_type") var operationType: String? = null,
+    @SerializedName("order") var order: Order? = null,
+    @SerializedName("payer") var payer: Payer? = null,
+    @SerializedName("payment_method") var paymentMethod: PaymentMethod? = null,
+    @SerializedName("payment_method_id") var paymentMethodId: String? = null,
+    @SerializedName("payment_type_id") var paymentTypeId: String? = null,
+    @SerializedName("platform_id") var platformId: Any? = null,
+    @SerializedName("point_of_interaction") var pointOfInteraction: PointOfInteraction? = null,
+    @SerializedName("pos_id") var posId: Any? = null,
+    @SerializedName("processing_mode") var processingMode: String? = null,
+    @SerializedName("refunds") var refunds: List<Any>? = emptyList(),
+    @SerializedName("shipping_amount") var shippingAmount: Double? = null,
+    @SerializedName("source") var source: Any? = null,
+    @SerializedName("statement_descriptor") var statementDescriptor: String? = null,
+    @SerializedName("status") var status: String? = null,
+    @SerializedName("status_detail") var statusDetail: String? = null,
+    @SerializedName("store_id") var storeId: Any? = null,
+    @SerializedName("transaction_amount") var transactionAmount: Double? = null,
+    @SerializedName("transaction_amount_refunded") var transactionAmountRefunded: Double? = null,
+    @SerializedName("transaction_details") var transactionDetails: TransactionDetails? = null,
+    @SerializedName("uuid") var uuid: String? = null,
+    @SerializedName("verification_code") var verificationCode: Any? = null,
+    @SerializedName("wallet_merchant_id") var walletMerchantId: Any? = null
 )
 
 data class AdditionalInfo(
-    @SerializedName("authentication_code") val authenticationCode: Any?,
-    @SerializedName("available_balance") val availableBalance: Any?,
-    @SerializedName("nsu_processadora") val nsuProcessadora: Any?
+    @SerializedName("authentication_code") var authenticationCode: Any? = null,
+    @SerializedName("available_balance") var availableBalance: Any? = null,
+    @SerializedName("nsu_processadora") var nsuProcessadora: Any? = null
 )
 
 class Card()
 
 data class ChargesExecutionInfo(
-    @SerializedName("internal_execution") val internalExecution: InternalExecution
+    @SerializedName("internal_execution") var internalExecution: InternalExecution? = null
 )
 
 data class InternalExecution(
-    @SerializedName("date") val date: String,
-    @SerializedName("execution_id") val executionId: String
+    @SerializedName("date") var date: String? = null,
+    @SerializedName("execution_id") var executionId: String? = null
 )
 
 class Order()
 
 data class Payer(
-    @SerializedName("email") val email: Any?,
-    @SerializedName("entity_type") val entityType: Any?,
-    @SerializedName("first_name") val firstName: Any?,
-    @SerializedName("id") val id: Long,
-    @SerializedName("identification") val identification: Identification,
-    @SerializedName("last_name") val lastName: Any?,
-    @SerializedName("operator_id") val operatorId: Any?,
-    @SerializedName("phone") val phone: Phone,
-    @SerializedName("type") val type: Any?
+    @SerializedName("email") var email: Any? = null,
+    @SerializedName("entity_type") var entityType: Any? = null,
+    @SerializedName("first_name") var firstName: Any? = null,
+    @SerializedName("id") var id: Long? = null,
+    @SerializedName("identification") var identification: Identification? = null,
+    @SerializedName("last_name") var lastName: Any? = null,
+    @SerializedName("operator_id") var operatorId: Any? = null,
+    @SerializedName("phone") var phone: Phone? = null,
+    @SerializedName("type") var type: Any? = null
 )
 
 data class Identification(
-    @SerializedName("number") val number: Any?,
-    @SerializedName("type") val type: Any?
+    @SerializedName("number") var number: Any? = null,
+    @SerializedName("type") var type: Any? = null
 )
 
 data class Phone(
-    @SerializedName("area_code") val areaCode: Any?,
-    @SerializedName("extension") val extension: Any?,
-    @SerializedName("number") val number: Any?
+    @SerializedName("area_code") var areaCode: Any? = null,
+    @SerializedName("extension") var extension: Any? = null,
+    @SerializedName("number") var number: Any? = null
 )
 
 data class PaymentMethod(
-    @SerializedName("id") val id: String,
-    @SerializedName("issuer_id") val issuerId: Long,
-    @SerializedName("type") val type: String
+    @SerializedName("id") var id: String? = null,
+    @SerializedName("issuer_id") var issuerId: Long? = null,
+    @SerializedName("type") var type: String? = null
 )
 
 data class PointOfInteraction(
-    @SerializedName("application_data") val applicationData: ApplicationData,
-    @SerializedName("business_info") val businessInfo: BusinessInfo,
-    @SerializedName("location") val location: Location,
-    @SerializedName("transaction_data") val transactionData: TransactionData
+    @SerializedName("application_data") var applicationData: ApplicationData? = null,
+    @SerializedName("business_info") var businessInfo: BusinessInfo? = null,
+    @SerializedName("location") var location: Location? = null,
+    @SerializedName("transaction_data") var transactionData: TransactionData? = null
 )
 
 data class ApplicationData(
-    @SerializedName("name") val name: Any?,
-    @SerializedName("version") val version: Any?
+    @SerializedName("name") var name: Any? = null,
+    @SerializedName("version") var version: Any? = null
 )
 
 data class BusinessInfo(
-    @SerializedName("branch") val branch: String,
-    @SerializedName("sub_unit") val subUnit: String,
-    @SerializedName("unit") val unit: String
+    @SerializedName("branch") var branch: String? = null,
+    @SerializedName("sub_unit") var subUnit: String? = null,
+    @SerializedName("unit") var unit: String? = null
 )
 
 data class Location(
-    @SerializedName("source") val source: Any?,
-    @SerializedName("state_id") val stateId: Any?
+    @SerializedName("source") var source: Any? = null,
+    @SerializedName("state_id") var stateId: Any? = null
 )
 
 data class TransactionData(
-    @SerializedName("bank_info") val bankInfo: BankInfo,
-    @SerializedName("bank_transfer_id") val bankTransferId: Any?,
-    @SerializedName("e2e_id") val e2eId: Any?,
-    @SerializedName("financial_institution") val financialInstitution: Any?,
-    @SerializedName("qr_code") val qrCode: String,
-    @SerializedName("qr_code_base64") val qrCodeBase64: String,
-    @SerializedName("ticket_url") val ticketUrl: String
+    @SerializedName("bank_info") var bankInfo: BankInfo? = null,
+    @SerializedName("bank_transfer_id") var bankTransferId: Any? = null,
+    @SerializedName("e2e_id") var e2eId: Any? = null,
+    @SerializedName("financial_institution") var financialInstitution: Any? = null,
+    @SerializedName("qr_code") var qrCode: String? = null,
+    @SerializedName("qr_code_base64") var qrCodeBase64: String? = null,
+    @SerializedName("ticket_url") var ticketUrl: String? = null
 )
 
 data class BankInfo(
-    @SerializedName("collector") val collector: Collector,
-    @SerializedName("is_same_bank_account_owner") val isSameBankAccountOwner: Any?,
-    @SerializedName("origin_bank_id") val originBankId: Any?,
-    @SerializedName("origin_wallet_id") val originWalletId: Any?,
-    @SerializedName("payer") val payer: PayerInfo
+    @SerializedName("collector") var collector: Collector? = null,
+    @SerializedName("is_same_bank_account_owner") var isSameBankAccountOwner: Any? = null,
+    @SerializedName("origin_bank_id") var originBankId: Any? = null,
+    @SerializedName("origin_wallet_id") var originWalletId: Any? = null,
+    @SerializedName("payer") var payer: PayerInfo? = null
 )
 
 data class Collector(
-    @SerializedName("account_holder_name") val accountHolderName: String,
-    @SerializedName("account_id") val accountId: Any?,
-    @SerializedName("long_name") val longName: Any?,
-    @SerializedName("transfer_account_id") val transferAccountId: Any?
+    @SerializedName("account_holder_name") var accountHolderName: String? = null,
+    @SerializedName("account_id") var accountId: Any? = null,
+    @SerializedName("long_name") var longName: Any? = null,
+    @SerializedName("transfer_account_id") var transferAccountId: Any? = null
 )
 
 data class PayerInfo(
-    @SerializedName("account_id") val accountId: Any?,
-    @SerializedName("branch") val branch: Any?,
-    @SerializedName("external_account_id") val externalAccountId: Any?,
-    @SerializedName("id") val id: Any?,
-    @SerializedName("identification") val identification: Any?,
-    @SerializedName("long_name") val longName: Any?
+    @SerializedName("account_id") var accountId: Any? = null,
+    @SerializedName("branch") var branch: Any? = null,
+    @SerializedName("external_account_id") var externalAccountId: Any? = null,
+    @SerializedName("id") var id: Any? = null,
+    @SerializedName("identification") var identification: Any? = null,
+    @SerializedName("long_name") var longName: Any? = null
 )
 
 data class TransactionDetails(
-    @SerializedName("acquirer_reference") val acquirerReference: Any?,
-    @SerializedName("external_resource_url") val externalResourceUrl: Any?,
-    @SerializedName("financial_institution") val financialInstitution: Any?,
-    @SerializedName("installment_amount") val installmentAmount: Double,
-    @SerializedName("net_received_amount") val netReceivedAmount: Double,
-    @SerializedName("overpaid_amount") val overpaidAmount: Double,
-    @SerializedName("payable_deferral_period") val payableDeferralPeriod: Any?,
-    @SerializedName("payment_method_reference_id") val paymentMethodReferenceId: Any?,
-    @SerializedName("receivable_amount") val receivableAmount: Double
+    @SerializedName("acquirer_reference") var acquirerReference: Any? = null,
+    @SerializedName("external_resource_url") var externalResourceUrl: Any? = null,
+    @SerializedName("financial_institution") var financialInstitution: Any? = null,
+    @SerializedName("installment_amount") var installmentAmount: Double? = null,
+    @SerializedName("net_received_amount") var netReceivedAmount: Double? = null,
+    @SerializedName("overpaid_amount") var overpaidAmount: Double? = null,
+    @SerializedName("payable_deferral_period") var payableDeferralPeriod: Any? = null,
+    @SerializedName("payment_method_reference_id") var paymentMethodReferenceId: Any? = null,
+    @SerializedName("receivable_amount") var receivableAmount: Double? = null
 )

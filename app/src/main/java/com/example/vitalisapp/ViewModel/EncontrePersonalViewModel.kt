@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.vitalisapp.DTO.Usuario.PersonalExibitionDto
 import com.example.vitalisapp.Exceptions.ApiException
 import com.example.vitalisapp.GlobalUiState
+import com.example.vitalisapp.View.LoginSession.SessionLogin
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -23,7 +24,7 @@ class EncontrePersonalViewModel : ViewModel() {
     val encontrePersonalUiState = _encontrePersonalUiState.asStateFlow()
 
     init {
-        getTrainersByMeta(1)    // Colocar a meta buscadoa a partir do login do usuário
+        getTrainersByMeta(SessionLogin.meta!!)
         _encontrePersonalUiState.update { cs -> cs.copy(isLoading = false) }
     }
 

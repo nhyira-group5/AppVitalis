@@ -1,5 +1,6 @@
 package com.example.vitalisapp.DI
 
+import com.example.vitalisapp.DTO.Pagamento.PaymentKoinDto
 import com.example.vitalisapp.DTO.RotinaDiaria.RotinaDiariaExibitionDto
 import com.example.vitalisapp.DTO.RotinaMensal.RotinaMensalExibitionDto
 import com.example.vitalisapp.DTO.RotinaSemanal.RotinaSemanalExibitionDto
@@ -9,6 +10,7 @@ import com.example.vitalisapp.Interface.ApiRotinaMensal
 import com.example.vitalisapp.Interface.ApiRotinaSemanal
 import com.example.vitalisapp.Interface.ApiRotinaUsuario
 import com.example.vitalisapp.RetrofitService
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val moduleRotinaUsuario = module {
@@ -48,5 +50,11 @@ val moduleRotinaDiaria = module {
 
     single<ApiRotinaDiaria> {
         RetrofitService.getApiRotinaDiaria()
+    }
+}
+
+val modulePaymentKoin = module {
+    scope(named("paymentSession")) {
+        scoped { PaymentKoinDto() }
     }
 }

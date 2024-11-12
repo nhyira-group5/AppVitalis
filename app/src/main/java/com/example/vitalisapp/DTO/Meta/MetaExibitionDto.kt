@@ -1,6 +1,8 @@
 package com.example.vitalisapp.DTO.Meta
 
+import com.google.gson.annotations.SerializedName
+
 data class MetaExibitionDto (
-    var idMeta: Int?,
-    var nome: String?
+    @SerializedName("id") var idMeta: Int? = null,
+    var nome: String? = null
 )

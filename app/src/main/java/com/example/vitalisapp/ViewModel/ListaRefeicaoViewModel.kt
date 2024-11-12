@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.vitalisapp.DTO.Refeicao.RefeicaoExibitionDto
 import com.example.vitalisapp.Exceptions.ApiException
 import com.example.vitalisapp.GlobalUiState
+import com.example.vitalisapp.View.LoginSession.SessionLogin
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -24,7 +25,7 @@ class ListaRefeicaoViewModel : ViewModel() {
     val listaRefeicaoUiState = _listaRefeicaoUiState.asStateFlow()
 
     init {
-        getRefeicoesByMetaId(1)     // Inserir id da meta buscada no login
+        getRefeicoesByMetaId(SessionLogin.meta!!)
         _listaRefeicaoUiState.update { cs -> cs.copy(isLoading = false) }
     }
 
