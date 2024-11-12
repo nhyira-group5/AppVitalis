@@ -11,6 +11,7 @@ import com.example.vitalisapp.DTO.RotinaUsuario.RotinaUsuarioExibitionDto
 import com.example.vitalisapp.DTO.Treino.TreinoExibitionDto
 import com.example.vitalisapp.Exceptions.ApiException
 import com.example.vitalisapp.GlobalUiState
+import com.example.vitalisapp.View.LoginSession.SessionLogin
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -66,7 +67,7 @@ class HomeViewModel : ViewModel() {
     val homeUiState = _homeUiState.asStateFlow()
 
     init {
-        loadDataHome(1)
+        loadDataHome(SessionLogin.id!!)
         _homeUiState.update { cs -> cs.copy(isLoading = false) }
     }
 

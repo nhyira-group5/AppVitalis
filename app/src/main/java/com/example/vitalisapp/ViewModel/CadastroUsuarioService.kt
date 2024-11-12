@@ -1,4 +1,5 @@
 package com.example.vitalisapp.Service
+
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
@@ -21,9 +22,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-class CadastroUsuarioService : ViewModel(){
 
-
+class CadastroUsuarioService : ViewModel() {
     private val _login = MutableStateFlow(loginRetornoUsuario())
     val login = _login.asStateFlow()
 
@@ -59,7 +59,6 @@ class CadastroUsuarioService : ViewModel(){
         )
 
         CoroutineScope(Dispatchers.IO).launch {
-
             try {
                 val response = apiService.postUsuario(user)
                 if (response.isSuccessful) {
@@ -69,24 +68,34 @@ class CadastroUsuarioService : ViewModel(){
                         Log.i("Sucesso", response.message())
                         Log.i("Sucesso", response.body().toString())
                         Log.i("Sucesso", _Cadastro.value.toString())
-                        Toast.makeText(context, "Cadastro realizado com sucesso!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            context,
+                            "Cadastro realizado com sucesso!",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 } else {
                     withContext(Dispatchers.Main) {
-                        Log.e("erroCadas","Registration failed: ${response.errorBody().toString()}")
-                        Log.e("erroCadas","Registration failed: ${response.errorBody()?.string()}")
-                        Toast.makeText(context, "Dados invalidos, tente novamente!", Toast.LENGTH_SHORT).show()
+                        Log.e(
+                            "erroCadas",
+                            "Registration failed: ${response.errorBody().toString()}"
+                        )
+                        Log.e("erroCadas", "Registration failed: ${response.errorBody()?.string()}")
+                        Toast.makeText(
+                            context,
+                            "Dados invalidos, tente novamente!",
+                            Toast.LENGTH_SHORT
+                        ).show()
 
                     }
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Log.e("apiCadas","Error: ${e.message}")
+                    Log.e("apiCadas", "Error: ${e.message}")
                 }
             }
         }
     }
-
 
     fun registerPersonal(
         context: Context,
@@ -98,76 +107,87 @@ class CadastroUsuarioService : ViewModel(){
                 val response = apiService.postPersonal(user)
                 if (response.isSuccessful) {
                     withContext(Dispatchers.Main) {
-                        Log.i("sucessoCadas","User registered successfully!")
-                        Toast.makeText(context, "Cadastro realizado com sucesso!", Toast.LENGTH_SHORT).show()
+                        Log.i("sucessoCadas", "User registered successfully!")
+                        Toast.makeText(
+                            context,
+                            "Cadastro realizado com sucesso!",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 } else {
                     withContext(Dispatchers.Main) {
-                        Log.e("erroCadas","Registration failed: ${response.errorBody().toString()}")
-                        Log.e("erroCadas","Registration failed: ${response.errorBody()?.string()}")
-                        Toast.makeText(context, "Dados invalidos, tente novamente!", Toast.LENGTH_SHORT).show()
+                        Log.e(
+                            "erroCadas",
+                            "Registration failed: ${response.errorBody().toString()}"
+                        )
+                        Log.e("erroCadas", "Registration failed: ${response.errorBody()?.string()}")
+                        Toast.makeText(
+                            context,
+                            "Dados invalidos, tente novamente!",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
-                    Log.e("apiCadas","Error: ${e.message}")
+                    Log.e("apiCadas", "Error: ${e.message}")
                 }
             }
         }
     }
 
-    fun loginService(loginUsuario: loginUsuario, context: Context){
-        viewModelScope.launch(Dispatchers.IO){
-        try {
-            val response = apiService.loginUsuario(loginUsuario)
-            _login.value = loginRetornoUsuario()
-            if (response.isSuccessful) {
-                        val body = response.body()
-                        if (body != null) {
-                            withContext(Dispatchers.Main) {
-                                _login.value = body
-                                Log.i("Sucesso", response.message())
-                                Log.i("Sucesso", body.toString())
-                            }
-                        }
-                        Toast.makeText(context, "Cadastro realizado com sucesso!", Toast.LENGTH_SHORT).show()
-                    } else {
+    fun loginService(loginUsuario: loginUsuario, context: Context) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response = apiService.loginUsuario(loginUsuario)
+                _login.value = loginRetornoUsuario()
+                if (response.isSuccessful) {
+                    val body = response.body()
+                    if (body != null) {
                         withContext(Dispatchers.Main) {
-                            Log.e("apis", "Erro ${response.errorBody()?.string()}")
-                        Toast.makeText(context, "nickname ou senha invalidos! Tente novamente!", Toast.LENGTH_SHORT).show()
+                            _login.value = body
+                            Log.i("Sucesso", response.message())
+                            Log.i("Sucesso", body.toString())
                         }
-                        }
-                } catch (e: Exception) {
+                    }
+                    Toast.makeText(context, "Cadastro realizado com sucesso!", Toast.LENGTH_SHORT)
+                        .show()
+                } else {
                     withContext(Dispatchers.Main) {
-                        Log.e("api", "Error: ${e.message}")
+                        Log.e("apis", "Erro ${response.errorBody()?.string()}")
+                        Toast.makeText(
+                            context,
+                            "nickname ou senha invalidos! Tente novamente!",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Log.e("api", "Error: ${e.message}")
+                }
+            }
         }
     }
 
     fun getUsuarioAtivo(id: Int?) {
-        viewModelScope.launch(Dispatchers.IO){
-                try {
-                    val resposta = apiService.getUsuarioPagamentoAtivo(id!!)
-                    if (resposta.isSuccessful) {
-                        Log.i("Sucesso", "items da API: ${resposta.body()}")
-                        SessionLogin.meta = resposta.body()!!.meta!!.nome
-                        SessionLogin.pagamentoAtivo = resposta.body()!!.pagamentoAtivo
-                        Log.e("ErroApi", "items da API: ${SessionLogin.toString()}")
-                    } else {
-                        Log.e("ErroApi", "Erro ao buscar items ${resposta.errorBody()?.string()}")
-                    }
-                } catch (exception: Exception) {
-                    Log.e("api", "Erro ao buscar items", exception)
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val resposta = apiService.getUsuarioPagamentoAtivo(id!!)
+                if (resposta.isSuccessful) {
+                    Log.i("Sucesso", "items da API: ${resposta.body()}")
+                    SessionLogin.meta = resposta.body()!!.meta!!.idMeta
+                    SessionLogin.pagamentoAtivo = resposta.body()!!.pagamentoAtivo
+                    Log.i("Sucesso", "items da API: ${SessionLogin.toString()}")
+                } else {
+                    Log.e("ErroApi", "Erro ao buscar items ${resposta.errorBody()?.string()}")
                 }
-            } // Garante que a corrotina termine antes de continuar
+            } catch (exception: Exception) {
+                Log.e("api", "Erro ao buscar items", exception)
+            }
         }
-
-
     }
-
-
-
+}
 
 //
 //    fun loginService(loginUsuario: loginUsuario){
@@ -193,8 +213,3 @@ class CadastroUsuarioService : ViewModel(){
 //            }.join()
 //        }
 //    }
-
-
-
-
-

@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.vitalisapp.R
+import com.example.vitalisapp.View.LoginSession.SessionLogin
 import com.example.vitalisapp.ViewModel.EncontrePersonalViewModel
 import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
@@ -77,9 +78,6 @@ fun BuscaPersonal(
 ) {
     val enderecoPersonalUiState = viewModel.encontrePersonalUiState.collectAsState()
 
-    // trocar pelo "Pagamento Ativo" do usuário logado
-    var penis by remember { mutableStateOf(true) }  // Teste de front - Apagar quando terminar
-
     if (enderecoPersonalUiState.value.isLoading) {
         LoadingScreen()
     } else {
@@ -101,7 +99,7 @@ fun BuscaPersonal(
             }
 
             // trocar pelo "Pagamento Ativo" do usuário logado
-            if (!penis) {
+            if (!SessionLogin.pagamentoAtivo!!) {
                 item {
                     Column(
                         modifier = Modifier

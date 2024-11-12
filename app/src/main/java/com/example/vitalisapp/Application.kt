@@ -1,6 +1,7 @@
 package com.example.vitalisapp
 
 import android.app.Application
+import com.example.vitalisapp.DI.modulePaymentKoin
 import com.example.vitalisapp.DI.moduleRotinaDiaria
 import com.example.vitalisapp.DI.moduleRotinaMensal
 import com.example.vitalisapp.DI.moduleRotinaSemanal
@@ -19,7 +20,9 @@ class Application: Application() {
                 moduleRotinaUsuario,
                 moduleRotinaMensal,
                 moduleRotinaSemanal,
-                moduleRotinaDiaria)
+                moduleRotinaDiaria,
+                modulePaymentKoin
+            )
         }
     }
 }

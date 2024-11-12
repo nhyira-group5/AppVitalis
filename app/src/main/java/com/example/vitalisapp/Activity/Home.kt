@@ -82,9 +82,8 @@ fun Home(
     modifier: Modifier = Modifier
 ) {
     val contexto = LocalContext.current
-
     val configuration = LocalConfiguration.current      // Obtém a configuração atual da tela
-    val screenHeight = configuration.screenHeightDp.dp  // Calcula a altura da tela em dp
+    // val screenHeight = configuration.screenHeightDp.dp  // Calcula a altura da tela em dp
 
     // Gerenciador de estado
     // Responsável por gerenciar as mudanças na tela, muda estados
@@ -101,8 +100,6 @@ fun Home(
     val rotinasDiariasConcluidasSemana = homeUiState.rotinasDiariasConcluidasSemana
     val rotinasDiariasTotaisSemana = homeUiState.rotinasDiariasTotaisSemana
     val isLoading = homeUiState.isLoading
-
-    val nomeLogin by remember { mutableStateOf(SessionLogin.nickName) }  // Pegar o valor buscado da tela de login e jogar aqui
 
     if (isLoading) {            // Não carregou? Então carrega um tela de loading
         LoadingScreen()         // Pode fazer uma tela de carregamento melhor kkkk
@@ -141,7 +138,7 @@ fun Home(
         ) {
             Menu(navController)
             Text(
-                text = stringResource(R.string.Bem_vindo, nomeLogin!!),
+                text = stringResource(R.string.Bem_vindo, SessionLogin.nickName ?: "Guest"),
                 fontFamily = MavenPro,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
