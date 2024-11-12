@@ -20,8 +20,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitService {
 
     val URL_VIA_CEP = "https://viacep.com.br"
-    val BASE_URL = "http://192.168.15.5:8080"
-    //val BASE_URL = "http://10.18.7.209:8080"
+    //val BASE_URL = "http://192.168.15.5:8080"
+    val BASE_URL = "http://10.18.6.32:8080"
 
     fun getApiViaCep(): ApiViaCep {
         val cliente =
