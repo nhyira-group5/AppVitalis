@@ -10,13 +10,13 @@
     <string name="title_activity_mural">Mural</string>
     <string name="title_activity_perfil">Perfil</string>
     <string name="title_activity_perfil_usuario">PerfilUsuario</string>
-    <string name="title_activity_encontre_academia">EncontreAcademia</string>
+    <string name="title_activity_encontre_personal">EncontrePersonal</string>
     <string name="title_activity_lista_refeicao">ListaRefeicao</string>
     <string name="title_activity_receita">Receita</string>
     <string name="title_activity_detalhe_exercicio">DetalheExercicio</string>
     <string name="title_activity_plano">Plano</string>
     <string name="title_activity_lista_exercicio">ListaExercicio</string>
-    <string name="title_activity_inicio">Inicio</string>
+    <string name="title_activity_home">Home</string>
     <string name="title_activity_lista_chat_usuario">ListaChatUsuario</string>
     <string name="title_activity_lista_chat_personal">ListaChatPersonal</string>
     <string name="title_activity_chat_usuario">ChatUsuario</string>
@@ -37,7 +37,8 @@
 
     <string name="Bem_vindo">Bem vindo(a), %s</string>
     <string name="atividade">Atividades de hoje</string>
-    <string name="exercicio">Exercícios</string>
+    <string name="exercicio">Exercício</string>
+    <string name="refeicao">Refeição</string>
 
     <string name="informação">Informações de execução</string>
     <string name="encontre">Encontre um personal</string>
@@ -73,7 +74,7 @@
     <string name="rotina">Acesso a sua rotina (guia de alimentação, e seus exercícios do dia);</string>
     <string name="alimentacao">Opções de Alimentação</string>
     <string name="personais">Personais e Academias perto de você</string>
-    <string name="plano">Plano Vitalis</string>
+    <string name="plano">Planos Vitalis</string>
     <string name="e_mais">Além dos benefícios atuais que você já possui, você terá acesso à:</string>
     <string name="chat">Chat com Personal Trainer de sua escolha;</string>
     <string name="acompanhamento">Acompanhamento personalisado com o personal para chegar mais perto de seu ojetivo!</string>

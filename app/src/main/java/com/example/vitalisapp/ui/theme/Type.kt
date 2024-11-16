@@ -13,7 +13,8 @@ import com.example.vitalisapp.R
 
 val MavenPro = FontFamily(
     Font(R.font.mavenpro_regular),
-    Font(R.font.mavenpro_bold, FontWeight.Bold)
+    //Font(R.font.mavenpro_bold, FontWeight.Bold)
+    Font(R.font.mavenpro_bold)
 )
 
 // Set of Material typography styles to start with

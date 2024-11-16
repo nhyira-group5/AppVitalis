@@ -11,6 +11,7 @@ import com.example.vitalisapp.DTO.RotinaUsuario.RotinaUsuarioExibitionDto
 import com.example.vitalisapp.DTO.Treino.TreinoExibitionDto
 import com.example.vitalisapp.Exceptions.ApiException
 import com.example.vitalisapp.GlobalUiState
+import com.example.vitalisapp.View.LoginSession.SessionLogin
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -45,7 +46,7 @@ data class HomeUiState(
     }
 
     fun getQuantityTrainingsForDay(): Int {
-        return treinosDiarios.count { it.concluido <= 1 }
+        return treinosDiarios.size
     }
 
     // Feitas com a Rotina diaria pq as refeicao estão salvas como DTOs de Refeição (Sem o campo "Concluido")
@@ -54,25 +55,20 @@ data class HomeUiState(
     }
 
     fun getQuantityMealsForDay(): Int {
-        return rotinaDiaria?.refeicaoDiaria?.count { it.concluido <= 1 } ?: 0
+        return rotinaDiaria?.refeicaoDiaria?.size ?: 0
     }
 }
 
 // View Model
 class HomeViewModel : ViewModel() {
-    private val _globalUiState = MutableStateFlow(GlobalUiState())
-    val globalUiState = _globalUiState.asStateFlow()
+    private val globalUiState = MutableStateFlow(GlobalUiState())
 
     private val _homeUiState = MutableStateFlow(HomeUiState())
     val homeUiState = _homeUiState.asStateFlow()
 
     init {
-        //Log.w("HomeViewModel", "Iniciando busca de dados")
-        loadDataHome(1)
-        //Log.w("HomeViewModel", "Buscou dados")
-        _homeUiState.update { currentState -> currentState.copy(isLoading = false)}
-        //Log.w("HomeViewModel", "Liberou tela")
-        //Log.w("HomeViewModel", "Leitura completa")
+        loadDataHome(SessionLogin.id!!)
+        _homeUiState.update { cs -> cs.copy(isLoading = false) }
     }
 
     private fun loadDataHome(idUsuario: Int) {
@@ -83,10 +79,10 @@ class HomeViewModel : ViewModel() {
 
     private suspend fun loadKpiSemanalData(idRotinaSemanal: Int?) {
         if (idRotinaSemanal != null) {
-            _homeUiState.update { currentState ->
-                currentState.copy(
+            _homeUiState.update { cs ->
+                cs.copy(
                     rotinasDiariasConcluidasSemana = getQuantityCompletedDailyRoutinesForWeek(
-                        homeUiState.value.rotinaSemanal!!.idRotinaSemanal
+                        homeUiState.value.rotinaSemanal?.idRotinaSemanal
                     )
                 )
             }
@@ -95,10 +91,10 @@ class HomeViewModel : ViewModel() {
                 "Rotinas diarias concluidas na semana: ${homeUiState.value.rotinasDiariasConcluidasSemana}"
             )
 
-            _homeUiState.update { currentState ->
-                currentState.copy(
+            _homeUiState.update { cs ->
+                cs.copy(
                     rotinasDiariasTotaisSemana = getQuantityDailyRoutinesForWeek(
-                        homeUiState.value.rotinaSemanal!!.idRotinaSemanal
+                        homeUiState.value.rotinaSemanal?.idRotinaSemanal
                     )
                 )
             }
@@ -113,37 +109,18 @@ class HomeViewModel : ViewModel() {
 
     private fun loadKpiDiarioData(idRotinaDiaria: Int?) {
         if (idRotinaDiaria != null) {
-            _homeUiState.update { currentState ->
-                currentState.copy(
-                    refeicoesConcluidasDiaria = homeUiState.value.getQuantityCompletedMealsForDay()
+            _homeUiState.update { cs ->
+                cs.copy(
+                    refeicoesConcluidasDiaria = homeUiState.value.getQuantityCompletedMealsForDay(),
+                    refeicoesTotaisDiaria = homeUiState.value.getQuantityMealsForDay(),
+                    treinosConcluidosDiaria = homeUiState.value.getQuantityCompletedTrainingsForDay(),
+                    treinosTotaisDiaria = homeUiState.value.getQuantityTrainingsForDay()
                 )
             }
             Log.i(
                 "HomeViewModel",
-                "Refeicoes concluidas no dia: ${homeUiState.value.refeicoesConcluidasDiaria}"
+                "Treinos totais no dia: ${homeUiState.value.treinosTotaisDiaria}"
             )
-
-            _homeUiState.update { currentState ->
-                currentState.copy(
-                    refeicoesTotaisDiaria = homeUiState.value.getQuantityMealsForDay()
-                )
-            }
-            Log.i("HomeViewModel", "Refeicoes totais no dia: ${homeUiState.value.refeicoesTotaisDiaria}")
-
-            _homeUiState.update { currentState ->
-                currentState.copy(
-                    treinosConcluidosDiaria = homeUiState.value.getQuantityCompletedTrainingsForDay()
-                )
-            }
-            Log.i("HomeViewModel", "Treinos concluidos no dia: ${homeUiState.value.treinosConcluidosDiaria}")
-
-            _homeUiState.update { currentState ->
-                currentState.copy(
-                    treinosTotaisDiaria = homeUiState.value.getQuantityTrainingsForDay()
-                )
-            }
-            Log.i("HomeViewModel", "Treinos totais no dia: ${homeUiState.value.treinosTotaisDiaria}")
-
         } else {
             Log.e("HomeViewModel", "Erro ao buscar dados aos KPIs semanais: idRotinaDiaria Null")
         }
@@ -163,17 +140,23 @@ class HomeViewModel : ViewModel() {
             try {
                 val res = globalUiState.value.apiRotinaUsuario.showByUserId(idUsuario)
                 if (res.isSuccessful) {
-                    _homeUiState.update { currentState ->
-                        currentState.copy(
+                    _homeUiState.update { cs ->
+                        cs.copy(
                             rotinaUsuario = res.body()
                         )
                     }
                     Log.i("HomeViewModel", "Rotina de usuario encontrada: ${res.body()}")
                 } else {
-                    Log.e("HomeViewModel", "Erro ao buscar a rotina do usuario: ${res.errorBody()}")
+                    Log.e(
+                        "HomeViewModel",
+                        "Erro ao buscar a rotina do usuario: ${res.errorBody().toString()}"
+                    )
                 }
             } catch (e: Exception) {
-                Log.e("HomeViewModel", "Erro na HomeViewModel ao buscar a rotina do usuario: ${e.message}")
+                Log.e(
+                    "HomeViewModel",
+                    "Erro na HomeViewModel ao buscar a rotina do usuario: ${e.message}"
+                )
                 throw ApiException("Busca da rotina do usuário", e.message)
             }
         }
@@ -188,15 +171,21 @@ class HomeViewModel : ViewModel() {
                         LocalDate.now().monthValue
                     )
                 if (res.isSuccessful) {
-                    _homeUiState.update { currentState ->
-                        currentState.copy(rotinaMensal = res.body())
+                    _homeUiState.update { cs ->
+                        cs.copy(rotinaMensal = res.body())
                     }
                     Log.i("HomeViewModel", "Rotina de mensal encontrada: ${res.body()}")
                 } else {
-                    Log.e("HomeViewModel", "Erro ao buscar a rotina mensal: ${res.errorBody()}")
+                    Log.e(
+                        "HomeViewModel",
+                        "Erro ao buscar a rotina mensal: ${res.errorBody().toString()}"
+                    )
                 }
             } catch (e: Exception) {
-                Log.e("HomeViewModel", "Erro na HomeViewModel ao buscar a rotina mensal: ${e.message}")
+                Log.e(
+                    "HomeViewModel",
+                    "Erro na HomeViewModel ao buscar a rotina mensal: ${e.message}"
+                )
                 throw ApiException("Buscar rotina mensal", e.message)
             }
         }
@@ -208,19 +197,28 @@ class HomeViewModel : ViewModel() {
                 val res =
                     globalUiState.value.apiRotinaSemanal.showCurrentWeekRoutineByUserId(idUsuario)
                 if (res.isSuccessful) {
-                    _homeUiState.update { currentState ->
-                        currentState.copy(rotinaSemanal = res.body())
+                    _homeUiState.update { cs ->
+                        cs.copy(rotinaSemanal = res.body())
                     }
-                    Log.i("HomeViewModel", "Rotina semanal encontrada: ${homeUiState.value.rotinaSemanal}")
+                    Log.i(
+                        "HomeViewModel",
+                        "Rotina semanal encontrada: ${homeUiState.value.rotinaSemanal}"
+                    )
 
                     // Chamando essas bosta aqui pq nn vai no init nn sei pq
-                    loadKpiSemanalData(homeUiState.value.rotinaSemanal!!.idRotinaSemanal)
-                    setDailyRoutine(homeUiState.value.rotinaSemanal!!.idRotinaSemanal)
+                    loadKpiSemanalData(homeUiState.value.rotinaSemanal?.idRotinaSemanal)
+                    setDailyRoutine(homeUiState.value.rotinaSemanal?.idRotinaSemanal)
                 } else {
-                    Log.e("HomeViewModel", "Erro ao buscar a rotina semanal atual: ${res.errorBody()}")
+                    Log.e(
+                        "HomeViewModel",
+                        "Erro ao buscar a rotina semanal atual: ${res.errorBody().toString()}"
+                    )
                 }
             } catch (e: Exception) {
-                Log.e("HomeViewModel", "Erro na HomeViewModel ao buscar a rotina semanal atual: ${e.message}")
+                Log.e(
+                    "HomeViewModel",
+                    "Erro na HomeViewModel ao buscar a rotina semanal atual: ${e.message}"
+                )
                 throw ApiException("Buscar rotina semanal atual", e.message)
             }
         }
@@ -233,26 +231,35 @@ class HomeViewModel : ViewModel() {
                     val res =
                         globalUiState.value.apiRotinaDiaria.showCurrentDailyRoutine(idRotinaSemanal)
                     if (res.isSuccessful) {
-                        _homeUiState.update { currentState ->
-                            currentState.copy(rotinaDiaria = res.body())
-                        }
-                        Log.i("HomeViewModel", "Rotina diaria encontrada: ${homeUiState.value.rotinaDiaria}")
+                        val rotinaDiaria = res.body()
+                        if (rotinaDiaria != null) {
+                            _homeUiState.update { cs ->
+                                cs.copy(rotinaDiaria = rotinaDiaria)
+                            }
+                            Log.i(
+                                "HomeViewModel",
+                                "Rotina diaria encontrada: ${homeUiState.value.rotinaDiaria}"
+                            )
 
-                        // Chamando essas bosta aqui pq nn vai no init nn sei pq
-                        loadDailyActivities(_homeUiState.value.rotinaDiaria!!.idRotinaDiaria)
-                        loadKpiDiarioData(_homeUiState.value.rotinaDiaria!!.idRotinaDiaria)
+                            loadDailyActivities(rotinaDiaria.idRotinaDiaria)
+                            loadKpiDiarioData(rotinaDiaria.idRotinaDiaria)
+                        } else {
+                            Log.w(
+                                "HomeViewModel",
+                                "Nenhuma rotina diaria correspondente para o dia atual"
+                            )
+                        }
                     } else {
                         Log.e(
                             "HomeViewModel",
-                            "Nenhuma rotina diaria correspondente para o dia da semana atual: ${res.errorBody()}"
+                            "Erro ao buscar rotina diaria: ${res.errorBody()?.string()}"
                         )
                     }
                 } else {
-                    Log.e("HomeViewModel", "Erro ao buscar a rotina diaria atual: idRotinaSemanal Null")
+                    Log.e("HomeViewModel", "Erro ao buscar rotina diaria: idRotinaSemanal é null")
                 }
             } catch (e: Exception) {
-                Log.e("HomeViewModel", "Erro na HomeViewModel para buscar a rotina diaria atual: ${e.message}")
-                throw ApiException("Buscar rotina diaria atual", e.message)
+                Log.e("HomeViewModel", "Erro ao buscar rotina diaria: ${e.message}", e)
             }
         }
     }
@@ -263,23 +270,29 @@ class HomeViewModel : ViewModel() {
                 if (idRotinaDiaria != null) {
                     val res = globalUiState.value.apiTreino.showByRotinaDiaria(idRotinaDiaria)
                     if (res.isSuccessful) {
-                        _homeUiState.update { currentState ->
+                        _homeUiState.update { cs ->
                             _homeUiState.value.treinosDiarios.clear()
-                            currentState.copy(treinosDiarios = res.body()!!.toMutableList())
+                            cs.copy(treinosDiarios = res.body()!!.toMutableList())
                         }
                         Log.i(
                             "HomeViewModel",
                             "Quantidade de treinos buscados para a rotina diaria: ${homeUiState.value.treinosDiarios.size}"
                         )
-                        //Log.i("HomeViewModel", "Treinos buscados para a rotina diaria: ${homeUiState.value.treinosDiarios}")
+                        loadKpiDiarioData(idRotinaDiaria)
                     } else {
-                        Log.e("HomeViewModel", "Erro ao buscar treinos diarios: ${res.errorBody()}")
+                        Log.e(
+                            "HomeViewModel",
+                            "Erro ao buscar treinos diarios: ${res.errorBody().toString()}"
+                        )
                     }
                 } else {
                     Log.e("HomeViewModel", "Erro ao buscar a treinos diarios: idRotinaDiaria Null")
                 }
             } catch (e: Exception) {
-                Log.e("HomeViewModel", "Erro na HomeViewModel para buscar os treinos da rotina diaria: ${e.message}")
+                Log.e(
+                    "HomeViewModel",
+                    "Erro na HomeViewModel para buscar os treinos da rotina diaria: ${e.message}"
+                )
             }
         }
     }
@@ -288,11 +301,11 @@ class HomeViewModel : ViewModel() {
         if (idRotinaDiaria != null) {
             viewModelScope.launch {
                 try {
-                    var res = globalUiState.value.apiRefeicao.showByidRotinaDiaria(idRotinaDiaria)
+                    val res = globalUiState.value.apiRefeicao.showByidRotinaDiaria(idRotinaDiaria)
                     if (res.isSuccessful) {
-                        _homeUiState.update { currentState ->
+                        _homeUiState.update { cs ->
                             _homeUiState.value.refeicoesDiarias.clear()
-                            currentState.copy(refeicoesDiarias = res.body()!!.toMutableList())
+                            cs.copy(refeicoesDiarias = res.body()!!.toMutableList())
                         }
                         Log.i(
                             "HomeViewModel",
@@ -302,7 +315,9 @@ class HomeViewModel : ViewModel() {
                     } else {
                         Log.e(
                             "HomeViewModel",
-                            "Erro para buscar a refeicao de ID $idRotinaDiaria atribuida a rotina diaria: ${res.errorBody()}"
+                            "Erro para buscar a refeicao de ID $idRotinaDiaria atribuida a rotina diaria: ${
+                                res.errorBody().toString()
+                            }"
                         )
                     }
                 } catch (e: Exception) {
@@ -331,7 +346,10 @@ class HomeViewModel : ViewModel() {
             if (res.isSuccessful) {
                 res.body()?.rotinasDiarias?.size ?: 0
             } else {
-                Log.e("HomeViewModel", "Erro para buscar a rotina semanal: ${res.errorBody()}")
+                Log.e(
+                    "HomeViewModel",
+                    "Erro para buscar a rotina semanal: ${res.errorBody().toString()}"
+                )
                 0
             }
         } catch (e: Exception) {
@@ -357,12 +375,14 @@ class HomeViewModel : ViewModel() {
                 globalUiState.value.apiRotinaSemanal.showCompletedDailyRoutinesByRotinaSemanalId(
                     idRotinaSemanal
                 )
-            if (res.isSuccessful && (res.body() != null && res.body()!! >= 0)) {
-                res.body()!!
+            if (res.isSuccessful && res.body() != null) {
+                res.body() ?: 0
             } else {
                 Log.e(
                     "HomeViewModel",
-                    "Erro para buscar a quantidade de rotinas diarias concluídas: ${res.errorBody()}"
+                    "Erro para buscar a quantidade de rotinas diarias concluídas: ${
+                        res.errorBody().toString()
+                    }"
                 )
                 0
             }

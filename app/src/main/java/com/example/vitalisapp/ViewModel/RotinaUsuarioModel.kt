@@ -25,14 +25,14 @@ class RotinaUsuarioModel : ViewModel() {
             try {
                 val createRotina = apiRotina.create(rotUsuario)
                 if (createRotina.isSuccessful){
-                    Log.i("api", "Fez a chamada :)")
-                    Log.i("api", "Resposta: ${createRotina.body()}")
+                    Log.i("Sucesso", "Fez a chamada :)")
+                    Log.i("Sucesso", "Resposta: ${createRotina.body()}")
                 }else {
-                    Log.e("api", "Erro na resposta: ${createRotina.errorBody()!!.string()}")
+                    Log.e("ErroRot", "Erro na resposta: ${createRotina.errorBody()!!.string()}")
                 }
             }catch (e: Exception) {
                 // entra aqui se a chamada não foi feita com sucesso (ex: sem internet, API fora do ar etc)
-                Log.e("api", "Erro na chamada: ${e.message}")
+                Log.e("catchRot", "Erro na chamada: ${e.message}")
             }
         }
     }

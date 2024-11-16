@@ -1,36 +1,29 @@
 package com.example.vitalisapp.DTO.Refeicao
 
 import com.example.vitalisapp.DTO.Meta.MetaExibitionDto
+import com.example.vitalisapp.DTO.Midia.MidiaDto
 import com.google.gson.annotations.SerializedName
 
 data class RefeicaoExibitionDto (
-    val idRefeicao: Int,
-    val nome: String,
-    val preparo: String,
-    @SerializedName("midia") val midias: MutableList<MidiaDto>,
-    @SerializedName("alimentoPorRefeicao") val alimentos: MutableList<AlimentoPorRefeicaoDto>
+    var idRefeicao: Int? = null,
+    var nome: String? = null,
+    var preparo: String? = null,
+    @SerializedName("midia") var midias: MutableList<MidiaDto>? = mutableListOf(),
+    @SerializedName("alimentoPorRefeicao") var alimentos: MutableList<AlimentoPorRefeicaoDto>? = mutableListOf()
 )
 
 data class AlimentoPorRefeicaoDto (
-    val idAlimentoRefeicao: Int,
-    val qtdAlimento: Int,
-    val alimentoDto: AlimentoDto,
-    val metrica: MetaExibitionDto       // Preguiça de fazer uma DTO e o Exibition já faz oq quero kkkk
-)
-
-data class MidiaDto (
-    val idMidia: Int,
-    val nome: String,
-    val caminho: String,
-    val extensao: String,
-    val tipo: String,
+    var idAlimentoRefeicao: Int? = null,
+    var qtdAlimento: Int? = null,
+    var alimento: AlimentoDto? = null,
+    var metrica: MetaExibitionDto? = null       // Preguiça de fazer uma DTO e o Exibition já faz oq quero kkkk
 )
 
 data class AlimentoDto (
-    @SerializedName("id") val idAlimento: Int,
-    val nome: String,
-    val carboidrato: Double,
-    val proteina: Double,
-    val gordura: Double,
-    val midia: MutableList<MidiaDto>,
+    @SerializedName("id") var idAlimento: Int? = null,
+    var nome: String? = null,
+    var carboidrato: Double? = null,
+    var proteina: Double? = null,
+    var gordura: Double? = null,
+    var midia: MutableList<MidiaDto>? = mutableListOf(),
 )

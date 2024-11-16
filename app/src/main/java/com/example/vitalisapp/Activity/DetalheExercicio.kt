@@ -75,19 +75,24 @@ fun VerExercicio(name: String, modifier: Modifier = Modifier) {
             .padding(start = 20.dp, top = 20.dp, end = 20.dp, bottom = 80.dp)
             .verticalScroll(rememberScrollState())
     ) {
-        Button(onClick = {
-            val listaExercicio = Intent(contexto, ListaExercicio::class.java)
-            contexto.startActivity(listaExercicio)
-        },
-            colors = ButtonDefaults.buttonColors(contentColor = Color.Black,
-                containerColor = Color.Transparent),
-            modifier = Modifier.padding(bottom = 10.dp)) {
+        Button(
+            onClick = {
+                val listaExercicio = Intent(contexto, ListaExercicio::class.java)
+                contexto.startActivity(listaExercicio)
+            },
+            colors = ButtonDefaults.buttonColors(
+                contentColor = Color.Black,
+                containerColor = Color.Transparent
+            ),
+            modifier = Modifier.padding(bottom = 10.dp)
+        ) {
             Image(
                 painter = painterResource(id = R.mipmap.voltar),
                 contentDescription = "Voltar"
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text(text = "Voltar",
+            Text(
+                text = "Voltar",
             )
         }
         Spacer(modifier = Modifier.height(2.dp))

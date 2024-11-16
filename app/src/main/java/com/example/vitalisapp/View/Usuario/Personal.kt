@@ -9,6 +9,7 @@ data class Personal (
     val sexo:String,
     val email:String,
     val tipo: TipoUsuario,
+<<<<<<< HEAD
     val academiaId: Int,
     val especialidades: String,
     val lougradouro: String,
@@ -18,6 +19,9 @@ data class Personal (
     val estado: String,
     val cep: String,
     val complemento: String?
+=======
+    var academiaId: Int? = null
+>>>>>>> 0670c19d396c8f259a49b45f1744d8540a135e0c
 )
 
 
