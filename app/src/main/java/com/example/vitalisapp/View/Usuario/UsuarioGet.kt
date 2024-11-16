@@ -9,4 +9,11 @@ data class UsuarioGet(
     val sexo:String,
     val email:String,
     val tipo: TipoUsuario,
+    val fumante: Boolean,
+    val alcoolatra: Boolean,
+    val deficiente: Boolean,
+    val problemaCardiaco: Boolean,
+    val peso: String,
+    val altura: String,
+    val meta: String,
 )

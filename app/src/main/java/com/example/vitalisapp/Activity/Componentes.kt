@@ -1034,3 +1034,276 @@ fun Checkbox(
         )
     }
 }
+
+@Composable
+fun CardInfo(
+    tipo: String,
+    cep: String = "",
+    logradouro: String = "",
+    numero: String = "",
+    bairro: String = "",
+    cidade: String = "",
+    estado: String = "",
+    fumante: Boolean = false,
+    alcoolatra: Boolean = false,
+    deficiente: Boolean = false,
+    problemaCardiaco: Boolean = false,
+    peso: String = "",
+    altura: String = "",
+    meta: String = ""
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 36.dp, start = 16.dp, end = 16.dp),
+        shape = RoundedCornerShape(24.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
+    ) {
+        if (tipo == "usuario") {
+            Column(
+                modifier = Modifier.padding(44.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.info_tecnica),
+                    fontFamily = MavenPro,
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color(72, 183, 90),
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+
+                CheckboxRow(label = "Fumante", checked = fumante)
+                CheckboxRow(label = "Alcoolatra", checked = alcoolatra)
+                CheckboxRow(label = "Deficiente", checked = deficiente)
+                CheckboxRow(label = "Problemas Cardíacos", checked = problemaCardiaco)
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Text(
+                    text = "Peso: $peso",
+                    fontFamily = MavenPro,
+                    fontSize = 18.sp
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Text(
+                    text = "Altura: $altura",
+                    fontFamily = MavenPro,
+                    fontSize = 18.sp
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Text(
+                    text = "Meta: $meta",
+                    fontFamily = MavenPro,
+                    fontSize = 18.sp
+                )
+            }
+        } else {
+            Column(
+                modifier = Modifier.padding(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = stringResource(R.string.info_end),
+                    fontFamily = MavenPro,
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color(134, 86, 169),
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 32.dp)
+                ) {
+                    ItemInfo("CEP:", cep)
+                    ItemInfo("Logradouro:", logradouro)
+                    ItemInfo("Número:", numero)
+                    ItemInfo("Bairro:", bairro)
+                    ItemInfo("Cidade:", cidade)
+                    ItemInfo("Estado:", estado)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun CartaoAfiliacao(
+    afiliadoComPersonal: Boolean,
+    nomePersonal: String = "",
+    emailPersonal: String = "",
+    validadeAfiliacao: String = "",
+    usernamePersonal: String = "",
+    especialidade: String = "",
+    onClickVerPersonal: () -> Unit = {}
+) {
+    if (afiliadoComPersonal) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            colors = CardDefaults.cardColors(containerColor = Color.DarkGray)
+        ) {
+            Row(
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = stringResource(R.string.nome, nomePersonal),
+                        fontFamily = MavenPro,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = stringResource(R.string.email, emailPersonal),
+                        fontFamily = MavenPro,
+                        color = Color.White
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = stringResource(R.string.validade, validadeAfiliacao),
+                        fontFamily = MavenPro,
+                        color = Color.White
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = stringResource(R.string.user, usernamePersonal),
+                        fontFamily = MavenPro,
+                        color = Color.White
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = stringResource(R.string.especialidade, especialidade),
+                        fontFamily = MavenPro,
+                        color = Color.White
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Button(
+                        onClick = onClickVerPersonal,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(72, 183, 90)
+                        )
+                    ) {
+                        Text(text = "Ir para o Chat", fontFamily = MavenPro, color = Color.White)
+                    }
+                }
+                Spacer(modifier = Modifier.width(16.dp))
+                Box(
+                    modifier = Modifier
+                        .size(80.dp)
+                        .clip(CircleShape)
+                        .background(Color.Gray)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.mipmap.usuarioperfil),
+                        contentDescription = "Imagem do Perfil",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize()
+                    )
+                }
+            }
+        }
+    } else {
+        val contexto = LocalContext.current
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            shape = RoundedCornerShape(24.dp),
+            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+            colors = CardDefaults.cardColors(containerColor = Color.White)
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(32.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = stringResource(R.string.afiliado),
+                        fontFamily = MavenPro,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color(72, 183, 90),
+                        modifier = Modifier.weight(1f)
+                    )
+                    Image(
+                        painter = painterResource(id = R.mipmap.cadeado),
+                        contentDescription = "Ícone Premium",
+                        modifier = Modifier.size(60.dp)
+                    )
+                }
+                Text(
+                    text = stringResource(R.string.pago),
+                    fontFamily = MavenPro,
+                    fontSize = 16.sp,
+                    color = Color.Black,
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                )
+                Text(
+                    text = stringResource(R.string.acesso),
+                    fontFamily = MavenPro,
+                    fontSize = 16.sp,
+                    color = Color.Black,
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                )
+                Button(
+                    onClick = { val plano = Intent(contexto, Plano::class.java)
+                        contexto.startActivity(plano)},
+                    modifier = Modifier
+                        .padding(top = 24.dp)
+                        .fillMaxWidth()
+                        .height(50.dp),
+                    shape = RoundedCornerShape(30.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(22, 101, 52))
+                ) {
+                    Text(
+                        text = stringResource(R.string.premium),
+                        fontFamily = MavenPro,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color.White
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun CheckboxRow(label: String, checked: Boolean) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(bottom = 8.dp)
+    ) {
+        Checkbox(
+            checked = checked,
+            onCheckedChange = { },
+            colors = CheckboxDefaults.colors(
+                checkedColor = if (checked) Color(72, 183, 90) else Color.White,
+                uncheckedColor = Color.Gray
+            )
+        )
+        Text(
+            text = label,
+            fontFamily = MavenPro,
+            fontSize = 18.sp
+        )
+    }
+}

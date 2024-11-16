@@ -33,6 +33,7 @@ import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -52,6 +53,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.vitalisapp.R
+import com.example.vitalisapp.RetrofitService
+import com.example.vitalisapp.View.Usuario.Personal
+import com.example.vitalisapp.View.Usuario.TipoUsuario
+import com.example.vitalisapp.View.Usuario.UsuarioGet
 import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
 
@@ -75,6 +80,35 @@ class Perfil : ComponentActivity() {
 
 @Composable
 fun PerfilUsuario(name: String, navController: NavHostController, modifier: Modifier = Modifier) {
+    val apiUsuario = RetrofitService.getApiUsuario()
+    var usuario by remember { mutableStateOf<UsuarioGet?>(null) }
+    var personal by remember { mutableStateOf<Personal?>(null) }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+
+    LaunchedEffect(Unit) {
+        try {
+            val response = apiUsuario.getUsuarioById(1)
+            if (response.isSuccessful) {
+                usuario = response.body()
+
+                usuario?.let {
+                    if (it.tipo == TipoUsuario.PERSONAL) {
+                        val personalResponse = apiUsuario.getPersonalById(it.id)
+                        if (personalResponse.isSuccessful) {
+                            personal = personalResponse.body()
+                        } else {
+                            errorMessage = "Erro ao carregar personal: ${personalResponse.code()}"
+                        }
+                    }
+                }
+            } else {
+                errorMessage = "Erro: ${response.code()}"
+            }
+        } catch (e: Exception) {
+            errorMessage = "Falha ao carregar dados: ${e.message}"
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -83,38 +117,46 @@ fun PerfilUsuario(name: String, navController: NavHostController, modifier: Modi
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Menu(navController)
-        CartaoInfo(
-            tipoUsuario = "usuario",
-            imagemUsuario = R.mipmap.usuarioperfil,
-            nome = "Marcos de Oliveira",
-            email = "marcos@gmail.com",
-            emailRecuperacao = "marcos5@gmail.com",
-            nickname = "marCOS20!",
-            sexo = "Masculino",
-            aniversario = "17/01/1998",
-            onEditClick = {}
-        )
 
-//        CardInfo(
-//            tipo = "usuario",
-//            fumante = true,
-//            alcoolatra = false,
-//            deficiente = false,
-//            problemaCardiaco = true,
-//            peso = "70kg",
-//            altura = "1.75m",
-//            meta = "Ganhar massa",
-//            onEditClick = {}
-//        )
-//        CartaoAfiliacao(
-//            afiliadoComPersonal = true,
-//            nomePersonal = "Will",
-//            emailPersonal = "will@exemplo.com",
-//            validadeAfiliacao = "12/2024 à 12/2025",
-//            usernamePersonal = "personal123",
-//            especialidade = "emagrecimento",
-//            onClickVerPersonal = {}
-//        )
+        if (usuario != null) {
+            CartaoInfo(
+                tipoUsuario = "usuario",
+                imagemUsuario = R.mipmap.usuarioperfil,
+                nome = usuario!!.nome,
+                email = usuario!!.email,
+                nickname = usuario!!.nickname,
+                sexo = usuario!!.sexo,
+                aniversario = usuario!!.dtNasc,
+                onEditClick = {}
+            )
+
+            CardInfo(
+                tipo = "usuario",
+                fumante = usuario!!.fumante,
+                alcoolatra = usuario!!.alcoolatra,
+                deficiente = usuario!!.deficiente,
+                problemaCardiaco = usuario!!.problemaCardiaco,
+                peso = usuario!!.peso,
+                altura = usuario!!.altura,
+                meta = usuario!!.meta
+            )
+
+            if (personal != null) {
+                CartaoAfiliacao(
+                    afiliadoComPersonal = true,
+                    nomePersonal = personal!!.nome,
+                    emailPersonal = personal!!.email,
+                    validadeAfiliacao = "12/2024 à 12/2025",
+                    usernamePersonal = personal!!.nickname,
+                    especialidade = personal!!.especialidades,
+                    onClickVerPersonal = {}
+                )
+            }
+        } else if (errorMessage != null) {
+            Text(text = errorMessage!!, color = Color.Red)
+        } else {
+            Text(text = "Carregando...", color = Color.Gray)
+        }
     }
 }
 

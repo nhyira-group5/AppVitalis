@@ -23,6 +23,11 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,6 +41,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.vitalisapp.R
+import com.example.vitalisapp.RetrofitService
+import com.example.vitalisapp.View.Usuario.Personal
 import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
 
@@ -59,6 +66,23 @@ class PerfilUsuario : ComponentActivity() {
 
 @Composable
 fun PerfilPersonal(name: String, navController: NavHostController, modifier: Modifier = Modifier) {
+    val apiUsuario = RetrofitService.getApiUsuario()
+    var personal by remember { mutableStateOf<Personal?>(null) }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+
+    LaunchedEffect(Unit) {
+        try {
+            val response = apiUsuario.getPersonalById(1)
+            if (response.isSuccessful) {
+                personal = response.body()
+            } else {
+                errorMessage = "Erro ao carregar dados do personal: ${response.code()}"
+            }
+        } catch (e: Exception) {
+            errorMessage = "Falha ao carregar dados: ${e.message}"
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -67,27 +91,34 @@ fun PerfilPersonal(name: String, navController: NavHostController, modifier: Mod
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         MenuPersonal(navController)
-        CartaoInfo(
-            tipoUsuario = "personal",
-            imagemUsuario = R.mipmap.usuarioperfil,
-            nome = "Marcos da SIlva",
-            email = "marcos@gmail.com",
-            nickname = "marCOS23!",
-            sexo = "Masculino",
-            aniversario = "17/01/1998",
-            especialidade = "emagrecimento",
-            graduacao = "31/12/2022",
-            onEditClick = {}
-        )
-//        CardInfo(
-//            tipo = "personal",
-//            cep = "08451-050",
-//            logradouro = "Rua serra das araras",
-//            numero = "123",
-//            bairro = "Vila Yolanda (Lageado)",
-//            cidade = "São Paulo",
-//            estado = "SP"
-//        )
+
+        if (personal != null) {
+            CartaoInfo(
+                tipoUsuario = "personal",
+                imagemUsuario = R.mipmap.usuarioperfil,
+                nome = personal!!.nome,
+                email = personal!!.email,
+                nickname = personal!!.nickname,
+                sexo = personal!!.sexo,
+                aniversario = personal!!.dtNasc.toString(),
+                especialidade = personal!!.especialidades,
+                onEditClick = {}
+            )
+
+            CardInfo(
+                tipo = "personal",
+                cep = personal!!.cep,
+                logradouro = personal!!.lougradouro,
+                numero = personal!!.numero.toString(),
+                bairro = personal!!.bairro,
+                cidade = personal!!.cidade,
+                estado = personal!!.estado
+            )
+        } else if (errorMessage != null) {
+            Text(text = errorMessage!!, color = Color.Red)
+        } else {
+            Text(text = "Carregando...", color = Color.Gray)
+        }
     }
 }
 

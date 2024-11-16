@@ -9,7 +9,15 @@ data class Personal (
     val sexo:String,
     val email:String,
     val tipo: TipoUsuario,
-    val academiaId: Int
+    val academiaId: Int,
+    val especialidades: String,
+    val lougradouro: String,
+    val numero: Int,
+    val bairro: String,
+    val cidade: String,
+    val estado: String,
+    val cep: String,
+    val complemento: String?
 )
 
 
