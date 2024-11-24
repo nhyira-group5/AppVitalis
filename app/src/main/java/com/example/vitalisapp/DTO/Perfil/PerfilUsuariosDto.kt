@@ -1,6 +1,6 @@
 package com.example.vitalisapp.DTO.Perfil
 
-import com.example.vitalisapp.DTO.Usuario.MidiaDto
+import com.example.vitalisapp.DTO.Midia.MidiaDto
 import com.example.vitalisapp.View.Usuario.TipoUsuario
 import com.google.gson.annotations.SerializedName
 import java.time.LocalDate

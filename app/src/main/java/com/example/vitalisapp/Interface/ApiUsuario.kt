@@ -25,19 +25,19 @@ interface ApiUsuario {
     @POST("/login/usuario")
     suspend fun loginUsuario(@Body loginUsuario: loginUsuario): Response<loginRetornoUsuario>
 
-<<<<<<< HEAD
+
     @GET("usuarios/{id}")
     suspend fun getUsuarioById(@Path("id") id: Int): Response<UsuarioGet>
 
     @GET("personal/{id}")
     suspend fun getPersonalById(@Path("id") id: Int): Response<Personal>
-=======
+
     @GET("/personal/{idUser}")
     suspend fun showTrainersByUserId(@Path("idUser") idUser: Int): Response<UsuarioExibitionDto>
 
     @GET("/usuarios/personais")
     suspend fun showTrainers(): Response<MutableList<PersonalExibitionDto>>
->>>>>>> 0670c19d396c8f259a49b45f1744d8540a135e0c
+
 
     @GET("/usuarios/personais-por-meta/{idMeta}")
     suspend fun showTrainersByMetaId(@Path("idMeta") idMeta: Int): Response<MutableList<PersonalExibitionDto>>

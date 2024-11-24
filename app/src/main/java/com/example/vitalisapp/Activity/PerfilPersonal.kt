@@ -101,19 +101,19 @@ fun PerfilPersonal(name: String, navController: NavHostController, modifier: Mod
                 nickname = personal!!.nickname,
                 sexo = personal!!.sexo,
                 aniversario = personal!!.dtNasc.toString(),
-                especialidade = personal!!.especialidades,
+//                especialidade = personal!!.especialidades,
                 onEditClick = {}
             )
 
-            CardInfo(
-                tipo = "personal",
-                cep = personal!!.cep,
-                logradouro = personal!!.lougradouro,
-                numero = personal!!.numero.toString(),
-                bairro = personal!!.bairro,
-                cidade = personal!!.cidade,
-                estado = personal!!.estado
-            )
+//            CardInfo(
+//                tipo = "personal",
+//                cep = personal!!.cep,
+//                logradouro = personal!!.lougradouro,
+//                numero = personal!!.numero.toString(),
+//                bairro = personal!!.bairro,
+//                cidade = personal!!.cidade,
+//                estado = personal!!.estado
+//            )
         } else if (errorMessage != null) {
             Text(text = errorMessage!!, color = Color.Red)
         } else {

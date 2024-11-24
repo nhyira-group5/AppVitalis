@@ -93,7 +93,7 @@ fun PerfilUsuario(name: String, navController: NavHostController, modifier: Modi
 
                 usuario?.let {
                     if (it.tipo == TipoUsuario.PERSONAL) {
-                        val personalResponse = apiUsuario.getPersonalById(it.id)
+                        val personalResponse = apiUsuario.getPersonalById(it.id!!)
                         if (personalResponse.isSuccessful) {
                             personal = personalResponse.body()
                         } else {
@@ -122,23 +122,23 @@ fun PerfilUsuario(name: String, navController: NavHostController, modifier: Modi
             CartaoInfo(
                 tipoUsuario = "usuario",
                 imagemUsuario = R.mipmap.usuarioperfil,
-                nome = usuario!!.nome,
-                email = usuario!!.email,
-                nickname = usuario!!.nickname,
-                sexo = usuario!!.sexo,
-                aniversario = usuario!!.dtNasc,
+                nome = usuario!!.nome!!,
+                email = usuario!!.email!!,
+                nickname = usuario!!.nickname!!,
+                sexo = usuario!!.sexo!!,
+                aniversario = usuario!!.dtNasc!!,
                 onEditClick = {}
             )
 
             CardInfo(
                 tipo = "usuario",
-                fumante = usuario!!.fumante,
-                alcoolatra = usuario!!.alcoolatra,
-                deficiente = usuario!!.deficiente,
-                problemaCardiaco = usuario!!.problemaCardiaco,
-                peso = usuario!!.peso,
-                altura = usuario!!.altura,
-                meta = usuario!!.meta
+//                fumante = usuario!!.fumante,
+//                alcoolatra = usuario!!.alcoolatra,
+//                deficiente = usuario!!.deficiente,
+//                problemaCardiaco = usuario!!.problemaCardiaco,
+                peso = usuario!!.peso!!,
+                altura = usuario!!.altura!!,
+                meta = usuario!!.meta!!
             )
 
             if (personal != null) {
@@ -148,7 +148,7 @@ fun PerfilUsuario(name: String, navController: NavHostController, modifier: Modi
                     emailPersonal = personal!!.email,
                     validadeAfiliacao = "12/2024 à 12/2025",
                     usernamePersonal = personal!!.nickname,
-                    especialidade = personal!!.especialidades,
+//                    especialidade = personal!!.especialidades,
                     onClickVerPersonal = {}
                 )
             }
