@@ -31,7 +31,7 @@ class DetalheRefeicaoViewModel (
     val detalheRefeicaoUiState = _detalheRefeicaoUiState.asStateFlow()
 
     init {
-        //getRecipe(1)
+
         getRecipe(idRefeicao)
         _detalheRefeicaoUiState.update { cs -> cs.copy(isLoading = false) }
     }

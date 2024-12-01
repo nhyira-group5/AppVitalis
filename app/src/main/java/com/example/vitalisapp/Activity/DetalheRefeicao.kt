@@ -157,6 +157,7 @@ fun DetalheReceita(
                     color = Color(72, 183, 90)
                 )
             }
+
             Comida(detalheReceita.value.midias)
             InstrucoesReceita(detalheReceita.value.preparo, detalheReceita.value.alimentos)
         }

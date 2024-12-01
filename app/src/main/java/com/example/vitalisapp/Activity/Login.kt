@@ -58,6 +58,7 @@ import com.example.vitalisapp.View.Usuario.loginUsuario
 import com.example.vitalisapp.ViewModel.EncontrePersonalViewModel
 import com.example.vitalisapp.ViewModel.FichaViewModel
 import com.example.vitalisapp.ViewModel.HomeViewModel
+import com.example.vitalisapp.ViewModel.ListaExercicioViewModel
 import com.example.vitalisapp.ViewModel.ListaRefeicaoViewModel
 import com.example.vitalisapp.ViewModel.PlanoViewModel
 
@@ -195,12 +196,19 @@ fun LoginCliente(
                 navController
             )
         }
+        composable("exercicios") {
+            GaleriaExercicio(
+                ListaExercicioViewModel(),
+                navController
+            )
+        }
+
         composable("cadastro") { CadastroCliente(name = name, navController) }
         composable("CadastroUsuarioDois") { SegundaParte(name = name, navController) }
         composable("perfil") { PerfilUsuario(name = name, navController) }
         composable("perfilPersonal") { PerfilPersonal(name = name, navController) }
         composable("homePersonal") { HomeProfessor(name = name, navController) }
-        composable("exercicios") { GaleriaExercicio(name = name, navController) }
+
         composable("refeicao") { Refeicoes(ListaRefeicaoViewModel(), navController) }
 //        composable("relatorio") { RefeicaoTela() }
         composable("busca") { BuscaPersonal(EncontrePersonalViewModel(), navController) }

@@ -1,6 +1,7 @@
 package com.example.vitalisapp.Activity
 
 import android.content.Intent
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
@@ -49,6 +50,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -69,8 +71,12 @@ import coil.compose.AsyncImage
 import com.example.vitalisapp.DTO.Refeicao.RefeicaoExibitionDto
 import com.example.vitalisapp.DTO.Treino.TreinoExibitionDto
 import com.example.vitalisapp.DTO.Usuario.PersonalExibitionDto
+import com.example.vitalisapp.Exceptions.ApiException
+import com.example.vitalisapp.GlobalUiState
 import com.example.vitalisapp.R
 import com.example.vitalisapp.ui.theme.MavenPro
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 
 // Teste tela de carregamento
 @Composable
@@ -523,68 +529,69 @@ fun CardAtividades(
     treino: TreinoExibitionDto
 ) {
     val contexto = LocalContext.current
-    Card(
+
+
+    IconButton(
+        onClick = {
+            val detalheExercicio = Intent(contexto, DetalheExercicio::class.java)
+            detalheExercicio.putExtra("ID_EXERCICIO", treino.exercicio.idExercicio)
+            contexto.startActivity(detalheExercicio)
+        },
         modifier = Modifier
             .fillMaxWidth()
-            .height(85.dp)
-            .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp)),
-        shape = RoundedCornerShape(16.dp)
+            .height(85.dp),
+
     ) {
-        Row(
+        Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(10.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+                .height(85.dp)
+                .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp)),
+            shape = RoundedCornerShape(16.dp)
         ) {
             Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(10.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                AsyncImage(
-                    model = treino.exercicio.midias?.find { it.tipo == "Imagem" }!!.caminho,
-                    contentDescription = "Foto do exercício ${treino.exercicio.nome}",
-                    modifier = Modifier
-                        .size(60.dp)
-                        .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp))
-                )
-                Column(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .width(225.dp),
-                    horizontalAlignment = Alignment.Start,
-                    verticalArrangement = Arrangement.Center
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    Text(
-                        text = stringResource(R.string.exercicio),
-                        fontSize = 16.sp,
-                        fontFamily = MavenPro,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color(72, 183, 90)
+                    AsyncImage(
+                        model = treino.exercicio.midias?.find { it.tipo == "Imagem" }!!.caminho,
+                        contentDescription = "Foto do exercício ${treino.exercicio.nome}",
+                        modifier = Modifier
+                            .size(60.dp)
+                            .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp))
                     )
-                    Text(
-                        text = treino.exercicio.nome!!,
-                        fontFamily = MavenPro,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color.Black
-                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxHeight()
+                            .width(225.dp),
+                        horizontalAlignment = Alignment.Start,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = stringResource(R.string.exercicio),
+                            fontSize = 16.sp,
+                            fontFamily = MavenPro,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Color(72, 183, 90)
+                        )
+                        Text(
+                            text = treino.exercicio.nome!!,
+                            fontFamily = MavenPro,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = Color.Black
+                        )
+                    }
                 }
             }
-            IconButton(
-                onClick = {
-                    val detalheExercicio = Intent(contexto, DetalheExercicio::class.java)
-                    detalheExercicio.putExtra("ID_EXERCICIO", treino.exercicio.idExercicio)
-                    contexto.startActivity(detalheExercicio)
-                },
-                modifier = Modifier.padding(end = 16.dp)
-            ) {
-                Image(
-                    painter = painterResource(id = R.mipmap.seta),
-                    contentDescription = "seta",
-                    modifier = Modifier.size(34.dp)
-                )
-            }
+
         }
     }
 }
@@ -620,20 +627,29 @@ fun CardAtividades(
                         .size(60.dp)
                         .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp))
                 )
-                Text(
-                    text = stringResource(R.string.refeicao),
-                    fontSize = 18.sp,
-                    fontFamily = MavenPro,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color(72, 183, 90)
-                )
-                Text(
-                    text = refeicao.nome!!,
-                    fontFamily = MavenPro,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color.Black
-                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .width(225.dp),
+                    horizontalAlignment = Alignment.Start,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = stringResource(R.string.refeicao),
+                        fontSize = 16.sp,
+                        fontFamily = MavenPro,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color(72, 183, 90)
+                    )
+                    Text(
+                        text = refeicao.nome!!,
+                        fontFamily = MavenPro,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color.Black
+                    )
+                }
+
             }
             IconButton(
                 onClick = {
@@ -696,13 +712,52 @@ fun Tag(text: String) {
 }
 
 @Composable
-fun BotaoConcluido() {
-    var isCompleted by remember { mutableStateOf(false) }
+fun BotaoConcluido(idTreino: Int, concluido: Int) {
+    var isCompleted by remember { mutableStateOf(concluido == 1) }
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val globalUiState = MutableStateFlow(GlobalUiState())
+
+    fun concluirTreino() {
+        if (concluido == 1) {
+            return
+        }
+
+        scope.launch {
+            try {
+                val novoConcluido = 1
+
+                Log.i(
+                    "botaoConcluir",
+                    "info antes concluir ${idTreino}, ${novoConcluido}"
+                )
+
+                val updateResponse = globalUiState.value.apiTreino.setComplete(idTreino, novoConcluido)
+
+
+                if (updateResponse.isSuccessful) {
+                    isCompleted = true
+
+                    Log.i(
+                        "botaoConcluir",
+                        "Sucesso ao concluir treino: ${updateResponse.body()}"
+                    )
+                } else {
+                    Log.i(
+                        "botaoConcluir",
+                        "Falha ao concluir treino: ${updateResponse.body()}"
+                    )
+                }
+            } catch (e: Exception) {
+                throw ApiException("Conclusao do treino", e.message)
+            }
+        }
+    }
 
     Button(
-        onClick = { isCompleted = !isCompleted },
+        onClick = { concluirTreino() },
         colors = ButtonDefaults.buttonColors(
-            containerColor = if (isCompleted) Color(72, 183, 90) else Color(27, 112, 202)
+            containerColor = if (concluido == 1) Color(72, 183, 90) else Color(27, 112, 202)
         ),
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier
@@ -717,12 +772,13 @@ fun BotaoConcluido() {
         )
         Spacer(modifier = Modifier.width(8.dp))
         Text(
-            text = if (isCompleted) "Concluído" else "Marcar como concluído",
+            text = if (concluido == 1) "Concluído" else "Marcar como concluído",
             color = Color.White,
             fontSize = 16.sp
         )
     }
 }
+
 
 // Futuramente implementar endereço
 @Composable
@@ -1362,4 +1418,44 @@ fun CheckboxRow(label: String, checked: Boolean) {
             fontSize = 18.sp
         )
     }
+}
+
+@Composable
+fun DailyExercises(
+    trainings: MutableList<TreinoExibitionDto>?,
+
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(1000.dp)
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(18.dp)
+    ) {
+        Text(
+            text = "Atividades do Dia",
+            fontSize = 20.sp,
+            fontFamily = MavenPro,
+            fontWeight = FontWeight.Bold,
+            color = colorResource(R.color.green_300)
+        )
+
+        Spacer(modifier = Modifier.height(6.dp))
+
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp),
+            verticalArrangement = Arrangement.spacedBy(15.dp)
+        ) {
+
+            if (trainings != null) {
+                items(items = trainings) { item ->
+                    CardAtividades(item)
+                }
+            }
+        }
+    }
+
 }

@@ -37,7 +37,8 @@
 
     <string name="Bem_vindo">Bem vindo(a), %s</string>
     <string name="atividade">Atividades de hoje</string>
-    <string name="exercicio">Exercício</string>
+    <string name="lista_exercicios">Lista de Exercicio</string>
+    <string name="exercicio">Exercicio</string>
     <string name="refeicao">Refeição</string>
 
     <string name="informação">Informações de execução</string>
