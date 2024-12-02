@@ -45,6 +45,7 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -68,6 +69,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberImagePainter
 import com.example.vitalisapp.DTO.Refeicao.RefeicaoExibitionDto
 import com.example.vitalisapp.DTO.Treino.TreinoExibitionDto
 import com.example.vitalisapp.DTO.Usuario.PersonalExibitionDto
@@ -262,7 +265,7 @@ fun InputText(
 }
 
 @Composable
-fun ImageCard(modifier: Modifier = Modifier, imageRes: Int, date: String) {
+fun ImageCard(modifier: Modifier = Modifier, imageRes: String, date: String) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -277,8 +280,9 @@ fun ImageCard(modifier: Modifier = Modifier, imageRes: Int, date: String) {
                 .background(Color.LightGray, shape = RoundedCornerShape(8.dp))
         ) {
 
+            // Usando Coil para carregar a imagem a partir de uma URL
             Image(
-                painter = painterResource(id = R.mipmap.foto),
+                painter = rememberImagePainter(imageRes),
                 contentDescription = null,
                 modifier = Modifier
                     .size(100.dp)
@@ -303,6 +307,7 @@ fun ImageCard(modifier: Modifier = Modifier, imageRes: Int, date: String) {
         )
     }
 }
+
 
 @Composable
 fun CardReceita(
@@ -530,89 +535,23 @@ fun CardAtividades(
 ) {
     val contexto = LocalContext.current
 
-
-    IconButton(
-        onClick = {
-            val detalheExercicio = Intent(contexto, DetalheExercicio::class.java)
-            detalheExercicio.putExtra("ID_EXERCICIO", treino.exercicio.idExercicio)
-            contexto.startActivity(detalheExercicio)
-        },
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(85.dp),
-
-    ) {
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(85.dp)
-                .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp)),
-            shape = RoundedCornerShape(16.dp)
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(10.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(10.dp)
-                ) {
-                    AsyncImage(
-                        model = treino.exercicio.midias?.find { it.tipo == "Imagem" }!!.caminho,
-                        contentDescription = "Foto do exercício ${treino.exercicio.nome}",
-                        modifier = Modifier
-                            .size(60.dp)
-                            .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp))
-                    )
-                    Column(
-                        modifier = Modifier
-                            .fillMaxHeight()
-                            .width(225.dp),
-                        horizontalAlignment = Alignment.Start,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Text(
-                            text = stringResource(R.string.exercicio),
-                            fontSize = 16.sp,
-                            fontFamily = MavenPro,
-                            fontWeight = FontWeight.SemiBold,
-                            color = Color(72, 183, 90)
-                        )
-                        Text(
-                            text = treino.exercicio.nome!!,
-                            fontFamily = MavenPro,
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            color = Color.Black
-                        )
-                    }
-                }
+            .height(85.dp)
+            .shadow(10.dp, RoundedCornerShape(12.dp), ambientColor = Color.Black.copy(alpha = 0.1f)) // Sombra suave
+            .background(Color.White, RoundedCornerShape(12.dp))
+            .clickable {
+                val detalheExercicio = Intent(contexto, DetalheExercicio::class.java)
+                detalheExercicio.putExtra("ID_EXERCICIO", treino.exercicio.idExercicio)
+                contexto.startActivity(detalheExercicio)
             }
-
-        }
-    }
-}
-
-@Composable
-fun CardAtividades(
-    refeicao: RefeicaoExibitionDto
-) {
-    val contexto = LocalContext.current
-
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(70.dp)
-            .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp)),
-        shape = RoundedCornerShape(16.dp)
+            .border(1.dp, Color(0xFFE0E0E0), RoundedCornerShape(12.dp)) // Borda sutil
     ) {
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(start = 16.dp),
+                .padding(10.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -621,16 +560,82 @@ fun CardAtividades(
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 AsyncImage(
-                    model = refeicao.midias?.find { it.tipo == "Imagem" }!!.caminho,
-                    contentDescription = "Foto da refeição ${refeicao.nome}",
+                    model = treino.exercicio.midias?.find { it.tipo == "Imagem" }?.caminho,
+                    contentDescription = "Foto do exercício ${treino.exercicio.nome}",
                     modifier = Modifier
                         .size(60.dp)
-                        .shadow(elevation = 5.dp, shape = RoundedCornerShape(16.dp))
+                        .clip(RoundedCornerShape(8.dp))
                 )
                 Column(
                     modifier = Modifier
                         .fillMaxHeight()
                         .width(225.dp),
+                    horizontalAlignment = Alignment.Start,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = stringResource(R.string.exercicio),
+                        fontSize = 16.sp,
+                        fontFamily = MavenPro,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color(72, 183, 90)
+                    )
+                    Text(
+                        text = treino.exercicio.nome ?: "",
+                        fontFamily = MavenPro,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color.Black
+                    )
+                }
+            }
+        }
+    }
+}
+
+
+
+@Composable
+fun CardAtividades(
+    refeicao: RefeicaoExibitionDto
+) {
+    val contexto = LocalContext.current
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(70.dp)
+            .shadow(10.dp, RoundedCornerShape(12.dp), ambientColor = Color.Black.copy(alpha = 0.1f)) // Sombra suave
+            .background(Color.White, RoundedCornerShape(12.dp))
+            .border(1.dp, Color(0xFFE0E0E0), RoundedCornerShape(12.dp)) // Borda sutil
+            .clickable {
+                val detalheRefeicao = Intent(contexto, DetalheRefeicao::class.java)
+                detalheRefeicao.putExtra("ID_REFEICAO", refeicao.idRefeicao)
+                contexto.startActivity(detalheRefeicao)
+            }
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                AsyncImage(
+                    model = refeicao.midias?.find { it.tipo == "Imagem" }?.caminho,
+                    contentDescription = "Foto da refeição ${refeicao.nome}",
+                    modifier = Modifier
+                        .size(60.dp)
+                        .clip(RoundedCornerShape(8.dp)) // Aplicando clip no AsyncImage
+                )
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .weight(1f),
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.Center
                 ) {
@@ -642,22 +647,20 @@ fun CardAtividades(
                         color = Color(72, 183, 90)
                     )
                     Text(
-                        text = refeicao.nome!!,
+                        text = refeicao.nome ?: "",
                         fontFamily = MavenPro,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = Color.Black
                     )
                 }
-
             }
             IconButton(
                 onClick = {
                     val detalheRefeicao = Intent(contexto, DetalheRefeicao::class.java)
                     detalheRefeicao.putExtra("ID_REFEICAO", refeicao.idRefeicao)
                     contexto.startActivity(detalheRefeicao)
-                },
-                modifier = Modifier.padding(end = 16.dp)
+                }
             ) {
                 Image(
                     painter = painterResource(id = R.mipmap.seta),
@@ -668,6 +671,7 @@ fun CardAtividades(
         }
     }
 }
+
 
 @Composable
 fun InfoCard(title: String, value: String) {
@@ -846,50 +850,44 @@ fun PersonalCard(
 }
 
 @Composable
-fun UserCard(user: String, meta: String, numero: Int, imagemUSer: Int) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp)
+fun UserCard(nick: String, meta: String, imagemUser: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White, RoundedCornerShape(12.dp))
+            .padding(20.dp, 10.dp)
     ) {
-        Row(
-            modifier = Modifier.padding(10.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Image(
-                painter = painterResource(id = imagemUSer),
-                contentDescription = "Foto Usuário",
-                modifier = Modifier
-                    .size(65.dp)
-                    .clip(CircleShape),
-            )
-            Spacer(modifier = Modifier.width(20.dp))
-            Column {
-                Text(
-                    text = user,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    color = Color(134, 86, 169)
-                )
-                Row {
-                    Text(text = "Meta:", color = Color(134, 86, 169))
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = meta,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(24, 24, 27)
-                    )
-                }
-                Text(
-                    text = "Você tem ${numero} novas mensagens",
-                    fontWeight = FontWeight.Bold,
-                    color = Color.Black
-                )
-            }
-            Spacer(modifier = Modifier.weight(1f))
 
+        val painter = rememberImagePainter(imagemUser)
+
+        Image(
+            painter = painter,
+            contentDescription = "User Image",
+            modifier = Modifier
+                .size(48.dp)
+                .clip(CircleShape)
+                .background(Color.Gray)
+        )
+
+        Spacer(modifier = Modifier.width(16.dp))
+
+        Column {
+            Text(
+                text = nick,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
+            )
+            Text(
+                text = "Meta: $meta",
+                fontSize = 14.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = Color(134, 86, 169)
+            )
         }
     }
 }
+
 
 @Composable
 fun ExercicioItem(exercicios: List<String>) {
@@ -1036,7 +1034,7 @@ fun ItemInfo(label: String, valor: String, modifier: Modifier = Modifier) {
 @Composable
 fun CartaoInfo(
     tipoUsuario: String,
-    imagemUsuario: Int,
+    imagemUrl: String,  // Alterado para receber a URL da imagem
     nome: String,
     email: String,
     emailRecuperacao: String = "",
@@ -1049,7 +1047,6 @@ fun CartaoInfo(
 ) {
 
     val corTexto = if (tipoUsuario == "personal") Color(134, 86, 169) else Color(72, 183, 90)
-    val corBotao = if (tipoUsuario == "personal") R.mipmap.botaopersonal else R.mipmap.botaomural
 
     Card(
         modifier = Modifier
@@ -1075,21 +1072,13 @@ fun CartaoInfo(
                 contentAlignment = Alignment.Center
             ) {
                 Image(
-                    painter = painterResource(id = imagemUsuario),
+                    painter = rememberAsyncImagePainter(imagemUrl),  // Carrega a imagem da URL
                     contentDescription = "Foto Usuário",
                     modifier = Modifier
                         .size(150.dp)
                         .clip(CircleShape)
-                        .border(2.dp, Color.Gray, CircleShape)
-                )
-                Image(
-                    painter = painterResource(id = corBotao),
-                    contentDescription = "Botão",
-                    modifier = Modifier
-                        .size(50.dp)
-                        .clip(CircleShape)
-                        .clickable { onEditClick() }
-                        .align(Alignment.BottomEnd)
+                        .border(2.dp, Color.Gray, CircleShape),
+                    contentScale = ContentScale.Crop
                 )
             }
             Column(
@@ -1098,19 +1087,18 @@ fun CartaoInfo(
                     .padding(top = 32.dp)
             ) {
                 ItemInfo("Nome completo:", nome)
+                Spacer(modifier = Modifier.height(16.dp))
                 ItemInfo("E-mail principal:", email)
+                Spacer(modifier = Modifier.height(16.dp))
                 ItemInfo("Nickname:", nickname)
+                Spacer(modifier = Modifier.height(16.dp))
                 ItemInfo("Data de nascimento:", aniversario)
+                Spacer(modifier = Modifier.height(16.dp))
                 ItemInfo("Sexo:", sexo)
-
 
                 if (tipoUsuario == "personal") {
                     ItemInfo("Especialidade:", especialidade)
                     ItemInfo("Data de formação:", graduacao)
-                }
-
-                if (tipoUsuario == "usuario") {
-                    ItemInfo("E-mail de recuperação:", emailRecuperacao)
                 }
             }
         }
@@ -1423,7 +1411,6 @@ fun CheckboxRow(label: String, checked: Boolean) {
 @Composable
 fun DailyExercises(
     trainings: MutableList<TreinoExibitionDto>?,
-
 ) {
     Column(
         modifier = Modifier

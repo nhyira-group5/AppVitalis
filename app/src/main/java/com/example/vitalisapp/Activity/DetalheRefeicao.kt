@@ -1,5 +1,6 @@
 package com.example.vitalisapp.Activity
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -107,8 +108,7 @@ fun DetalheReceita(
         ) {
             Button(
                 onClick = {
-                    val listaRefeicao = Intent(contexto, ListaRefeicao::class.java)
-                    contexto.startActivity(listaRefeicao)
+                    (contexto as? Activity)?.finish()
                 },
                 colors = ButtonDefaults.buttonColors(
                     contentColor = Color.Black,

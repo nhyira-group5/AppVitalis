@@ -1,5 +1,6 @@
 package com.example.vitalisapp.Activity
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -110,8 +111,7 @@ fun DetalheExercicio(
         ) {
             Button(
                 onClick = {
-                    val listaExercicio = Intent(contexto, ListaExercicio::class.java)
-                    contexto.startActivity(listaExercicio)
+                    (contexto as? Activity)?.finish()
                 },
                 colors = ButtonDefaults.buttonColors(
                     contentColor = Color.Black,
@@ -185,11 +185,11 @@ fun DetalheExercicio(
 
 
 
+
 @Composable
 fun VideoExercicio(midias: MutableList<MidiaDto>?) {
     val videoUrl = midias?.find { it.tipo == "Video" }?.caminho
     val videoId = extractYouTubeId(videoUrl)
-
 
     if (videoId != null) {
         AndroidView(
@@ -197,7 +197,8 @@ fun VideoExercicio(midias: MutableList<MidiaDto>?) {
                 YouTubePlayerView(context).apply {
                     addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
                         override fun onReady(youTubePlayer: com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer) {
-                            youTubePlayer.loadVideo(videoId, 0f)
+
+                            youTubePlayer.cueVideo(videoId, 0f)
                         }
                     })
                 }

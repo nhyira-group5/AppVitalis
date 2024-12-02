@@ -1,10 +1,12 @@
 package com.example.vitalisapp
 
+import com.example.vitalisapp.Interface.ApiContrato
 import com.example.vitalisapp.Interface.ApiEndereco
 import com.example.vitalisapp.Interface.ApiExercicio
 import com.example.vitalisapp.Interface.externals.ApiViaCep
 import com.example.vitalisapp.Interface.ApiFicha
 import com.example.vitalisapp.Interface.ApiMeta
+import com.example.vitalisapp.Interface.ApiMural
 import com.example.vitalisapp.Interface.ApiPagamento
 import com.example.vitalisapp.Interface.ApiRefeicao
 import com.example.vitalisapp.Interface.ApiRefeicaoDiaria
@@ -167,7 +169,27 @@ object RetrofitService {
         return cliente
     }
 
+    fun getApiMural(): ApiMural {
+        val cliente =
+            Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(ApiMural::class.java)
 
+        return cliente
+    }
+
+    fun getApiContrato(): ApiContrato {
+        val cliente =
+            Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(ApiContrato::class.java)
+
+        return cliente
+    }
 
 
     fun getApiEndereco(): ApiEndereco {

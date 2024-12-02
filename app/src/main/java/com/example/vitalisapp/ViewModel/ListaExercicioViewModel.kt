@@ -45,17 +45,23 @@ class ListaExercicioViewModel : ViewModel(){
 
     private fun setUserRoutineByUserId(idUsuario: Int) {
         viewModelScope.launch {
+            _listaExercicioUiState.update { cs -> cs.copy(isLoading = true) }
             try {
                 val res = globalUiState.value.apiRotinaUsuario.showByUserId(idUsuario)
                 if (res.isSuccessful) {
                     _listaExercicioUiState.update { cs ->
                         cs.copy(
-                            rotinaUsuario = res.body()
+                            rotinaUsuario = res.body(),
+                            isLoading = false
                         )
                     }
                     Log.i("HomeViewModel", "Rotina de usuario encontrada: ${res.body()}")
                 } else {
-                    Log.e("socorro", "${idUsuario.toString()}")
+                    _listaExercicioUiState.update { cs ->
+                        cs.copy(
+                            isLoading = false
+                        )
+                    }
                     Log.e(
 
                         "HomeViewModel",
@@ -63,6 +69,12 @@ class ListaExercicioViewModel : ViewModel(){
                     )
                 }
             } catch (e: Exception) {
+                _listaExercicioUiState.update { cs ->
+                    cs.copy(
+                        isLoading = false
+                    )
+                }
+
                 Log.e(
                     "HomeViewModel",
                     "Erro na HomeViewModel ao buscar a rotina do usuario: ${e.message}"

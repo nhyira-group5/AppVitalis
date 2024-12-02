@@ -34,6 +34,7 @@ data class HomeUiState(
     var rotinasDiariasTotaisSemana: Int = 0,
     var isLoading: Boolean = true
 
+
     // Caso tivesse um método alterando o estado na Activity
     // Ele teria que ser implementado por aqui também e ser iniciado (INIT) na ViewModel
 

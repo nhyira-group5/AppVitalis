@@ -37,11 +37,12 @@ class DetalheExercicioViewModel(
 
     init {
         getTreino(idTreino)
-        _detalheExercicioUiState.update { cs -> cs.copy(isLoading = false) }
+
     }
 
     private fun getTreino(idTreino: Int) {
         viewModelScope.launch {
+            _detalheExercicioUiState.update { cs -> cs.copy(isLoading = true) }
             try {
                 val res = globalUiState.value.apiTreino.showById(idTreino)
                 if (res.isSuccessful) {
@@ -55,7 +56,8 @@ class DetalheExercicioViewModel(
                             serie = treino?.serie,
                             repeticao = treino?.repeticao,
                             tempo = treino?.tempo,
-                            concluido = treino?.concluido
+                            concluido = treino?.concluido,
+                            isLoading = false
                         )
                     }
 
@@ -64,12 +66,22 @@ class DetalheExercicioViewModel(
                         "Sucesso na busca do treino: ${res.body()}"
                     )
                 } else {
+                    _detalheExercicioUiState.update { currentState ->
+                        currentState.copy(
+                            isLoading = false
+                        )
+                    }
                     Log.e(
                         "DetalheExercicioViewModel",
                         "Erro na busca do treino: ${res.errorBody().toString()}"
                     )
                 }
             } catch (e: Exception) {
+                _detalheExercicioUiState.update { currentState ->
+                    currentState.copy(
+                        isLoading = false
+                    )
+                }
                 throw ApiException("Busca do treino", e.message)
             }
         }
