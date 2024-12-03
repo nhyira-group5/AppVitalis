@@ -165,14 +165,6 @@ fun Menu(navController: NavController) {
                         .clickable { navController.navigate("busca") }
                 )
                 Image(
-                    painter = painterResource(id = R.mipmap.chat),
-                    contentDescription = "Chat",
-                    modifier = Modifier
-                        .size(30.dp)
-                        .padding(horizontal = 4.dp)
-                        .clickable { navController.navigate("chat") }
-                )
-                Image(
                     painter = painterResource(id = R.mipmap.images),
                     contentDescription = "Imagens",
                     modifier = Modifier
