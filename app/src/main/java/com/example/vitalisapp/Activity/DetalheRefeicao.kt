@@ -66,12 +66,13 @@ class DetalheRefeicao : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val idRefeicao: Int = intent.getIntExtra("ID_REFEICAO", -1)
+            val idRefeicaoDiaria: Int = intent.getIntExtra("ID_REFEICAO_DIARIA", -1)
 
             // Criando uma factory para criar uma view model que receba param
             val viewModel = viewModel<DetalheRefeicaoViewModel>(
                 factory = object : ViewModelProvider.Factory {
                     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                        return DetalheRefeicaoViewModel(idRefeicao) as T
+                        return DetalheRefeicaoViewModel(idRefeicao, idRefeicaoDiaria) as T
                     }
                 }
             )
@@ -160,6 +161,8 @@ fun DetalheReceita(
 
             Comida(detalheReceita.value.midias)
             InstrucoesReceita(detalheReceita.value.preparo, detalheReceita.value.alimentos)
+
+            if(detalheReceita.value.idRefDay != null) BotaoConcluidoRefeicao(idRefeicao = detalheReceita.value.idRefDay!!)
         }
     }
 }
@@ -331,10 +334,10 @@ fun AlimentoRefeicao(alimento: AlimentoPorRefeicaoDto?) {
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun Refeicao() {
-    VitalisAppTheme {
-        DetalheReceita(DetalheRefeicaoViewModel(1))
-    }
-}
+//@Preview(showBackground = true, showSystemUi = true)
+//@Composable
+//fun Refeicao() {
+//    VitalisAppTheme {
+//        DetalheReceita(DetalheRefeicaoViewModel(1))
+//    }
+//}

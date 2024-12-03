@@ -34,7 +34,6 @@ data class HomeUiState(
     var rotinasDiariasTotaisSemana: Int = 0,
     var isLoading: Boolean = true
 
-
     // Caso tivesse um método alterando o estado na Activity
     // Ele teria que ser implementado por aqui também e ser iniciado (INIT) na ViewModel
 
@@ -69,7 +68,6 @@ class HomeViewModel : ViewModel() {
 
     init {
         loadDataHome(SessionLogin.id!!)
-        _homeUiState.update { cs -> cs.copy(isLoading = false) }
     }
 
     private fun loadDataHome(idUsuario: Int) {
@@ -127,10 +125,10 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    private fun loadDailyActivities(idRotinaDiaria: Int?) {
-        if (idRotinaDiaria != null) {
-            setTrainingsFromDailyRoutine(idRotinaDiaria)
-            setMealsFromDailyRoutine(idRotinaDiaria)
+    private fun loadDailyActivities(rotinaDiaria: RotinaDiariaExibitionDto?) {
+        if (rotinaDiaria != null) {
+            setTrainingsFromDailyRoutine(rotinaDiaria.idRotinaDiaria)
+            setMealsFromDailyRoutine(rotinaDiaria)
         } else {
             Log.e("HomeViewModel", "Erro ao buscar atividades diarias: idRotinaDiaria Null")
         }
@@ -209,6 +207,7 @@ class HomeViewModel : ViewModel() {
                     // Chamando essas bosta aqui pq nn vai no init nn sei pq
                     loadKpiSemanalData(homeUiState.value.rotinaSemanal?.idRotinaSemanal)
                     setDailyRoutine(homeUiState.value.rotinaSemanal?.idRotinaSemanal)
+                    _homeUiState.update { cs -> cs.copy(isLoading = false) }
                 } else {
                     Log.e(
                         "HomeViewModel",
@@ -242,7 +241,7 @@ class HomeViewModel : ViewModel() {
                                 "Rotina diaria encontrada: ${homeUiState.value.rotinaDiaria}"
                             )
 
-                            loadDailyActivities(rotinaDiaria.idRotinaDiaria)
+                            loadDailyActivities(rotinaDiaria)
                             loadKpiDiarioData(rotinaDiaria.idRotinaDiaria)
                         } else {
                             Log.w(
@@ -298,33 +297,58 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    private fun setMealsFromDailyRoutine(idRotinaDiaria: Int?) {
-        if (idRotinaDiaria != null) {
+    private fun setMealsFromDailyRoutine(rotinaDiaria: RotinaDiariaExibitionDto?) {
+        if (rotinaDiaria != null) {
+            _homeUiState.value.refeicoesDiarias.clear()
             viewModelScope.launch {
                 try {
-                    val res = globalUiState.value.apiRefeicao.showByidRotinaDiaria(idRotinaDiaria)
-                    if (res.isSuccessful) {
-                        _homeUiState.update { cs ->
-                            _homeUiState.value.refeicoesDiarias.clear()
-                            cs.copy(refeicoesDiarias = res.body()!!.toMutableList())
+                    val refs: MutableList<RefeicaoExibitionDto> = mutableListOf()
+                    rotinaDiaria.refeicaoDiaria?.forEach {
+                        val resRefDay =
+                            globalUiState.value.apiRefeicaoDiaria.showById(it.idRefeicaoDiaria!!)
+
+                        if (resRefDay.isSuccessful) {
+                            val refDay = resRefDay.body()
+                            val idRef = refDay?.refeicao!!.idRefeicao
+
+                            val res = globalUiState.value.apiRefeicao.showById(idRef)
+
+                            if (res.isSuccessful) {
+                                val ref = res.body()!!
+                                ref.idRefDay = refDay.idRefeicaoDiaria
+                                refs.add(ref)
+                                Log.i("HomeViewModel", "${refs.size}")
+                            } else {
+                                Log.e(
+                                    "HomeViewModel",
+                                    "Erro para buscar a refeicao de ID $idRef atribuida a rotina diaria: ${
+                                        res.errorBody().toString()
+                                    }"
+                                )
+                            }
+
+                        } else {
+                            Log.e(
+                                "HomeViewModel",
+                                "Erro na HomeViewModel para buscar a refeição diária: ${
+                                    resRefDay.errorBody().toString()
+                                }"
+                            )
                         }
-                        Log.i(
-                            "HomeViewModel",
-                            "Quantidade de refeicao buscadas para a rotina diaria: ${homeUiState.value.refeicoesDiarias.size}"
-                        )
-                        //Log.i("HomeViewModel", "Refeicoes atribuídas a rotina diaria: ${homeUiState.value.refeicoesDiarias}")
-                    } else {
-                        Log.e(
-                            "HomeViewModel",
-                            "Erro para buscar a refeicao de ID $idRotinaDiaria atribuida a rotina diaria: ${
-                                res.errorBody().toString()
-                            }"
-                        )
                     }
+                    _homeUiState.update { cs ->
+                        cs.copy(refeicoesDiarias = refs)
+                    }
+                    Log.i(
+                        "HomeViewModel",
+                        "Quantidade de refeicao buscadas para a rotina diaria: ${homeUiState.value.refeicoesDiarias.size}"
+                    )
+                    //Log.i("HomeViewModel", "${homeUiState.value.refeicoesDiarias.size}")
+                    //Log.i("HomeViewModel", "${homeUiState.value.refeicoesDiarias}")
                 } catch (e: Exception) {
                     Log.e(
                         "HomeViewModel",
-                        "Erro na HomeViewModel para buscar a refeicao de ID $idRotinaDiaria atribuida a rotina diaria: ${e.message}"
+                        "Erro na HomeViewModel para buscar a refeicao atribuida a rotina diaria: ${e.message}"
                     )
                 }
             }

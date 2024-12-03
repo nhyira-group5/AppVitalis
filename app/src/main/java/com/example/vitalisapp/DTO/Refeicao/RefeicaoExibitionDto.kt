@@ -9,7 +9,9 @@ data class RefeicaoExibitionDto (
     var nome: String? = null,
     var preparo: String? = null,
     @SerializedName("midia") var midias: MutableList<MidiaDto>? = mutableListOf(),
-    @SerializedName("alimentoPorRefeicao") var alimentos: MutableList<AlimentoPorRefeicaoDto>? = mutableListOf()
+    @SerializedName("alimentoPorRefeicao") var alimentos: MutableList<AlimentoPorRefeicaoDto>? = mutableListOf(),
+
+    var idRefDay: Int? = null
 )
 
 data class AlimentoPorRefeicaoDto (

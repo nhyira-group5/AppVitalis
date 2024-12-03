@@ -539,7 +539,11 @@ fun CardAtividades(
         modifier = Modifier
             .fillMaxWidth()
             .height(85.dp)
-            .shadow(10.dp, RoundedCornerShape(12.dp), ambientColor = Color.Black.copy(alpha = 0.1f)) // Sombra suave
+            .shadow(
+                10.dp,
+                RoundedCornerShape(12.dp),
+                ambientColor = Color.Black.copy(alpha = 0.1f)
+            ) // Sombra suave
             .background(Color.White, RoundedCornerShape(12.dp))
             .clickable {
                 val detalheExercicio = Intent(contexto, DetalheExercicio::class.java)
@@ -594,7 +598,6 @@ fun CardAtividades(
 }
 
 
-
 @Composable
 fun CardAtividades(
     refeicao: RefeicaoExibitionDto
@@ -605,12 +608,17 @@ fun CardAtividades(
         modifier = Modifier
             .fillMaxWidth()
             .height(70.dp)
-            .shadow(10.dp, RoundedCornerShape(12.dp), ambientColor = Color.Black.copy(alpha = 0.1f)) // Sombra suave
+            .shadow(
+                10.dp,
+                RoundedCornerShape(12.dp),
+                ambientColor = Color.Black.copy(alpha = 0.1f)
+            ) // Sombra suave
             .background(Color.White, RoundedCornerShape(12.dp))
             .border(1.dp, Color(0xFFE0E0E0), RoundedCornerShape(12.dp)) // Borda sutil
             .clickable {
                 val detalheRefeicao = Intent(contexto, DetalheRefeicao::class.java)
                 detalheRefeicao.putExtra("ID_REFEICAO", refeicao.idRefeicao)
+                detalheRefeicao.putExtra("ID_REFEICAO_DIARIA", refeicao.idRefDay)
                 contexto.startActivity(detalheRefeicao)
             }
     ) {
@@ -716,7 +724,7 @@ fun Tag(text: String) {
 }
 
 @Composable
-fun BotaoConcluido(idTreino: Int, concluido: Int) {
+fun BotaoConcluidoTreino(idTreino: Int, concluido: Int) {
     var isCompleted by remember { mutableStateOf(concluido == 1) }
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -736,8 +744,8 @@ fun BotaoConcluido(idTreino: Int, concluido: Int) {
                     "info antes concluir ${idTreino}, ${novoConcluido}"
                 )
 
-                val updateResponse = globalUiState.value.apiTreino.setComplete(idTreino, novoConcluido)
-
+                val updateResponse =
+                    globalUiState.value.apiTreino.setComplete(idTreino, novoConcluido)
 
                 if (updateResponse.isSuccessful) {
                     isCompleted = true
@@ -783,6 +791,103 @@ fun BotaoConcluido(idTreino: Int, concluido: Int) {
     }
 }
 
+@Composable
+fun BotaoConcluidoRefeicao(idRefeicao: Int) {
+    var isCompleted: Int? by remember { mutableStateOf(null) }
+    val scope = rememberCoroutineScope()
+    val globalUiState = MutableStateFlow(GlobalUiState())
+
+    fun concluirRef() {
+        scope.launch {
+            try {
+                if (isCompleted == 0) {
+                    val resComplete =
+                        globalUiState.value.apiRefeicaoDiaria.setComplete(idRefeicao, 1)
+                    if (resComplete.isSuccessful) {
+                        isCompleted = 1
+                        Log.i(
+                            "DetalheRefeicaoViewModel",
+                            "Sucesso ao concluir ref diaria: ${resComplete.body()}"
+                        )
+                    } else {
+                        Log.e(
+                            "DetalheRefeicaoViewModel",
+                            "Erro ao concluir ref diaria: ${resComplete.errorBody().toString()}"
+                        )
+                    }
+                } else {
+                    val resUndoComplete =
+                        globalUiState.value.apiRefeicaoDiaria.setComplete(idRefeicao, 0)
+                    if (resUndoComplete.isSuccessful) {
+                        isCompleted = 0
+                        Log.i(
+                            "DetalheRefeicaoViewModel",
+                            "Sucesso ao concluir ref diaria: ${resUndoComplete.body()}"
+                        )
+                    } else {
+                        Log.e(
+                            "DetalheRefeicaoViewModel",
+                            "Erro ao concluir ref diaria: ${resUndoComplete.errorBody().toString()}"
+                        )
+                    }
+                }
+            } catch (e: Exception) {
+                throw ApiException("Conclusao do treino", e.message)
+            }
+        }
+    }
+
+    fun getComplete() {
+        scope.launch {
+            try {
+                val res = globalUiState.value.apiRefeicaoDiaria.showById(idRefeicao)
+
+                if (res.isSuccessful) {
+                    val completed = res.body()!!.concluido
+                    isCompleted = completed
+                    Log.i(
+                        "DetalheRefeicaoViewModel",
+                        "Sucesso ao buscar se a refeição diaria $idRefeicao esta concluida"
+                    )
+                } else {
+                    Log.e(
+                        "DetalheRefeicaoViewModel",
+                        "Erro ao buscar se a refeição diaria $idRefeicao esta concluida"
+                    )
+                }
+            } catch (e: Exception) {
+                throw ApiException("Busca se a refeição está completa", e.message)
+            }
+        }
+    }
+
+    Button(
+        onClick = {
+            getComplete()
+            concluirRef()
+        },
+        colors = ButtonDefaults.buttonColors(
+            containerColor = if (isCompleted == 1) Color(72, 183, 90) else Color(27, 112, 202)
+        ),
+        shape = RoundedCornerShape(20.dp),
+        modifier = Modifier
+            .padding(16.dp)
+            .fillMaxWidth()
+            .height(50.dp)
+    ) {
+        Image(
+            painter = painterResource(id = R.mipmap.certos),
+            contentDescription = null,
+            modifier = Modifier.size(24.dp)
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        Text(
+            text = if (isCompleted == 1) "Concluído" else "Marcar como concluído",
+            color = Color.White,
+            fontSize = 16.sp
+        )
+    }
+}
 
 // Futuramente implementar endereço
 @Composable
@@ -1364,8 +1469,10 @@ fun CartaoAfiliacao(
                         .padding(top = 16.dp)
                 )
                 Button(
-                    onClick = { val plano = Intent(contexto, Plano::class.java)
-                        contexto.startActivity(plano)},
+                    onClick = {
+                        val plano = Intent(contexto, Plano::class.java)
+                        contexto.startActivity(plano)
+                    },
                     modifier = Modifier
                         .padding(top = 24.dp)
                         .fillMaxWidth()
