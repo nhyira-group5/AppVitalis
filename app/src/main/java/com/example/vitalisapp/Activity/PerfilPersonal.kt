@@ -95,7 +95,7 @@ fun PerfilPersonal(name: String, navController: NavHostController, modifier: Mod
         if (personal != null) {
             CartaoInfo(
                 tipoUsuario = "personal",
-                imagemUsuario = R.mipmap.usuarioperfil,
+                imagemUrl = personal?.midia?.caminho ?: "",
                 nome = personal!!.nome,
                 email = personal!!.email,
                 nickname = personal!!.nickname,

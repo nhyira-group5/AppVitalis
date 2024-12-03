@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 
 data class DetalheRefeicaoUiState(
     val id: Int? = null,
+    val idRefDay: Int? = null,
     val nome: String? = null,
     val preparo: String? = null,
     val midias: MutableList<MidiaDto>? = mutableListOf(),
@@ -23,7 +24,8 @@ data class DetalheRefeicaoUiState(
 ) {}
 
 class DetalheRefeicaoViewModel (
-    private val idRefeicao: Int
+    private val idRefeicao: Int,
+    private val idRefeicaoDiaria: Int,
 ) : ViewModel() {
     private val globalUiState = MutableStateFlow(GlobalUiState())
 
@@ -31,9 +33,8 @@ class DetalheRefeicaoViewModel (
     val detalheRefeicaoUiState = _detalheRefeicaoUiState.asStateFlow()
 
     init {
-        //getRecipe(1)
+        if (idRefeicaoDiaria > 0) _detalheRefeicaoUiState.update { cs -> cs.copy(idRefDay = idRefeicaoDiaria) }
         getRecipe(idRefeicao)
-        _detalheRefeicaoUiState.update { cs -> cs.copy(isLoading = false) }
     }
 
     private fun getRecipe(idRefeicao: Int) {
@@ -54,6 +55,7 @@ class DetalheRefeicaoViewModel (
                         "DetalheRefeicaoViewModel",
                         "Sucesso na busca da receita: ${res.body()}"
                     )
+                    _detalheRefeicaoUiState.update { cs -> cs.copy(isLoading = false) }
                 } else {
                     Log.e(
                         "DetalheRefeicaoViewModel",

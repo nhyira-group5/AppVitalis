@@ -1,5 +1,6 @@
 package com.example.vitalisapp.Activity
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -65,12 +66,13 @@ class DetalheRefeicao : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val idRefeicao: Int = intent.getIntExtra("ID_REFEICAO", -1)
+            val idRefeicaoDiaria: Int = intent.getIntExtra("ID_REFEICAO_DIARIA", -1)
 
             // Criando uma factory para criar uma view model que receba param
             val viewModel = viewModel<DetalheRefeicaoViewModel>(
                 factory = object : ViewModelProvider.Factory {
                     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                        return DetalheRefeicaoViewModel(idRefeicao) as T
+                        return DetalheRefeicaoViewModel(idRefeicao, idRefeicaoDiaria) as T
                     }
                 }
             )
@@ -107,8 +109,7 @@ fun DetalheReceita(
         ) {
             Button(
                 onClick = {
-                    val listaRefeicao = Intent(contexto, ListaRefeicao::class.java)
-                    contexto.startActivity(listaRefeicao)
+                    (contexto as? Activity)?.finish()
                 },
                 colors = ButtonDefaults.buttonColors(
                     contentColor = Color.Black,
@@ -157,8 +158,11 @@ fun DetalheReceita(
                     color = Color(72, 183, 90)
                 )
             }
+
             Comida(detalheReceita.value.midias)
             InstrucoesReceita(detalheReceita.value.preparo, detalheReceita.value.alimentos)
+
+            if(detalheReceita.value.idRefDay != null) BotaoConcluidoRefeicao(idRefeicao = detalheReceita.value.idRefDay!!)
         }
     }
 }
@@ -330,10 +334,10 @@ fun AlimentoRefeicao(alimento: AlimentoPorRefeicaoDto?) {
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun Refeicao() {
-    VitalisAppTheme {
-        DetalheReceita(DetalheRefeicaoViewModel(1))
-    }
-}
+//@Preview(showBackground = true, showSystemUi = true)
+//@Composable
+//fun Refeicao() {
+//    VitalisAppTheme {
+//        DetalheReceita(DetalheRefeicaoViewModel(1))
+//    }
+//}

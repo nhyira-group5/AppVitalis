@@ -9,7 +9,10 @@ data class Personal (
     val sexo:String,
     val email:String,
     val tipo: TipoUsuario,
-    var academiaId: Int? = null
+    var academiaId: Int? = null,
+    val midia: Midia? = null
 )
+
+
 
 

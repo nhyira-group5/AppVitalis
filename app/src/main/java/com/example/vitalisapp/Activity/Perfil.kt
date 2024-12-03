@@ -54,6 +54,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.vitalisapp.R
 import com.example.vitalisapp.RetrofitService
+import com.example.vitalisapp.View.LoginSession.SessionLogin
 import com.example.vitalisapp.View.Usuario.Personal
 import com.example.vitalisapp.View.Usuario.TipoUsuario
 import com.example.vitalisapp.View.Usuario.UsuarioGet
@@ -81,19 +82,23 @@ class Perfil : ComponentActivity() {
 @Composable
 fun PerfilUsuario(name: String, navController: NavHostController, modifier: Modifier = Modifier) {
     val apiUsuario = RetrofitService.getApiUsuario()
+    val apiFicha = RetrofitService.getApiFicha()
     var usuario by remember { mutableStateOf<UsuarioGet?>(null) }
     var personal by remember { mutableStateOf<Personal?>(null) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(Unit) {
         try {
-            val response = apiUsuario.getUsuarioById(1)
+            val response = apiUsuario.getUsuarioById(SessionLogin.id!!)
+
             if (response.isSuccessful) {
                 usuario = response.body()
-
                 usuario?.let {
+                    //val fichaResponse = apiFicha.getFicha(SessionLogin.id!!)
+
                     if (it.tipo == TipoUsuario.PERSONAL) {
                         val personalResponse = apiUsuario.getPersonalById(it.id!!)
+
                         if (personalResponse.isSuccessful) {
                             personal = personalResponse.body()
                         } else {
@@ -121,25 +126,23 @@ fun PerfilUsuario(name: String, navController: NavHostController, modifier: Modi
         if (usuario != null) {
             CartaoInfo(
                 tipoUsuario = "usuario",
-                imagemUsuario = R.mipmap.usuarioperfil,
-                nome = usuario!!.nome!!,
-                email = usuario!!.email!!,
-                nickname = usuario!!.nickname!!,
-                sexo = usuario!!.sexo!!,
-                aniversario = usuario!!.dtNasc!!,
+                imagemUrl = usuario?.midia?.caminho ?: "",
+                nome = usuario?.nome ?: "Nome não disponível",
+                email = usuario?.email ?: "E-mail não disponível",
+                nickname = usuario?.nickname ?: "Nickname não disponível",
+                aniversario = usuario?.dtNasc ?: "Data de nascimento não disponível",
+                sexo = usuario?.sexo ?: "Sexo não disponível",
                 onEditClick = {}
             )
 
+
             CardInfo(
                 tipo = "usuario",
-//                fumante = usuario!!.fumante,
-//                alcoolatra = usuario!!.alcoolatra,
-//                deficiente = usuario!!.deficiente,
-//                problemaCardiaco = usuario!!.problemaCardiaco,
-                peso = usuario!!.peso!!,
-                altura = usuario!!.altura!!,
-                meta = usuario!!.meta!!
+                peso = usuario!!.peso ?: "N/A",
+                altura = usuario!!.altura ?: "N/A",
+                meta = usuario!!.meta?.nome ?: "Sem meta definida"  // Usa uma mensagem padrão se o campo for nulo
             )
+
 
             if (personal != null) {
                 CartaoAfiliacao(

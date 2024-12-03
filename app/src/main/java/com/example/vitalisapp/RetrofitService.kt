@@ -1,10 +1,12 @@
 package com.example.vitalisapp
 
+import com.example.vitalisapp.Interface.ApiContrato
 import com.example.vitalisapp.Interface.ApiEndereco
 import com.example.vitalisapp.Interface.ApiExercicio
 import com.example.vitalisapp.Interface.externals.ApiViaCep
 import com.example.vitalisapp.Interface.ApiFicha
 import com.example.vitalisapp.Interface.ApiMeta
+import com.example.vitalisapp.Interface.ApiMural
 import com.example.vitalisapp.Interface.ApiPagamento
 import com.example.vitalisapp.Interface.ApiRefeicao
 import com.example.vitalisapp.Interface.ApiRefeicaoDiaria
@@ -20,8 +22,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitService {
 
     val URL_VIA_CEP = "https://viacep.com.br"
-    //val BASE_URL = "http://192.168.15.5:8080"
-    val BASE_URL = "http://10.18.6.32:8080"
+    val BASE_URL = "http://192.168.15.9:8080"
+    //val BASE_URL = "http://10.18.7.122:8080"
+    //val BASE_URL = "http://18.211.206.217:5225"
 
     fun getApiViaCep(): ApiViaCep {
         val cliente =
@@ -167,7 +170,27 @@ object RetrofitService {
         return cliente
     }
 
+    fun getApiMural(): ApiMural {
+        val cliente =
+            Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(ApiMural::class.java)
 
+        return cliente
+    }
+
+    fun getApiContrato(): ApiContrato {
+        val cliente =
+            Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+                .create(ApiContrato::class.java)
+
+        return cliente
+    }
 
 
     fun getApiEndereco(): ApiEndereco {

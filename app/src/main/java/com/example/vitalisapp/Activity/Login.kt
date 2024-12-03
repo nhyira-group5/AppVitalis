@@ -57,8 +57,11 @@ import com.example.vitalisapp.View.Usuario.TipoUsuario
 import com.example.vitalisapp.View.Usuario.loginUsuario
 import com.example.vitalisapp.ViewModel.EncontrePersonalViewModel
 import com.example.vitalisapp.ViewModel.FichaViewModel
+import com.example.vitalisapp.ViewModel.HomePersonalViewModel
 import com.example.vitalisapp.ViewModel.HomeViewModel
+import com.example.vitalisapp.ViewModel.ListaExercicioViewModel
 import com.example.vitalisapp.ViewModel.ListaRefeicaoViewModel
+import com.example.vitalisapp.ViewModel.MuralViewModel
 import com.example.vitalisapp.ViewModel.PlanoViewModel
 
 class Login : ComponentActivity() {
@@ -195,16 +198,36 @@ fun LoginCliente(
                 navController
             )
         }
+        composable("exercicios") {
+            GaleriaExercicio(
+                ListaExercicioViewModel(),
+                navController
+            )
+        }
+        composable("galeria") {
+            Galeria(
+                MuralViewModel(),
+                navController
+            )
+        }
+
+        composable("homePersonal") {
+            HomePersonal(
+                HomePersonalViewModel(),
+                navController
+            )
+        }
+
+
         composable("cadastro") { CadastroCliente(name = name, navController) }
         composable("CadastroUsuarioDois") { SegundaParte(name = name, navController) }
         composable("perfil") { PerfilUsuario(name = name, navController) }
         composable("perfilPersonal") { PerfilPersonal(name = name, navController) }
-        composable("homePersonal") { HomeProfessor(name = name, navController) }
-        composable("exercicios") { GaleriaExercicio(name = name, navController) }
+
         composable("refeicao") { Refeicoes(ListaRefeicaoViewModel(), navController) }
 //        composable("relatorio") { RefeicaoTela() }
         composable("busca") { BuscaPersonal(EncontrePersonalViewModel(), navController) }
-        composable("galeria") { Galeria(name = name, navController) }
+
         composable("planos") { TelaPlano(PaymentKoinDto(), PlanoViewModel(), navController) }
     }
 }

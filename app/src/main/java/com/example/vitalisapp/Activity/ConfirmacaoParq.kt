@@ -158,8 +158,8 @@ fun Parq(name: String, modifier: Modifier = Modifier, viewModelRotUsuario: Rotin
                                         )
                                         viewModelRotUsuario.createRotinaUsuario(meta)
                                         // Lógica para aceitar riscos
-                                        val login = Intent(contexto, Login::class.java)
-                                        contexto.startActivity(login)
+                                        val home = Intent(contexto, Home::class.java)
+                                        contexto.startActivity(home)
                                     },
                                     colors = ButtonDefaults.buttonColors(
                                         containerColor = Color(72, 183, 90)

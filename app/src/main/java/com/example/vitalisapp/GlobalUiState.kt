@@ -1,6 +1,9 @@
 package com.example.vitalisapp
 
+import com.example.vitalisapp.Interface.ApiContrato
 import com.example.vitalisapp.Interface.ApiEndereco
+import com.example.vitalisapp.Interface.ApiExercicio
+import com.example.vitalisapp.Interface.ApiMural
 import com.example.vitalisapp.Interface.externals.ApiViaCep
 import com.example.vitalisapp.Interface.ApiPagamento
 import com.example.vitalisapp.Interface.ApiRefeicao
@@ -21,7 +24,10 @@ data class GlobalUiState(
     val apiRotinaDiaria: ApiRotinaDiaria = RetrofitService.getApiRotinaDiaria(),
     val apiRefeicao: ApiRefeicao = RetrofitService.getApiRefeicao(),
     val apiTreino: ApiTreino = RetrofitService.getApiTreino(),
+    val apiExercicio: ApiExercicio = RetrofitService.getApiExercicio(),
     val apiRefeicaoDiaria: ApiRefeicaoDiaria = RetrofitService.getApiRefeicaoDiaria(),
     val apiPagamento: ApiPagamento = RetrofitService.getApiPagamento(),
     val apiEndereco: ApiEndereco = RetrofitService.getApiEndereco(),
+    val apiMural: ApiMural = RetrofitService.getApiMural(),
+    val apiContrato: ApiContrato = RetrofitService.getApiContrato()
 ) {}
