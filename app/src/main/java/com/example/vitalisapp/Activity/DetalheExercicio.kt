@@ -162,7 +162,6 @@ fun DetalheExercicio(
                 tempo = detalheExercicio.value.tempo
             )
 
-
             Informacoes(
                 descricao = detalheExercicio.value.exercicio?.descricao,
                 tags = detalheExercicio.value.exercicio?.tagExercicioDtos
@@ -170,21 +169,13 @@ fun DetalheExercicio(
                     ?.filterNotNull()
             )
 
-
-
-            BotaoConcluido(
+            BotaoConcluidoTreino(
                 idTreino = detalheExercicio.value.id ?: 0,
                 concluido = detalheExercicio.value.concluido ?: 0
             )
-
-
-
         }
     }
 }
-
-
-
 
 @Composable
 fun VideoExercicio(midias: MutableList<MidiaDto>?) {

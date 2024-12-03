@@ -37,7 +37,6 @@ class DetalheExercicioViewModel(
 
     init {
         getTreino(idTreino)
-
     }
 
     private fun getTreino(idTreino: Int) {
@@ -86,6 +85,4 @@ class DetalheExercicioViewModel(
             }
         }
     }
-
-
 }
