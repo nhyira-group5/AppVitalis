@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -38,17 +39,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.vitalisapp.DTO.Contrato.ContratoExibitionDTO
 import com.example.vitalisapp.R
 import com.example.vitalisapp.View.LoginSession.SessionLogin
 import com.example.vitalisapp.ViewModel.HomePersonalViewModel
 import com.example.vitalisapp.ViewModel.HomeViewModel
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class HomePersonal : ComponentActivity() {
     private val viewModel by viewModels<HomePersonalViewModel>()
@@ -130,9 +135,10 @@ fun HomePersonal(
                             items(items = afiliados) { item ->
                                 UserCard(
                                     nick = item.nickname ?: "Sem nickname",
-                                    meta = item.meta?.toString() ?: "Meta não definida",
+                                    meta = item.meta?.nome?.toString() ?: "Meta não definida",
                                     imagemUser = item.midia?.caminho?.toString() ?: ""
                                 )
+                                Spacer(modifier = Modifier.height(10.dp))
                             }
                         }
                     }
@@ -167,13 +173,40 @@ fun HomePersonal(
                     LazyColumn(
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        items(3) {
-                            CardAfiliado(
-                                nick="nick",
-                                nome = "nome",
-                                meta = "meta"
-                            )
-                            Spacer(modifier = Modifier.height(10.dp))
+                        val contratos = homeUiState.contratos
+                        if (contratos != null) {
+
+                            val contratosFiltrados = contratos.filter { it.afiliacao != 1 }
+
+                            if (contratosFiltrados.isNotEmpty()) {
+                                items(items = contratosFiltrados) { contrato ->
+                                    CardContrato(
+                                        contrato = contrato,
+                                        onUpdateContrato = { id, afiliado -> viewModel.updateContratoAfiliado(id, afiliado) }
+                                    )
+                                    Spacer(modifier = Modifier.height(10.dp))
+                                }
+                            } else {
+                                item {
+                                    Text(
+                                        text = "Nenhum contrato disponível",
+                                        color = Color.Gray,
+                                        fontSize = 16.sp,
+                                        modifier = Modifier.fillMaxWidth().padding(16.dp),
+                                        textAlign = TextAlign.Center
+                                    )
+                                }
+                            }
+                        } else {
+                            item {
+                                Text(
+                                    text = "Nenhum contrato disponível",
+                                    color = Color.Gray,
+                                    fontSize = 16.sp,
+                                    modifier = Modifier.fillMaxWidth().padding(16.dp),
+                                    textAlign = TextAlign.Center
+                                )
+                            }
                         }
                     }
                 }
@@ -183,67 +216,60 @@ fun HomePersonal(
 }
 
 @Composable
-fun CardAfiliado(nick: String, nome: String, meta:String) {
+fun CardContrato(
+    contrato: ContratoExibitionDTO,
+    onUpdateContrato: (Int, Int) -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .background(Color.White, RoundedCornerShape(12.dp))
-            .padding(20.dp, 10.dp, 20.dp, 24.dp)
+            .padding(20.dp, 10.dp, 20.dp, 24.dp),
+        contentAlignment = Alignment.Center
     ) {
-        Row {
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = nick,
+                    text = contrato.usuarioNickname ?: "Sem nickname",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = Color(0xFF52525B)
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 Text(
-                    text = nome,
+                    text = contrato.usuarioNome ?: "Sem nome",
                     fontSize = 14.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = Color.Black
                 )
-                Spacer(modifier = Modifier.height(10.dp))
-                Row {
-                    Text(text = "Meta:", color = Color(134, 86, 169))
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = meta,
-                        fontWeight = FontWeight.Bold,
-                        color = Color(24, 24, 27)
-                    )
-                }
             }
 
             Column(
                 modifier = Modifier
                     .weight(1f)
                     .padding(start = 16.dp),
-                horizontalAlignment = Alignment.End
+                horizontalAlignment = Alignment.End,
+                verticalArrangement = Arrangement.Center
             ) {
                 Button(
-                    onClick = { },
+                    onClick = { onUpdateContrato(contrato.idContrato, 0) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(50.dp)
                         .padding(bottom = 10.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(208, 54, 54)
-                    )
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(208, 54, 54))
                 ) {
                     Text("Negar", color = Color.White)
                 }
                 Button(
-                    onClick = { },
+                    onClick = { onUpdateContrato(contrato.idContrato, 1) },  // "Aceitar"
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(50.dp)
                         .padding(bottom = 10.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(76, 206, 109)
-                    )
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(76, 206, 109))
                 ) {
                     Text("Aceitar", color = Color.White)
                 }
@@ -251,6 +277,10 @@ fun CardAfiliado(nick: String, nome: String, meta:String) {
         }
     }
 }
+
+
+
+
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
