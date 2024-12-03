@@ -29,8 +29,9 @@ interface ApiUsuario {
     @GET("usuarios/{id}")
     suspend fun getUsuarioById(@Path("id") id: Int): Response<UsuarioGet>
 
-    @GET("personal/{id}")
-    suspend fun getPersonalById(@Path("id") id: Int): Response<Personal>
+    @GET("usuarios/{id}")
+    suspend fun getPersonalById(@Path("id") id: Int): Response<PersonalExibitionDto>
+
 
     @GET("usuarios/usuario-afiliado/{id}")
     suspend fun getAfiliadosPersonalById(@Path("id") id: Int): Response<List<UsuarioGet>>

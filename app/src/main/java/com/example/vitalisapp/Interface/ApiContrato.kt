@@ -17,6 +17,6 @@ interface ApiContrato {
     suspend fun updateContratoAfiliado(
         @Path("id") id: Int,
         @Body updateRequest: UpdateContratoRequest
-    ): Response<List<Contrato>>
+    ): Response<Contrato>
 
 }

@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.vitalisapp.DTO.Contrato.ContratoExibitionDTO
+import com.example.vitalisapp.DTO.Contrato.UpdateContratoRequest
 import com.example.vitalisapp.Exceptions.ApiException
 import com.example.vitalisapp.GlobalUiState
 import com.example.vitalisapp.View.Contrato
@@ -13,6 +14,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 data class HomePersonalUiState (
     var afiliados: List<UsuarioGet>? = null,
@@ -100,6 +102,31 @@ class HomePersonalViewModel : ViewModel(){
             }
         }
     }
+
+
+
+    fun updateContratoAfiliado(idContrato: Int, afiliado: Int) {
+        viewModelScope.launch {
+            try {
+                val fimContrato = LocalDate.now().plusMonths(1).toString()  // Calcula a data de fim
+                val updateRequest = UpdateContratoRequest(fimContrato, afiliado)
+                val res = globalUiState.value.apiContrato.updateContratoAfiliado(idContrato, updateRequest)
+
+                if (res.isSuccessful) {
+                    Log.i("ViewModelHomePersoal", "Contrato atualizado com sucesso.")
+
+                    setAfiliados(SessionLogin.id!!)
+                    setContratos(SessionLogin.id!!)
+
+                } else {
+                    Log.e("ViewModel", "Erro ao atualizar contrato: ${res.errorBody().toString()}")
+                }
+            } catch (e: Exception) {
+                Log.e("ViewModel", "Erro ao atualizar contrato: ${e.message}")
+            }
+        }
+    }
+
 
     private fun contratoToDTO(contrato: Contrato): ContratoExibitionDTO {
         return ContratoExibitionDTO(

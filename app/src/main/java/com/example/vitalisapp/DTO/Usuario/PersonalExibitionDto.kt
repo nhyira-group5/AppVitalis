@@ -14,9 +14,11 @@ data class PersonalExibitionDto(
     var sexo: String? = null,
     var email: String? = null,
     var tipo: TipoUsuario? = null,
-    @SerializedName("exibitonDto") var especialidades: MutableList<EspecialidadePersonalDto>? = mutableListOf(),
-    @SerializedName("midiaDto") var midia: MidiaDto? = null
-) {  }
+    var especialidades: MutableList<EspecialidadePersonalDto>? = mutableListOf(),
+    var midia: MidiaDto? = null,
+    var academia: EnderecoAcademiaDto? = null
+)
+
 
 data class EspecialidadePersonalDto(
     @SerializedName("id") var idEspecialidadePersonal: Int? = null,

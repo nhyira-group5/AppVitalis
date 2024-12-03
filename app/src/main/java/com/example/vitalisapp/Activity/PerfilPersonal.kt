@@ -38,10 +38,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.media3.common.util.Log
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.vitalisapp.DTO.Usuario.PersonalExibitionDto
 import com.example.vitalisapp.R
 import com.example.vitalisapp.RetrofitService
+import com.example.vitalisapp.View.LoginSession.SessionLogin
 import com.example.vitalisapp.View.Usuario.Personal
 import com.example.vitalisapp.ui.theme.MavenPro
 import com.example.vitalisapp.ui.theme.VitalisAppTheme
@@ -67,17 +70,20 @@ class PerfilUsuario : ComponentActivity() {
 @Composable
 fun PerfilPersonal(name: String, navController: NavHostController, modifier: Modifier = Modifier) {
     val apiUsuario = RetrofitService.getApiUsuario()
-    var personal by remember { mutableStateOf<Personal?>(null) }
+    var personal by remember { mutableStateOf<PersonalExibitionDto?>(null) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(Unit) {
         try {
-            val response = apiUsuario.getPersonalById(1)
+            val response = apiUsuario.getPersonalById(SessionLogin.id!!)
             if (response.isSuccessful) {
                 personal = response.body()
             } else {
-                errorMessage = "Erro ao carregar dados do personal: ${response.code()}"
+                val errorBodyString = response.errorBody()?.string() ?: "Erro desconhecido"
+                android.util.Log.e("PerfilPersonal", "Erro ao carregar dados do personal: $errorBodyString")
+                errorMessage = "Erro ao carregar dados do personal: $errorBodyString"
             }
+
         } catch (e: Exception) {
             errorMessage = "Falha ao carregar dados: ${e.message}"
         }
@@ -96,24 +102,13 @@ fun PerfilPersonal(name: String, navController: NavHostController, modifier: Mod
             CartaoInfo(
                 tipoUsuario = "personal",
                 imagemUrl = personal?.midia?.caminho ?: "",
-                nome = personal!!.nome,
-                email = personal!!.email,
-                nickname = personal!!.nickname,
-                sexo = personal!!.sexo,
-                aniversario = personal!!.dtNasc.toString(),
-//                especialidade = personal!!.especialidades,
+                nome = personal!!.nome ?: "N/A",
+                email = personal!!.email ?: "N/A",
+                nickname = personal!!.nickname ?: "N/A",
+                sexo = personal!!.sexo ?: "N/A",
+                aniversario = personal!!.dtNasc ?: "N/A",
                 onEditClick = {}
             )
-
-//            CardInfo(
-//                tipo = "personal",
-//                cep = personal!!.cep,
-//                logradouro = personal!!.lougradouro,
-//                numero = personal!!.numero.toString(),
-//                bairro = personal!!.bairro,
-//                cidade = personal!!.cidade,
-//                estado = personal!!.estado
-//            )
         } else if (errorMessage != null) {
             Text(text = errorMessage!!, color = Color.Red)
         } else {

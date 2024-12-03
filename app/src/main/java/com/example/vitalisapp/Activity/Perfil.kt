@@ -52,6 +52,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.vitalisapp.DTO.Usuario.PersonalExibitionDto
 import com.example.vitalisapp.R
 import com.example.vitalisapp.RetrofitService
 import com.example.vitalisapp.View.LoginSession.SessionLogin
@@ -84,7 +85,7 @@ fun PerfilUsuario(name: String, navController: NavHostController, modifier: Modi
     val apiUsuario = RetrofitService.getApiUsuario()
     val apiFicha = RetrofitService.getApiFicha()
     var usuario by remember { mutableStateOf<UsuarioGet?>(null) }
-    var personal by remember { mutableStateOf<Personal?>(null) }
+    var personal by remember { mutableStateOf<PersonalExibitionDto?>(null) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(Unit) {
@@ -147,11 +148,10 @@ fun PerfilUsuario(name: String, navController: NavHostController, modifier: Modi
             if (personal != null) {
                 CartaoAfiliacao(
                     afiliadoComPersonal = true,
-                    nomePersonal = personal!!.nome,
-                    emailPersonal = personal!!.email,
+                    nomePersonal = personal!!.nome ?: "N/A",
+                    emailPersonal = personal!!.email ?: "N/A",
                     validadeAfiliacao = "12/2024 à 12/2025",
-                    usernamePersonal = personal!!.nickname,
-//                    especialidade = personal!!.especialidades,
+                    usernamePersonal = personal!!.nickname ?: "N/A",
                     onClickVerPersonal = {}
                 )
             }

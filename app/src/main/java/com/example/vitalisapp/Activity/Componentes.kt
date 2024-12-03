@@ -165,14 +165,6 @@ fun Menu(navController: NavController) {
                         .clickable { navController.navigate("busca") }
                 )
                 Image(
-                    painter = painterResource(id = R.mipmap.chat),
-                    contentDescription = "Chat",
-                    modifier = Modifier
-                        .size(30.dp)
-                        .padding(horizontal = 4.dp)
-                        .clickable { navController.navigate("chat") }
-                )
-                Image(
                     painter = painterResource(id = R.mipmap.images),
                     contentDescription = "Imagens",
                     modifier = Modifier
@@ -235,14 +227,6 @@ fun MenuPersonal(navController: NavController) {
                         .size(30.dp)
                         .padding(horizontal = 4.dp)
                         .clickable { navController.navigate("homePersonal") }
-                )
-                Image(
-                    painter = painterResource(id = R.mipmap.chat),
-                    contentDescription = "Chat",
-                    modifier = Modifier
-                        .size(30.dp)
-                        .padding(horizontal = 4.dp)
-                        .clickable { navController.navigate("chatPersonal") }
                 )
             }
         }
@@ -960,9 +944,9 @@ fun UserCard(nick: String, meta: String, imagemUser: String) {
         modifier = Modifier
             .fillMaxWidth()
             .background(Color.White, RoundedCornerShape(12.dp))
-            .padding(20.dp, 10.dp)
+            .padding(20.dp, 10.dp),
+        verticalAlignment = Alignment.CenterVertically  // Centraliza verticalmente
     ) {
-
         val painter = rememberImagePainter(imagemUser)
 
         Image(
@@ -991,6 +975,7 @@ fun UserCard(nick: String, meta: String, imagemUser: String) {
             )
         }
     }
+
 }
 
 
@@ -1201,10 +1186,10 @@ fun CartaoInfo(
                 Spacer(modifier = Modifier.height(16.dp))
                 ItemInfo("Sexo:", sexo)
 
-                if (tipoUsuario == "personal") {
-                    ItemInfo("Especialidade:", especialidade)
-                    ItemInfo("Data de formação:", graduacao)
-                }
+//                if (tipoUsuario == "personal") {
+//                    ItemInfo("Especialidade:", especialidade)
+//                    ItemInfo("Data de formação:", graduacao)
+//                }
             }
         }
     }
